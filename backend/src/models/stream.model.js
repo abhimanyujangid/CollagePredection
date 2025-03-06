@@ -10,7 +10,6 @@ const streamSchema = new Schema({
     minTenthPercentage: { type: Number, default: 0 },
     minTwelfthPercentage: { type: Number, default: 0 },
     requiredExams: [{ type: String }], // e.g., ["JEE", "NEET"]
-    minimumEntranceScore: { type: Number, default: 0 },
   },
 }, { timestamps: true });
 
