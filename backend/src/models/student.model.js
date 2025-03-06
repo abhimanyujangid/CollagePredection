@@ -4,6 +4,7 @@ const studentSchema = new Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     phoneNumber: { type: String },
     dateOfBirth: { type: Date },
+    gender: { type: String, enum: ['male', 'female', 'other'] },
     educationDetails: {
         tenth: {
             schoolName: { type: String },

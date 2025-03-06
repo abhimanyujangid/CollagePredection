@@ -1,6 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js"
 import ApiError from "../utils/apiError.js"
-import { User } from "../models/user.model.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import mongoose from "mongoose";
 import { StudentProfile } from "../models/student.model.js";
@@ -9,10 +8,10 @@ import { StudentProfile } from "../models/student.model.js";
 // @route   POST /api/students
 // @access  Private (User must be authenticated)
 export const createStudentProfile = asyncHandler(async (req, res) => {
-    const { phoneNumber, dateOfBirth, stream, educationDetails, preferences } = req.body;
+    const { phoneNumber, dateOfBirth, stream, educationDetails, preferences,gender } = req.body;
     const {_id: userId} = req.user;
 
-    if (![phoneNumber, dateOfBirth,educationDetails, stream, preferences].every(Boolean)) {
+    if (![phoneNumber, dateOfBirth,educationDetails, stream, preferences,gender].every(Boolean)) {
         throw new ApiError(400, "All fields are required");
     }
     
@@ -28,6 +27,7 @@ export const createStudentProfile = asyncHandler(async (req, res) => {
         stream,
         educationDetails,
         preferences,
+        gender
     });
 
     if (!studentProfile) throw new ApiError(500, "Failed to create student profile");
@@ -55,8 +55,15 @@ export const getStudentProfile = asyncHandler(async (req, res) => {
 // @access  Private (User must be authenticated)
 export const updateStudentProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    const { phoneNumber, dateOfBirth, stream, educationDetails, preferences,gender } = req.body;
 
     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
+
+
+    if (![phoneNumber, dateOfBirth,educationDetails, stream, preferences,gender].every(Boolean)) {
+        throw new ApiError(400, "All fields are required");
+    }
+
 
     const studentProfile = await StudentProfile.findById(id);
     if (!studentProfile) throw new ApiError(404, "Student profile not found");

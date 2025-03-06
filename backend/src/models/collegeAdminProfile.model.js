@@ -3,10 +3,12 @@ import mongoose, { Schema, model } from "mongoose";
 const collegeAdminProfileSchema = new Schema(
     {
         userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        collegeId: { type: Schema.Types.ObjectId, ref: "College" }, // Direct link to college
-        fullName: { type: String, required: true },
         email: { type: String, required: true, unique: true }, // Ensures unique emails
-        phoneNumber: { type: String, required: true },
+        phoneNumber: { type: {
+            countryCode: { type: String, default: "+91" },
+            number: { type: String }
+        }, required: true },
+        gender: { type: String, enum: ["male", "female", "other"] },
         profilePicture: {
             type: {
                 url: { type: String, default: "" },
