@@ -76,25 +76,29 @@ export const getCollegeAdminProfile = asyncHandler(async (req, res) => {
 // @desc    Update College Admin Profile
 // @route   PUT /api/college-admins/:id
 // @access  Private (Only Admins)
-export const updateCollegeAdminProfile = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { email, phoneNumber, gender, dateOfBirth, highestEducation, experience, role, bio } = req.body;
+// export const updateCollegeAdminProfile = asyncHandler(async (req, res) => {
+//     const { id } = req.params;
+//     const { email, phoneNumber, gender, dateOfBirth, highestEducation, experience, role, bio } = req.body;
 
-    if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid College Admin ID");
+//     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid College Admin ID");
 
-    const collegeAdminProfile = await CollegeAdminProfile.findById(id);
-    if (!collegeAdminProfile) throw new ApiError(404, "College Admin Profile not found");
+//     const collegeAdminProfile = await CollegeAdminProfile.findById(id);
+//     if (!collegeAdminProfile) throw new ApiError(404, "College Admin Profile not found");
 
-    // Ensure the user is authorized to update the profile
-    if (req.user._id.toString() !== collegeAdminProfile.userId.toString()) {
-        throw new ApiError(403, "Forbidden: You can only update your own profile");
-    }
+//     // Ensure the user is authorized to update the profile
+//     if (req.user._id.toString() !== collegeAdminProfile.userId.toString()) {
+//         throw new ApiError(403, "Forbidden: You can only update your own profile");
+//     }
 
-    // Update fields if provided
-    const updatedProfile = await CollegeAdminProfile.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+//     // Update fields if provided
+//     const updatedProfile = await CollegeAdminProfile.findByIdAndUpdate(id, {
+//         highestEducation,
+//         experience,
+//         bio
+//     }, { new: true, runValidators: true });
 
-    res.status(200).json(new ApiResponse(200, updatedProfile, "College Admin Profile updated successfully"));
-});
+//     res.status(200).json(new ApiResponse(200, updatedProfile, "College Admin Profile updated successfully"));
+// });
 
 // @desc    Delete College Admin Profile
 // @route   DELETE /api/college-admins/:id

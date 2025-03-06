@@ -42,7 +42,7 @@ export const getConstantData = asyncHandler(async (req, res) => {
 // Update ConstantData
 export const updateConstantData = asyncHandler(async (req, res) => {
     const { streams, states, collegeStreams, competitiveExams, createBy } = req.body;
-    const { id: constantDataId } = req.params;
+    const constantDataId = req.params?.constantDataId;
     const { _id: userId } = req.user;
 
     // Validate request body
@@ -86,12 +86,12 @@ export const updateConstantData = asyncHandler(async (req, res) => {
 
 // Delete ConstantData
 export const deleteConstantData = asyncHandler(async (req, res) => {
-    const constantDataId = req.params.id;
-    if(!isValidObjectId(constantDataId)){
+    const _id =  req.params.constantDataId;
+    if(!isValidObjectId(_id)){
         throw new ApiError(400, "Invalid ConstantData id");
     }
 
-    const constantData = await ConstantData.findByIdAndDelete(constantDataId);
+    const constantData = await ConstantData.findByIdAndDelete(_id);
     if (!constantData) {
         throw new ApiError(404, "ConstantData not found");
     }
