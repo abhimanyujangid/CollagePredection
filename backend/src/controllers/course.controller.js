@@ -31,16 +31,15 @@ export const getAllCourses = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, courses, "Courses fetched successfully"));
 });
 
-
 export const updateCourse = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { branches, seats, fees, minimumEntranceScore } = req.body;
-    const updatedCourse = await Course.findByIdAndUpdate(id ,{
+    const updatedCourse = await Course.findByIdAndUpdate(id, {
         branches,
         seats,
         fees,
         minimumEntranceScore
-    } { new: true, runValidators: true });
+    }, { new: true, runValidators: true });
     if (!updatedCourse) throw new ApiError(404, "Course not found");
     res.status(200).json(new ApiResponse(200, updatedCourse, "Course updated successfully"));
 });
