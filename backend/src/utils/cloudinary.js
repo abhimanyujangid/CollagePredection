@@ -1,44 +1,46 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
+// Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
-    console.log(localFilePath);
+// Upload to Cloudinary
+export const uploadOnCloudinary = async (localFilePath, fileType = "image") => {
     try {
         if (!localFilePath) return null;
 
-        //upload to cloudinary if localFilePath exists
+        const resourceType = fileType === "pdf" ? "raw" : "image";
+
         const result = await cloudinary.uploader.upload(localFilePath, {
-            resource_type: 'auto',
+            resource_type: resourceType,
         });
 
-        // console.log("file uploaded to cloudinary", result.url);
-
-        fs.unlinkSync(localFilePath); //remove file from localFilePath after uploading to cloudinary
+        // Remove local file after upload
+        fs.unlinkSync(localFilePath);
         return result;
     } catch (error) {
-        fs.unlinkSync(localFilePath);
-        return error;
+        fs.unlinkSync(localFilePath); // Ensure file removal in case of error
+        console.error("Cloudinary Upload Error:", error);
+        return null;
     }
 };
 
-const deleteOnCloudinary = async (public_id, resource_type="image") => {
+// Delete from Cloudinary
+export const deleteOnCloudinary = async (public_id, resourceType = "image") => {
     try {
         if (!public_id) return null;
 
-        //delete file from cloudinary
         const result = await cloudinary.uploader.destroy(public_id, {
-            resource_type: `${resource_type}`
+            resource_type: resourceType,
         });
+
+        return result;
     } catch (error) {
-        return error;
-        console.log("delete on cloudinary failed", error);
+        console.error("Cloudinary Deletion Error:", error);
+        return null;
     }
 };
-
-export { uploadOnCloudinary, deleteOnCloudinary };
