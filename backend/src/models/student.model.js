@@ -4,10 +4,6 @@ const studentSchema = new Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     phoneNumber: { type: String },
     dateOfBirth: { type: Date },
-    stream: {
-        type: String,
-        required: true,
-    },
     educationDetails: {
         tenth: {
             schoolName: { type: String },
@@ -17,6 +13,7 @@ const studentSchema = new Schema({
         },
         twelfth: {
             schoolName: { type: String },
+            stream: { type: String }, // e.g., Science, Commerce, Arts
             board: { type: String },
             percentage: { type: Number },
             yearOfPassing: { type: Number },
