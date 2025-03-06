@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const collegeSchema = new Schema({
   administratorId: { type: Schema.Types.ObjectId, ref: "CollegeAdminProfile", required: true },
   collegeName: { type: String, required: true },
+  rankingNIRF: { type: Number, default: 0 }, // National Institutional Ranking Framework (NIRF) ranking
   university: { type: String, required: true },
   logo: {
     type: {

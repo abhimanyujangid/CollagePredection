@@ -2,12 +2,9 @@ import asyncHandler from "../utils/asyncHandler.js"
 import ApiError from "../utils/apiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import mongoose from "mongoose";
-import { User } from "../models/user.model.js"
 import { CollegeAdminProfile } from "../models/collegeAdminProfile.model.js";
 
-// @desc    Create College Admin Profile
-// @route   POST /api/college-admins
-// @access  Private (Only Admins)
+
 export const createCollegeAdminProfile = asyncHandler(async (req, res) => {
     const { email, phoneNumber, gender, dateOfBirth, highestEducation, experience, bio } = req.body;
     const { _id: userId } = req.user;
@@ -61,9 +58,7 @@ export const createCollegeAdminProfile = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, collegeAdminProfile, "College Admin Profile created successfully"));
 });
 
-// @desc    Get College Admin Profile by ID
-// @route   GET /api/college-admins/:id
-// @access  Private (Only Admins)
+
 export const getCollegeAdminProfile = asyncHandler(async (req, res) => {
     const { _id: userId } = req.user;
 
@@ -73,9 +68,7 @@ export const getCollegeAdminProfile = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, collegeAdminProfile, "College Admin Profile fetched successfully"));
 });
 
-// @desc    Update College Admin Profile
-// @route   PUT /api/college-admins/:id
-// @access  Private (Only Admins)
+
 // export const updateCollegeAdminProfile = asyncHandler(async (req, res) => {
 //     const { id } = req.params;
 //     const { email, phoneNumber, gender, dateOfBirth, highestEducation, experience, role, bio } = req.body;
@@ -100,9 +93,7 @@ export const getCollegeAdminProfile = asyncHandler(async (req, res) => {
 //     res.status(200).json(new ApiResponse(200, updatedProfile, "College Admin Profile updated successfully"));
 // });
 
-// @desc    Delete College Admin Profile
-// @route   DELETE /api/college-admins/:id
-// @access  Private (Only Super Admin)
+
 export const deleteCollegeAdminProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
