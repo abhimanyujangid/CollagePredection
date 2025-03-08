@@ -4,9 +4,7 @@ import ApiResponse from "../utils/apiResponse.js";
 import { Stream } from "../models/stream.model.js";
 import { College } from "../models/college.model.js";
 
-// @desc    Create Stream
-// @route   POST /api/streams
-// @access  Private (Admin Only)
+
 export const createStream = asyncHandler(async (req, res) => {
     const {  streamName, duration, fees, eligibilityCriteria } = req.body;
     if(![streamName, duration, fees, eligibilityCriteria].every(Boolean)) {
@@ -28,9 +26,7 @@ export const createStream = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, newStream, "Stream created successfully"));
 });
 
-// @desc    Get all Streams
-// @route   GET /api/streams
-// @access  Public
+
 export const getAllStreams = asyncHandler(async (req, res) => {
     const collegeId = req.params.id;
     const streams = await Stream.findMany({collegeId});

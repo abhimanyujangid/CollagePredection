@@ -38,7 +38,6 @@ export const createCollege = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, newCollege, "College created successfully"));
 });
 
-// @desc    Get all Colleges
 export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const administratorId = req.user._id;
     const colleges = await College.findMany({administratorId})
