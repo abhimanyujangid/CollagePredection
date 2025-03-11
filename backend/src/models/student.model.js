@@ -19,6 +19,9 @@ const studentSchema = new Schema({
             percentage: { type: Number },
             yearOfPassing: { type: Number },
         },
+        hobby:{
+            type: [String],
+        },
         competitiveExams: [
             {
                 examName: { type: String }, // e.g., JEE, NEET, CET
