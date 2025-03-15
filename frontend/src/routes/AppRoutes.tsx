@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import AuthLayout from '../layouts/AuthLayout';
 import Login from '@/page/Auth/Login';
 import Register from '@/page/Auth/Register';
-// import ProtectedRoutes from './ProtectedRoutes';
+import MainLayout from '@/layouts/MainLayout';
 
 const AppRoutes = () => (
   <Router>
@@ -13,6 +13,9 @@ const AppRoutes = () => (
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<Register/>} />
       </Route>
+
+      {/* LandingPage  */}
+      <Route path="/" element={<MainLayout />}/>
 
       {/* Protected routes */}
 
