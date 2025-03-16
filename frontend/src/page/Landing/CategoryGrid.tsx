@@ -41,7 +41,7 @@ const CategoryCard = ({ title, count, icon, color, textColor }: CardProps) => {
 
 const CategoryGrid = () => {
   return (
-    <section className="flex flex-col w-full items-center text-center py-12 px-6 sm:px-10 md:px-12">
+    <section className="flex flex-col w-full items-center text-center py-12 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20">
       <div className="bg-muted rounded-xl shadow-2xl overflow-hidden p-6 backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 border border-blue-50 dark:border-neutral-700 w-full">
         <div className="  p-6 sm:p-8 backdrop-brightness-200 rounded-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 w-full">
