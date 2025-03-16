@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const HeroUpper = () => {
   return (
-    <div className="mt-16 text-center ">
+    <div className="mt-16 text-center container ">
       <h1 className="text-3xl md:text-5xl font-bold lg:text-6xl  mx-auto">
         Find Your <span className="text-blue-500">Perfect College</span> &{" "}
         <br />
@@ -13,10 +13,10 @@ const HeroUpper = () => {
         Get AI-powered personalized recommendations based on your profile and
         preferences.
       </p>
-      <div className="mt-9 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+      <div className="mt-9 flex flex-col items-center sm:flex-row gap-4 sm:gap-6  justify-center space-y-4 sm:space-y-0 sm:space-x-4">
         <Link
           to="/auth"
-          className="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+          className="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center  border border-blue-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@ const HeroUpper = () => {
         </Link>
         <Link
           to={""}
-          className="px-8 py-3 bg-white hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-blue-500 dark:text-blue-400 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-blue-100 dark:border-neutral-700"
+          className="px-8 py-3 bg-white hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-blue-500 dark:text-blue-400 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-blue-100 dark:border-neutral-700 "
         >
           <Search className="mr-2" size={18} /> Explore Colleges
         </Link>
