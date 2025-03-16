@@ -10,7 +10,7 @@ interface IHowItWorkCardProps {
 
 const HowItWorkCard = ({ id, title, description, features }: IHowItWorkCardProps) => {
   return (
-    <Card className="relative group overflow-hidden border border-blue-100 dark:border-neutral-700 max-w-[28rem] my-3 h-full ">
+    <Card className="relative group overflow-hidden border bg-muted border-blue-100 dark:border-neutral-700 max-w-[28rem] my-3 h-full ">
       {/* Glassmorphism decoration */}
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-200 dark:bg-blue-600 rounded-full opacity-20 filter blur-xl" />
       

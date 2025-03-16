@@ -1,6 +1,8 @@
 import CompleteQuestion from '@/components/HowItwork/CompleteQuestion'
 import CreateProfile from '@/components/HowItwork/CreateProfile'
 import HowItWorkCard from '@/components/HowItwork/HowItWorkCard'
+import YourMatch from '@/components/HowItwork/YourMatch'
+import { howItWorkData } from '@/constant/data'
 
 const HowItWork = () => {
   return (
@@ -12,14 +14,14 @@ const HowItWork = () => {
         </p>
     </header>
     <section className='w-full flex flex-col items-center justify-center gap-20'>
-        <div className='flex justify-center items-center  gap-12'>
-            <HowItWorkCard id={1} title='Create Profile' description='Sign up and tell us about your academic interests, location preferences, and budget. This helps our AI understand your needs better.' features={['Choose between student or admin account', 'Fill in your academic details', 'Set your preferences and requirements']} />
-            <CreateProfile />
-        </div>
-        <div className='flex justify-center items-center gap-12'>
-            <CompleteQuestion />
-            <HowItWorkCard id={2} title='Complete the Questionnaire' description='Answer a series of interactive questions that help our AI understand your specific requirements and preferences for college selection.' features={['Select your preferred field of study', 'Specify your budget and location preferences', 'Rank factors that matter most to you']} />
-        </div>
+        {
+            howItWorkData.map(({ id, title, description, features, component }) => (
+                <div key={id} className={`flex justify-center items-center gap-12 ${id % 2 === 0 ? 'flex-reverse' : ''}`}>
+                    {id % 2 === 0 ? component : <HowItWorkCard id={id} title={title} description={description} features={features} />}
+                    {id % 2 === 0 ? <HowItWorkCard id={id} title={title} description={description} features={features} /> : component}
+                </div>
+            ))
+        }
     </section>
    </div>
   )

@@ -6,8 +6,8 @@ import { Button } from "../ui/button";
 const CreateProfile = () => {
   return (
     <SideViewOutter>
-      <Card className="py-5">
-        <CardContent>
+      <Card className="py-5 ">
+        <CardContent >
           <div className="flex gap-4 mb-4">
             {["Student", "College Admin"].map((item, index) => (
               <div key={index} className="flex items-center bg-white dark:bg-neutral-800 rounded-md px-4 py-2 w-1/2 cursor-pointer border-2 border-primary/30 hover:border-blue-500">

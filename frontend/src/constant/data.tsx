@@ -1,3 +1,6 @@
+import CompleteQuestion from "@/components/HowItwork/CompleteQuestion";
+import CreateProfile from "@/components/HowItwork/CreateProfile";
+import YourMatch from "@/components/HowItwork/YourMatch";
 import { IFeatureCardProps } from "@/types/landing";
 import { Filter, School, Sun } from "lucide-react";
 
@@ -43,6 +46,30 @@ const landingPageLinks: INavLink[] = [
       ]
     }
   ];
+
+  const howItWorkData: IHowItWorkCardProps[] = [
+    {
+        id: 1,
+        title: 'Create Profile',
+        description: 'Sign up and tell us about your academic interests, location preferences, and budget. This helps our AI understand your needs better.',
+        features: ['Choose between student or admin account', 'Fill in your academic details', 'Set your preferences and requirements'],
+        component: <CreateProfile />
+    },
+    {
+        id: 2,
+        title: 'Complete the Questionnaire',
+        description: 'Answer a series of interactive questions that help our AI understand your specific requirements and preferences for college selection.',
+        features: ['Select your preferred field of study', 'Specify your budget and location preferences', 'Rank factors that matter most to you'],
+        component: <CompleteQuestion />
+    },
+    {
+        id: 3,
+        title: 'Get Personalized Recommendations',
+        description: 'Our AI analyzes thousands of colleges and finds the perfect matches for you based on your preferences, academic profile, and future aspirations.',
+        features: ['Receive tailored college recommendations', 'View detailed college information', 'Compare and shortlist your top choices'],
+        component: <YourMatch />
+    }
+]
   
 
 export interface INavLink {
@@ -51,10 +78,17 @@ export interface INavLink {
   path: string;
 }
 
+export interface IHowItWorkCardProps{
+  id: number;
+  title: string;
+  description: string;
+  features: string[];
+  component: JSX.Element;
+}
 
 
 
 
 
 
-export { landingPageLinks, featureCards };
+export { landingPageLinks, featureCards, howItWorkData };
