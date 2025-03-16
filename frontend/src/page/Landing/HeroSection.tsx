@@ -1,6 +1,7 @@
 import CategoryGrid from "./CategoryGrid";
 import FeatureSection from "./Feature.Section";
 import HeroUpper from "./HeroUpper";
+import HowItWork from "./HowItWork";
 
 const HeroSection = () => {
   return (
@@ -8,6 +9,7 @@ const HeroSection = () => {
       <HeroUpper />
       <CategoryGrid />
       <FeatureSection />
+      <HowItWork />
     </section>
   );
 };
