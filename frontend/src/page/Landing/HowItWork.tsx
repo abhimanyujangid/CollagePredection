@@ -1,7 +1,4 @@
-import CompleteQuestion from '@/components/HowItwork/CompleteQuestion'
-import CreateProfile from '@/components/HowItwork/CreateProfile'
 import HowItWorkCard from '@/components/HowItwork/HowItWorkCard'
-import YourMatch from '@/components/HowItwork/YourMatch'
 import { howItWorkData } from '@/constant/data'
 
 const HowItWork = () => {
