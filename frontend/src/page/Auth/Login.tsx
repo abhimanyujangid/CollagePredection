@@ -39,8 +39,8 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-background p-4">
-            <Card className="w-screen max-w-md bg-muted text-foreground shadow-lg">
+        <div className="flex items-center justify-center min-h-screen  p-4">
+            <Card className="w-screen max-w-md bg-muted dark:bg-muted/20 text-foreground shadow-lg">
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl">Welcome Back</CardTitle>
                     <p className="text-sm text-muted-foreground">Sign in to your account</p>

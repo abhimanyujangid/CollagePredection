@@ -88,8 +88,8 @@ const Register = () => {
 }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-md bg-muted text-foreground shadow-lg">
+    <div className="flex items-center justify-center min-h-screen  p-4">
+      <Card className="w-full max-w-md  bg-muted dark:bg-muted/20 text-foreground shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl text-center">Create an Account</CardTitle>
           <p className="text-sm text-center text-muted-foreground">
