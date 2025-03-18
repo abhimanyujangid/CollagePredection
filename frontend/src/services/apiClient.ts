@@ -27,7 +27,6 @@ apiAxios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError<{ message?: string }>) => {
     let message = "An unexpected error occurred";
-
     if (error.response) {
       message =
         error.response.data?.message || `Error: ${error.response.status}`;

@@ -7,7 +7,7 @@ import {
     USER_TEMPORARY_TOKEN_EXPIRY,
     UserLoginType,
     UserRolesEnum,
-} from "../constants";
+} from "../constants.js";
 
 const userSchema = new Schema(
     {

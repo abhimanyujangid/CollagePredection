@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { removeLocalFile } from "./helpers";
+import { removeLocalFile } from "./helpers.js";
 
 // Configure Cloudinary
 cloudinary.config({
