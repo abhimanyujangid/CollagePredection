@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { BookOpenText, School2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner"
 
 // ✅ Zod Schema for Validation
 const formSchema = z.object({
@@ -23,7 +24,6 @@ const formSchema = z.object({
     .regex(/\d/, "Must contain at least one number")
     .regex(/[!@#$%^&*]/, "Must contain at least one special character"),
   role: z.enum(["Student", "College Admin"]),
-  terms: z.boolean().refine((val) => val === true, "You must accept the terms"),
 });
 
 interface RegisterForm {
@@ -31,7 +31,7 @@ interface RegisterForm {
   lastName: string;
   email: string;
   password: string;
-  role: "Student" | "College Admin";    // ✅ Role Type
+  role: "Student" | "College Admin";   
   terms: boolean;
 }
 
@@ -65,6 +65,15 @@ const Register = () => {
 
   // ✅ Form Submission
   const onSubmit = (data: RegisterForm) => {
+    toast("Custom Default Toast", {
+      icon: "🚀",  // Adds an emoji/icon but keeps default colors
+  });
+  
+  
+  
+  
+  
+
     console.log("Form Submitted:", data);
   };
 
