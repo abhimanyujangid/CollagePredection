@@ -13,14 +13,30 @@ const storage = multer.diskStorage({
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
+        let fileExtension = "";
+        if (file.originalname.split(".").length > 1) {
+          fileExtension = file.originalname.substring(
+            file.originalname.lastIndexOf(".")
+          );
+        }
+        const filenameWithoutExtension = file.originalname
+          .toLowerCase()
+          .split(" ")
+          .join("-")
+          ?.split(".")[0];
+        cb(
+          null,
+          filenameWithoutExtension +
+            Date.now() +
+            Math.ceil(Math.random() * 1e5) + // avoid rare name conflict
+            fileExtension
+        );
+      },
 });
 
 // File Filter - Allow only images and PDFs
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
-
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {

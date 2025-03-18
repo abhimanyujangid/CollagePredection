@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import { removeLocalFile } from "./helpers.js";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -20,10 +21,10 @@ export const uploadOnCloudinary = async (localFilePath, fileType = "image") => {
         });
 
         // Remove local file after upload
-        fs.unlinkSync(localFilePath);
+        removeLocalFile(localFilePath);
         return result;
     } catch (error) {
-        fs.unlinkSync(localFilePath); // Ensure file removal in case of error
+        removeLocalFile(localFilePath);
         console.error("Cloudinary Upload Error:", error);
         return null;
     }

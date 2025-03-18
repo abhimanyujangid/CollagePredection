@@ -6,14 +6,39 @@ dotenv.config({
     path: '/env'  
 })
 
-connectToDB()
-.then(() => {
+const majorNodeVersion = +process.env.NODE_VERSION?.split(".")[0] || 0;
+
+const startServer = () => {
+    // httpServer.listen(process.env.PORT || 8080, () => {
+    //   console.info(
+    //     `📑 Visit the documentation at: http://localhost:${
+    //       process.env.PORT || 8080
+    //     }`
+    //   );
+    //   console.log("⚙️  Server is running on port: " + process.env.PORT);
+    // });
     app.listen(process.env.PORT || 8000, () => {
         console.log(`Server is listening on: ${process.env.PORT}`);
     })
-})
-.catch((error) => console.log("MONGODB connection failed!!!: ", error))
+  };
 
+
+  if (majorNodeVersion >= 14) {
+    try {
+      await connectToDB()
+      startServer();
+    } catch (err) {
+      console.log("Mongo db connect error: ", err);
+    }
+  } else {
+    connectToDB()
+      .then(() => {
+        startServer();
+      })
+      .catch((err) => {
+        console.log("Mongo db connect error: ", err);
+      });
+  }
 
 
 
