@@ -1,5 +1,7 @@
 export const ROUTES = {
-  LANDINGPAGE: '/',
+  MANPAGE: '/',
+  DASHBOARD:'dashboard',
+  PROFILE: 'profile',
   AUTH: 'auth',
   LOGIN: 'login',
   REGISTER: 'register',

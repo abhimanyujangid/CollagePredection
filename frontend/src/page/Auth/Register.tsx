@@ -11,7 +11,7 @@ import { BookOpenText, School2Icon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner"
-import { useAppDispatch } from "@/hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { registerAction } from "@/store/auth/authSlice";
 import { RegisterData } from "@/types/AuthTypes";
 import { getCurrentUserS, registerS, registerService } from "@/services/apiClient";
@@ -52,6 +52,9 @@ const Register = () => {
       terms: false,
     },
   });
+
+    const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
+  
 
   //  Handle Role Selection
   const handleRoleChange = (role: RegisterData["role"]) => {
@@ -106,20 +109,20 @@ const Register = () => {
             {/* Full Name */}
               <div>
               <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" type="text" {...register("fullName")} placeholder="Full Name" />
+              <Input id="fullName" type="text" {...register("fullName")} placeholder="Full Name" required disabled={loading} />
               {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName.message}</p>}
             </div>
             {/* Email */}
             <div>
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" {...register("email")} placeholder="Email" />
+              <Input id="email" type="email" {...register("email")} placeholder="Email" required disabled={loading}/>
               {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
             </div>
 
             {/* Password */}
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" {...register("password")} placeholder="••••••••" />
+              <Input id="password" type="password" {...register("password")} placeholder="••••••••" required disabled={loading}/>
               {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
             </div>
 

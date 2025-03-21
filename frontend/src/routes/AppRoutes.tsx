@@ -4,6 +4,10 @@ import Login from '@/page/Auth/Login';
 import Register from '@/page/Auth/Register';
 import MainLayout from '@/layouts/MainLayout';
 import { ROUTES } from './Route';
+import LandingPage from '@/layouts/LandingPage';
+import Dashboard from '@/page/Home/Dashboard';
+import Recommendation from '@/page/Home/Recommendation';
+import Profile from '@/page/Home/Profile';
 
 const AppRoutes = () => (
   <Router>
@@ -16,7 +20,14 @@ const AppRoutes = () => (
       </Route>
 
       {/* LandingPage  */}
-    <Route path={ROUTES.LANDINGPAGE} element={<MainLayout />}/>
+    <Route path={ROUTES.MANPAGE} element={<MainLayout />}>
+      <Route index element={<LandingPage />} />
+      <Route path={ROUTES.DASHBOARD} element={<Dashboard />} >
+      <Route path='ai' element={<Recommendation/>} />
+      <Route path={ROUTES.PROFILE} element={<Profile/>} />
+
+      </Route>
+    </Route>
 
       {/* Protected routes */}
 

@@ -26,7 +26,7 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.post(`users/reset-password/${resetToken}`, data);
   };
   
-  export const logoutS = async () => {
+  export const logoutService = async () => {
     return await apiClient.post("users/logout");
   };
   
@@ -38,7 +38,7 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.post("users/resend-email-verification");
   };
   
-  export const getCurrentUserS = async () => {
+  export const getCurrentUserService = async () => {
     return await apiClient.get("users/current-user");
   };
   

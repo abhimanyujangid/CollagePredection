@@ -8,7 +8,7 @@ import { Mail, Loader2 } from "lucide-react";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
-import { useAppDispatch } from "@/hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { loginAction } from "@/store/auth/authSlice";
 
 
@@ -35,6 +35,8 @@ export default function LoginPage() {
             remember: false,
           },
      });
+  const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
+
         const dispatch = useAppDispatch();
         const navigate = useNavigate();
 
@@ -51,9 +53,9 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <Input type="email" placeholder="your@email.com" {...register("email")} required />
+                        <Input type="email" placeholder="your@email.com" {...register("email")} required disabled={loading}/>
 
-                        <Input type="password" placeholder="Password" {...register("password")} required />
+                        <Input type="password" placeholder="Password" {...register("password")} required  disabled={loading}/>
 
                         <div className="flex space-x-2 items-center justify-between">
                             <div>
@@ -63,7 +65,7 @@ export default function LoginPage() {
                             <Link to="/auth/forgot-password" className="text-primary">Forgot Password?</Link>
                         </div>
 
-                        <Button type="submit" className="w-full">{isSubmitting ? <Loader2 className="animate-spin" /> : "Sign In"}</Button>
+                        <Button type="submit" className="w-full">{loading ? <Loader2 className="animate-spin" /> : "Sign In"}</Button>
                     </form>
 
                     <div className="my-5 flex items-center justify-between text-sm">

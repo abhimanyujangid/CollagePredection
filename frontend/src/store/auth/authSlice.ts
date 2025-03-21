@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { LoginCredentials, RegisterData, AuthState, User } from '../../types/AuthTypes';
-import {  loginService, registerService } from '@/services/apis.ts';
+import { getCurrentUserService, loginService, logoutService, registerService } from '@/services/apis.ts';
 import { toast } from 'sonner';
 import { LocalStorage } from '@/utils';
 // import toast from 'react-hot-toast';
@@ -26,8 +26,7 @@ export const loginAction = createAsyncThunk(
           LocalStorage.set('accessToken', data?.accessToken);
           LocalStorage.set('refreshToken', data?.refreshToken);
       }
-
-      navigate('/');  // Move navigation after storing tokens
+      navigate('/dashboard');  // Move navigation after storing tokens
       toast.success('Login successful');
       return response?.data?.data?.user;
     } catch (error: any) {
@@ -50,6 +49,34 @@ export const registerAction = createAsyncThunk(
     }
   }
 );
+
+export const logoutAction = createAsyncThunk(
+  'auth/logout',
+  async (navigate: Function) => {
+    try {
+      await logoutService();
+      LocalStorage.clear();
+      navigate('/auth');  // Move navigation after tokens are cleared
+      toast.success('Logout successful');
+      return true;
+    } catch (error: any) {
+      return false;
+    }
+  }
+);
+
+export const getCurrentUserAction = createAsyncThunk(
+  'auth/getCurrentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getCurrentUserService();
+      return response?.data?.data?.user;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 
 
@@ -85,6 +112,19 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(registerAction.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+      .addCase(logoutAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutAction.fulfilled, (state) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      .addCase(logoutAction.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
       })
