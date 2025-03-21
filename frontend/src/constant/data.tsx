@@ -14,6 +14,12 @@ const landingPageLinks: INavLink[] = [
     { id: 7, name: "Contact", path: "/contact" },
   ];
 
+  const dashboardLinks: INavLink[] = [
+    { id: 1, name: "Dashboard", path: "/dashboard" },
+    { id: 2, name: "My Colleges", path: "/my-colleges" },
+    { id: 3, name: "My Profile", path: "/my-profile" },
+  ];
+
   const featureCards: IFeatureCardProps[] = [
     {
       logo: <Sun className="w-7 h-7 text-white" />, 
@@ -91,4 +97,4 @@ export interface IHowItWorkCardProps{
 
 
 
-export { landingPageLinks, featureCards, howItWorkData };
+export { landingPageLinks, featureCards, howItWorkData, dashboardLinks };

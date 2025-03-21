@@ -40,6 +40,10 @@ const userSchema = new Schema(
             default: UserRolesEnum.STUDENT,
             required: true,
         },
+        terms: {
+            type: String,
+            required: [true, 'term is required']
+        },
         password: {
             type: String,
             required: [true, 'Password is required']

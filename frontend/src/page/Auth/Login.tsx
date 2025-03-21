@@ -6,8 +6,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Loader2 } from "lucide-react";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
+import { useAppDispatch } from "@/hooks/reduxHook";
+import { loginAction } from "@/store/auth/authSlice";
 
 
 
@@ -33,9 +35,11 @@ export default function LoginPage() {
             remember: false,
           },
      });
+        const dispatch = useAppDispatch();
+        const navigate = useNavigate();
 
     const onSubmit = async (data:LoginForm) => {
-        alert(JSON.stringify(data));
+        dispatch(loginAction({ data, navigate })).unwrap();
     };
 
     return (

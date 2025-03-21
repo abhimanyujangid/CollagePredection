@@ -8,14 +8,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BookOpenText, School2Icon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner"
+import { useAppDispatch } from "@/hooks/reduxHook";
+import { registerAction } from "@/store/auth/authSlice";
+import { RegisterData } from "@/types/AuthTypes";
+import { getCurrentUserS, registerS, registerService } from "@/services/apiClient";
+import axios from "axios";
 
 // ✅ Zod Schema for Validation
 const formSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  fullName: z.string().min(3, "Full Name must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
   password: z
     .string()
@@ -23,61 +27,53 @@ const formSchema = z.object({
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
     .regex(/\d/, "Must contain at least one number")
     .regex(/[!@#$%^&*]/, "Must contain at least one special character"),
-  role: z.enum(["Student", "College Admin"]),
+  role: z.enum(["STUDENT", "COLLEGE_ADMIN"]),
+  terms: z.boolean().refine((v) => v, { message: "You must agree to the terms" }),
 });
 
-interface RegisterForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: "Student" | "College Admin";   
-  terms: boolean;
-}
 
 
 
 const Register = () => {
-  const [selectedRole, setSelectedRole] = useState("Student");
+  const [selectedRole, setSelectedRole] = useState("STUDENT" as RegisterData["role"]);
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<RegisterForm>({
+  } = useForm<RegisterData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      fullName:"",
       email: "",
       password: "",
-      role: "Student",
+      role: "STUDENT",
       terms: false,
     },
   });
 
   //  Handle Role Selection
-  const handleRoleChange = (role: string) => {
-    setSelectedRole(role);
+  const handleRoleChange = (role: RegisterData["role"]) => {
+    setSelectedRole(role || "STUDENT");
     setValue("role", role);
   };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // ✅ Form Submission
-  const onSubmit = (data: RegisterForm) => {
-    toast("Custom Default Toast", {
-      icon: "🚀",  // Adds an emoji/icon but keeps default colors
-  });
-  
-  
-  
-  
-  
-
-    console.log("Form Submitted:", data);
+  const onSubmit = async (data: RegisterData) => {
+    try {
+      await dispatch(registerAction({ data, navigate })).unwrap();
+      toast.success("Registration successful!");
+    } catch (error: Error | any) {
+      console.error(error);
+      toast.error(error?.message);
+    }
   };
+  
 
-  const RoleButton = ({role, icon: Icon, children}: {role: RegisterForm["role"], icon: React.ElementType, children: React.ReactNode}) => {
+  const RoleButton = ({role, icon: Icon, children}: {role: RegisterData["role"], icon: React.ElementType, children: React.ReactNode}) => {
     return (
       <label
       className={cn(
@@ -98,8 +94,8 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
-      <Card className="w-full max-w-md  bg-muted dark:bg-muted/20 text-foreground shadow-lg">
-        <CardHeader>
+    <Card className="w-screen max-w-md bg-muted dark:bg-muted/20 text-foreground shadow-lg">
+        <CardHeader className="text-center">
           <CardTitle className="text-xl text-center">Create an Account</CardTitle>
           <p className="text-sm text-center text-muted-foreground">
             Join and find your perfect college match
@@ -107,20 +103,12 @@ const Register = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* First & Last Name */}
-            <div className="grid grid-cols-2 gap-2">
+            {/* Full Name */}
               <div>
-                <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" {...register("firstName")} placeholder="First Name" className="border " />
-                {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName.message}</p>}
-              </div>
-              <div>
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" {...register("lastName")} placeholder="Last Name" />
-                {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName.message}</p>}
-              </div>
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input id="fullName" type="text" {...register("fullName")} placeholder="Full Name" />
+              {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName.message}</p>}
             </div>
-
             {/* Email */}
             <div>
               <Label htmlFor="email">Email Address</Label>
@@ -139,15 +127,16 @@ const Register = () => {
             <div>
               <Label>I am a</Label>
               <div className="flex max-w-full space-x-2">
-                <RoleButton role="Student" icon={BookOpenText}>Student</RoleButton>
-                <RoleButton role="College Admin" icon={School2Icon}>College Admin</RoleButton>
+                <RoleButton role="STUDENT" icon={BookOpenText}>Student</RoleButton>
+                <RoleButton role="COLLEGE_ADMIN" icon={School2Icon}>College Admin</RoleButton>
               </div>
               {errors.role && <p className="text-red-500 text-xs">{errors.role.message}</p>}
             </div>
 
             {/* Terms & Conditions */}
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" {...register("terms")} />
+            <Checkbox id="terms" checked={watch("terms")} onCheckedChange={(value) => setValue("terms", value)} />
+
               <Label htmlFor="terms" className="text-sm">
                 I agree to the <span className="text-primary">Terms</span> and{" "}
                 <span className="text-primary">Privacy Policy</span>

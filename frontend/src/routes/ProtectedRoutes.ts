@@ -1,6 +1,6 @@
-import { useAppSelector } from "../hooks/hook";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useAppSelector } from "@/hooks/reduxHook";
 
 interface ProtectedRoutesProps {
   children: JSX.Element;

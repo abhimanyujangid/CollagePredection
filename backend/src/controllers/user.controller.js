@@ -13,7 +13,7 @@ import {
     forgotPasswordMailgenContent,
     sendEmail,
 } from "../utils/mail.js";
-import { UserRolesEnum } from "../constants.js"
+import { UserLoginType, UserRolesEnum } from "../constants.js"
 
 // Generate access and refresh token
 const generateAccessAndRefreshToken = async (userId) => {
@@ -33,16 +33,18 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 // Register user
 const registerUser = asyncHandler(async (req, res) => {
-    const { email, fullName, password, role } = req.body
+    const { email, fullName, password, role, terms } = req.body
+
+    console.log("req.body: " )
 
     const userExists = await User.findOne({ email })
-
     if (userExists) throw new ApiError(409, "user with email already exists")
 
     const user = await User.create({
         fullName,
         email,
         password,
+        terms,
         isEmailVerified: false,
         role: role || UserRolesEnum.STUDENT
     })
@@ -101,7 +103,8 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(404, "User doesnot exist.");
     }
 
-    if (user.loginType !== UserLoginType.EMAIL_PASSWORD) {
+
+    if (user?.loginType !== UserLoginType.EMAIL_PASSWORD) {
         // If user is registered with some other method, we will ask him/her to use the same method as registered.
         // This shows that if user is registered with methods other than email password, he/she will not be able to login with password. Which makes password field redundant for the SSO
         throw new ApiError(
@@ -114,7 +117,7 @@ const loginUser = asyncHandler(async (req, res) => {
         );
     }
 
-    const isPasswordValid = await user.isPasswordCorrect(password);
+    const isPasswordCorrect = await user.isPasswordCorrect(password);
 
     if (!isPasswordCorrect) {
         throw new ApiError(401, "Invalid user credentials.");

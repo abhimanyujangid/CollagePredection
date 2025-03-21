@@ -13,6 +13,7 @@ const userRegisterValidator = () => {
     .notEmpty()
     .withMessage("Full name is required"),
     body("password").trim().notEmpty().withMessage("Password is required"),
+    body("terms").notEmpty().withMessage("Terms is required"),
     body("role")
       .optional()
       .isIn(AvailableUserRoles)

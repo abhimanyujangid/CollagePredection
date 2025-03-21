@@ -7,12 +7,11 @@ export interface LoginCredentials {
 }
 
 export interface RegisterData {
-  username?: string;
-  email?: string;
-  password1?: string;
-  password2?: string;
-  first_name?: string;
-  last_name?: string;
+  fullName: string;
+  email: string;
+  password: string;
+  role?: "STUDENT" | "COLLEGE_ADMIN";
+  terms?: false;
 }
 
 export interface LoginResponse {
@@ -43,13 +42,13 @@ export interface AuthState {
 
 // ProfileSlice Types
 export interface User {
-  pk?: number;
-  username?: string;
   email?: string;
-  first_name?: string;
-  last_name?: string;
+  fullName?: string;
   avatar?: string;
-  phone?: string;
+  role?: string;
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 

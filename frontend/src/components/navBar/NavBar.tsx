@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "../theme-toggle";
 import { Menu, X } from "lucide-react";
 import { INavLink } from "@/constant/data";
+import { useAppSelector } from "@/hooks/reduxHook";
 
 const NavBar = ({data}: {data: INavLink[]}) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
 
   return (
     <nav className="bg-background w-full px-6 py-4 flex items-center justify-between text-lg">
@@ -33,8 +36,15 @@ const NavBar = ({data}: {data: INavLink[]}) => {
 
       {/* Right Section */}
       <div className="hidden md:flex items-center space-x-4">
-        <Link to="/login" className="text-blue-400 hover:text-blue-300">Login</Link>
-        <Button className="bg-blue-500 hover:bg-blue-600">Sign Up</Button>
+        {!isAuthenticated ? 
+        <>
+          <Link to="/auth/login" className="text-blue-400 hover:text-blue-300">Login</Link>
+          <Button className="bg-blue-500 hover:bg-blue-600" onClick={() => navigate("/auth/register")}>Sign Up</Button>
+        </> :
+        <>
+          <Button className="bg-blue-500 hover:bg-blue-600" onClick={() => navigate("/auth/register")}>Logout</Button>
+        </> }
+        
         <ThemeToggle />
       </div>
 
