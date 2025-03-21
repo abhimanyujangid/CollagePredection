@@ -15,7 +15,7 @@ const landingPageLinks: INavLink[] = [
   ];
 
   const dashboardLinks: INavLink[] = [
-    { id: 2, name: "Ai", path: "/ai" },
+    { id: 2, name: "Recommendation", path: "ai" },
   ];
 
   const featureCards: IFeatureCardProps[] = [

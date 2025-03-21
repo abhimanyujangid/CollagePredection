@@ -8,6 +8,7 @@ import LandingPage from '@/layouts/LandingPage';
 import Dashboard from '@/page/Home/Dashboard';
 import Recommendation from '@/page/Home/Recommendation';
 import Profile from '@/page/Home/Profile';
+import ProtectedRoutes from './ProtectedRoutes';
 
 const AppRoutes = () => (
   <Router>
@@ -22,7 +23,7 @@ const AppRoutes = () => (
       {/* LandingPage  */}
     <Route path={ROUTES.MANPAGE} element={<MainLayout />}>
       <Route index element={<LandingPage />} />
-      <Route path={ROUTES.DASHBOARD} element={<Dashboard />} >
+      <Route path={ROUTES.DASHBOARD} element={<ProtectedRoutes><Dashboard /></ProtectedRoutes>} >
       <Route path='ai' element={<Recommendation/>} />
       <Route path={ROUTES.PROFILE} element={<Profile/>} />
 

@@ -16,6 +16,8 @@ const NavBar = ({ data }: { data: INavLink[] }) => {
   const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch();
   const locationPath = useLocation().pathname;
+
+  
   console.log('locationPath', locationPath)
 
 
@@ -32,14 +34,14 @@ const NavBar = ({ data }: { data: INavLink[] }) => {
           <Link
             key={item.name}
             to={item.path}
-            className={`hover:text-gray-400  ${location.pathname === item.path ? "text-blue-400" : ""
+            className={`hover:text-gray-400  ${location.pathname.includes(item.path) ? "text-blue-400" : ""
               }`}
           >
             {item.name}
           </Link>
         ))}
         {
-          isAuthenticated && locationPath === '/dashboard' &&
+          isAuthenticated && locationPath.includes('/dashboard') &&
           <Input type="search" placeholder="Search" className="w-[20rem]" />
         }
       </div>
