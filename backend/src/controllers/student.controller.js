@@ -83,16 +83,48 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, updatedProfile, "Student profile updated successfully"));
 });
 
+const updateEducationDetails = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { tenth, twelfth, competitiveExams } = req.body;
+
+    if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
+
+    const studentProfile = await StudentEducational.findById(id);
+    if (!studentProfile) throw new ApiError(404, "Student educational details not found");
+
+    // Ensure the user is authorized to update the profile
+    if (req.user?._id.toString() !== studentProfile.userId.toString()) {
+        throw new ApiError(403, "Forbidden: You can only update your own profile");
+    }
+
+    // Update fields if provided
+    const updatedProfile = await StudentEducational.findByIdAndUpdate(id,
+        {
+            $set: {
+                tenth,
+                twelfth,
+                competitiveExams
+            }
+        },
+        { new: true }
+    )
+
+    if (!updatedProfile) throw new ApiError(500, "Failed to update student educational details");
+
+    res.status(200).json(new ApiResponse(200, updatedProfile, "Student educational details updated successfully"));
+});
+
 const getStudentData = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
 
-    const studentProfile = await StudentProfile.findOne({ userId });
-    const studentEducational = await StudentEducational.findOne({ userId
-    });
+    const [studentProfile, studentEducational] = await Promise.all([
+        StudentProfile.findOne({ userId }),
+        StudentEducational.findOne({ userId }),
+    ]);
 
     if (!studentProfile || !studentEducational) throw new ApiError(404, "Student profile not found");
 
-    res.status(200).json(new ApiResponse(200, { studentProfile, studentEducational }, "Student profile fetched successfully"));
+    res.status(200).json(new ApiResponse(200, { student: studentProfile, studentEducational }, "Student profile fetched successfully"));
 });
 
 // export const getStudentProfile = asyncHandler(async (req, res) => {
@@ -131,5 +163,6 @@ export {
     createStudentProfile,
     createEducationDetails,
     updateStudentProfile,
-    getStudentData
+    getStudentData,
+    updateEducationDetails
 }

@@ -3,7 +3,8 @@ import {
     createStudentProfile,
     createEducationDetails,
     updateStudentProfile,
-    getStudentData
+    getStudentData,
+    updateEducationDetails
 } from '../controllers/student.controller.js'
 import {
     verifyJWT,
@@ -21,6 +22,7 @@ const router = Router()
 router.post('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), createStudentProfile)
 router.post('/education', verifyJWT, StudentEducationValidator(), verifyPermission([UserRolesEnum.STUDENT]), createEducationDetails)
 router.put('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateStudentProfile)
+router.put('/education', verifyJWT, StudentEducationValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateEducationDetails)
 router.get('/profile', verifyJWT, getStudentData)
 
 

@@ -70,7 +70,7 @@ import { avoidInProduction } from "./middlewares/auth.middleware.js";
 
 //routes declaration
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/student",studentRoute)
+app.use("/api/v1/students",studentRoute)
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);

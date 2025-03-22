@@ -2,6 +2,11 @@
 
 import { LoginCredentials, RegisterData } from "@/types/AuthTypes";
 import apiClient from "./apiClient";
+import { IStudent, IStudentEducation } from "@/types/profile";
+
+
+
+// ======================= Auth API =======================
 export const registerService = async (data: RegisterData) => {
     return await apiClient.post("users/register", data)
   }
@@ -10,19 +15,19 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.post("users/login", data);
   };
   
-  export const refreshTokenS = async () => {
+  export const refreshTokenService = async () => {
     return await apiClient.post("users/refresh-token");
   };
   
-  export const verifyEmailS = async (verificationToken: string) => {
+  export const verifyEmailService = async (verificationToken: string) => {
     return await apiClient.get(`users/verify-email/${verificationToken}`);
   };
   
-  export const forgotPasswordS = async (data: { email: string }) => {
+  export const forgotPasswordService = async (data: { email: string }) => {
     return await apiClient.post("users/forgot-password", data);
   };
   
-  export const resetPasswordS = async (resetToken: string, data: { newPassword: string }) => {
+  export const resetPasswordService = async (resetToken: string, data: { newPassword: string }) => {
     return await apiClient.post(`users/reset-password/${resetToken}`, data);
   };
   
@@ -30,11 +35,11 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.post("users/logout");
   };
   
-  export const changePasswordS = async (data: { oldPassword: string, newPassword: string }) => {
+  export const changePasswordService = async (data: { oldPassword: string, newPassword: string }) => {
     return await apiClient.post("users/change-password", data);
   };
   
-  export const resendEmailVerificationS = async () => {
+  export const resendEmailVerificationService = async () => {
     return await apiClient.post("users/resend-email-verification");
   };
   
@@ -42,21 +47,45 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.get("users/current-user");
   };
   
-  export const updateUserDetailsS = async (data: { [key: string]: any }) => {
+  export const updateUserDetailsService = async (data: { [key: string]: any }) => {
     return await apiClient.put("users/update-user", data);
   };
   
   
-  export const assignRoleS = async (userId: string, data: { role: string }) => {
+  export const assignRoleService = async (userId: string, data: { role: string }) => {
     return await apiClient.post(`users/assign-role/${userId}`, data);
   };
   
-  export const googleLoginS = async () => {
+  export const googleLoginService = async () => {
     return await apiClient.get("users/google");
   };
   
-  export const googleCallbackS = async () => {
+  export const googleCallbackService= async () => {
     return await apiClient.get("users/google/callback");
   };
   
+  
+
+  // ======================= Student API =======================
+
+  export const createStudentProfileService = async (data: IStudent) => {
+    return await apiClient.post("students/profile", data);
+  };
+  
+  export const createEducationDetailsService = async (data: IStudentEducation) => {
+    return await apiClient.post("students/education", data);
+  };
+  
+  export const updateStudentProfileService = async (data: IStudent) => {
+    return await apiClient.put("students/profile", data);
+  };
+
+  
+  export const updateEducationDetailsService = async (data: IStudentEducation) => {
+    return await apiClient.put("students/education", data);
+  };
+  
+  export const getStudentDataService = async () => {
+    return await apiClient.get("students/profile");
+  };
   
