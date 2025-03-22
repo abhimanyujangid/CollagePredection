@@ -14,8 +14,10 @@ export interface IStudentState{
 }
 
 export interface IStudent {
-    _id: string;
-    userId: string;
+    _id?: string;
+    fullName?: string;
+    email?: string;
+    userId?: string;
     phoneNumber: string;
     dateOfBirth: Date;
     gender: AvailableGenders;

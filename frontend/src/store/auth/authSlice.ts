@@ -78,10 +78,6 @@ export const getCurrentUserAction = createAsyncThunk(
 );
 
 
-
-
-
-
 // Create the auth slice
 const authSlice = createSlice({
   name: 'auth',

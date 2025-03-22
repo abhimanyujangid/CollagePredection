@@ -2,7 +2,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/reduxHook";
 import { LocalStorage } from "@/utils";
-import { ROUTES } from "./Route";
 
 interface ProtectedRoutesProps {
   children: JSX.Element;
