@@ -1,20 +1,15 @@
 import asyncHandler from "../utils/asyncHandler.js"
-import ApiError from "../utils/apiError.js"
-import ApiResponse from "../utils/ApiResponse.js"
+import ApiError from "../utils/ApiError.js"
 import mongoose from "mongoose";
 import { StudentProfile } from "../models/student.model.js";
+import ApiResponse from "../utils/ApiResponse.js"
+import { StudentEducational } from "../models/studentEducational.model.js";
 
-// @desc    Create Student Profile
-// @route   POST /api/students
-// @access  Private (User must be authenticated)
-export const createStudentProfile = asyncHandler(async (req, res) => {
-    const { phoneNumber, dateOfBirth, stream, educationDetails, preferences,gender } = req.body;
+
+const createStudentProfile = asyncHandler(async (req, res) => {
     const {_id: userId} = req.user;
+    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies } = req.body;
 
-    if (![phoneNumber, dateOfBirth,educationDetails, stream, preferences,gender].every(Boolean)) {
-        throw new ApiError(400, "All fields are required");
-    }
-    
     // Check if Student Profile already exists
     const existingProfile = await StudentProfile.findOne({ userId });
     if (existingProfile) throw new ApiError(409, "Student profile already exists");
@@ -24,10 +19,10 @@ export const createStudentProfile = asyncHandler(async (req, res) => {
         userId,
         phoneNumber,
         dateOfBirth,
-        stream,
-        educationDetails,
+        gender,
+        cast,
+        hobbies,
         preferences,
-        gender
     });
 
     if (!studentProfile) throw new ApiError(500, "Failed to create student profile");
@@ -35,66 +30,106 @@ export const createStudentProfile = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, studentProfile, "Student profile created successfully"));
 });
 
-// @desc    Get Student Profile by ID
-// @route   GET /api/students
-// @access  Private (User must be authenticated)
-export const getStudentProfile = asyncHandler(async (req, res) => {
-    const { _id: userId } = req.params;
+const createEducationDetails = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    const { tenth, twelfth, competitiveExams } = req.body;
 
-    if (!mongoose.isValidObjectId(userId)) throw new ApiError(400, "Invalid User ID");
+    const existingProfile = await StudentEducational.findOne({ userId });
+    if (existingProfile) throw new ApiError(409, "Student educational details already exists");
 
-    const studentProfile = await StudentProfile.findOne({ userId }).populate("userId", "fullName email");
+    const studentProfile = await StudentEducational.create({
+        userId,
+        tenth,
+        twelfth,
+        competitiveExams,
+    });
 
-    if (!studentProfile) throw new ApiError(404, "Student profile not found");
+    if (!studentProfile) throw new ApiError(500, "Failed to create student educational details");
 
-    res.status(200).json(new ApiResponse(200, studentProfile, "Student profile fetched successfully"));
+    res.status(201).json(new ApiResponse(201, studentProfile, "Student educational details created successfully"));
 });
 
-// @desc    Update Student Profile
-// @route   PUT /api/students/:id
-// @access  Private (User must be authenticated)
-export const updateStudentProfile = asyncHandler(async (req, res) => {
+const updateStudentProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { phoneNumber, dateOfBirth, stream, educationDetails, preferences,gender } = req.body;
+    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies } = req.body;
 
     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
-
-
-    if (![phoneNumber, dateOfBirth,educationDetails, stream, preferences,gender].every(Boolean)) {
-        throw new ApiError(400, "All fields are required");
-    }
-
 
     const studentProfile = await StudentProfile.findById(id);
     if (!studentProfile) throw new ApiError(404, "Student profile not found");
 
     // Ensure the user is authorized to update the profile
-    if (req.user._id.toString() !== studentProfile.userId.toString()) {
+    if (req.user?._id.toString() !== studentProfile.userId.toString()) {
         throw new ApiError(403, "Forbidden: You can only update your own profile");
     }
 
     // Update fields if provided
-    const updatedProfile = await StudentProfile.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    const updatedProfile = await StudentProfile.findByIdAndUpdate(id,
+        {
+            $set: {
+                phoneNumber,
+                dateOfBirth,
+                preferences,
+                gender,
+                cast,
+                hobbies
+            }
+        },
+        { new: true }
+    )
+
+    if (!updatedProfile) throw new ApiError(500, "Failed to update student profile");
 
     res.status(200).json(new ApiResponse(200, updatedProfile, "Student profile updated successfully"));
 });
 
-// @desc    Delete Student Profile
-// @route   DELETE /api/students/:id
-// @access  Private (User must be authenticated)
-export const deleteStudentProfile = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
+const getStudentData = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
 
-    const studentProfile = await StudentProfile.findById(id);
-    if (!studentProfile) throw new ApiError(404, "Student profile not found");
+    const studentProfile = await StudentProfile.findOne({ userId });
+    const studentEducational = await StudentEducational.findOne({ userId
+    });
 
-    // Ensure the user is authorized to delete the profile
-    if (req.user._id.toString() !== studentProfile.userId.toString()) {
-        throw new ApiError(403, "Forbidden: You can only delete your own profile");
-    }
+    if (!studentProfile || !studentEducational) throw new ApiError(404, "Student profile not found");
 
-    await StudentProfile.findByIdAndDelete(id);
-
-    res.status(200).json(new ApiResponse(200, null, "Student profile deleted successfully"));
+    res.status(200).json(new ApiResponse(200, { studentProfile, studentEducational }, "Student profile fetched successfully"));
 });
+
+// export const getStudentProfile = asyncHandler(async (req, res) => {
+//     const { _id: userId } = req.params;
+
+//     if (!mongoose.isValidObjectId(userId)) throw new ApiError(400, "Invalid User ID");
+
+//     const studentProfile = await StudentProfile.findOne({ userId }).populate("userId", "fullName email");
+
+//     if (!studentProfile) throw new ApiError(404, "Student profile not found");
+
+//     res.status(200).json(new ApiResponse(200, studentProfile, "Student profile fetched successfully"));
+// });
+
+
+// export const deleteStudentProfile = asyncHandler(async (req, res) => {
+//     const { id } = req.params;
+//     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
+
+//     const studentProfile = await StudentProfile.findById(id);
+//     if (!studentProfile) throw new ApiError(404, "Student profile not found");
+
+//     // Ensure the user is authorized to delete the profile
+//     if (req.user._id.toString() !== studentProfile.userId.toString()) {
+//         throw new ApiError(403, "Forbidden: You can only delete your own profile");
+//     }
+
+//     await StudentProfile.findByIdAndDelete(id);
+
+//     res.status(200).json(new ApiResponse(200, null, "Student profile deleted successfully"));
+// });
+
+
+
+export {
+    createStudentProfile,
+    createEducationDetails,
+    updateStudentProfile,
+    getStudentData
+}

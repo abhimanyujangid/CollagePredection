@@ -61,6 +61,7 @@ import healthcheckRouter from "./routes/healthcheck.routes.js";
 
 // * App routes
 import userRouter from "./routes/user.routes.js";
+import studentRoute from "./routes/student.routes.js"
 
 
 // * Seeding handlers
@@ -69,6 +70,7 @@ import { avoidInProduction } from "./middlewares/auth.middleware.js";
 
 //routes declaration
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/student",studentRoute)
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);

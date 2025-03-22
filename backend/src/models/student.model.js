@@ -1,35 +1,13 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
+import { AvailableCasts, AvailableGenders } from "../constants.js";
 
 const studentSchema = new Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    phoneNumber: { type: String },
-    dateOfBirth: { type: Date },
-    gender: { type: String, enum: ['male', 'female', 'other'] },
-    educationDetails: {
-        tenth: {
-            schoolName: { type: String },
-            board: { type: String },
-            percentage: { type: Number },
-            yearOfPassing: { type: Number },
-        },
-        twelfth: {
-            schoolName: { type: String },
-            stream: { type: String }, // e.g., Science, Commerce, Arts
-            board: { type: String },
-            percentage: { type: Number },
-            yearOfPassing: { type: Number },
-        },
-        hobby:{
-            type: [String],
-        },
-        competitiveExams: [
-            {
-                examName: { type: String }, // e.g., JEE, NEET, CET
-                score: { type: Number },
-                yearOfPassing: { type: Number },
-            },
-        ],
-    },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    phoneNumber: { type: String, required: true },
+    dateOfBirth: { type: Date, required: true },
+    gender: { type: String, enum: AvailableGenders, required: true },
+    cast: { type: String, enum: AvailableCasts, required: true },
+    hobbies: [{ type: String }],
     preferences: {
         preferredCourses: { type: String },
         preferredLocations: [{ type: String }],

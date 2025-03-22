@@ -1,15 +1,27 @@
 import { Router } from "express";
-import {createStudentProfile, getStudentProfile, updateStudentProfile} from '../controllers/student.controller.js'
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import {
+    createStudentProfile,
+    createEducationDetails,
+    updateStudentProfile,
+    getStudentData
+} from '../controllers/student.controller.js'
+import {
+    verifyJWT,
+    verifyPermission,
+} from "../middlewares/auth.middleware.js";
+
+import {StudentProfileValidator, StudentEducationValidator} from '../validators/app/auth/student.validators.js'
+import { UserRolesEnum } from "../constants.js";
 
 const router = Router()
 
 
 
 //secured routes
-router.route("/").post(verifyJWT('student'), createStudentProfile);
-router.route("/").get(verifyJWT('student'), getStudentProfile);
-router.route("/:id").put(verifyJWT('student'), updateStudentProfile);
+router.post('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), createStudentProfile)
+router.post('/education', verifyJWT, StudentEducationValidator(), verifyPermission([UserRolesEnum.STUDENT]), createEducationDetails)
+router.put('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateStudentProfile)
+router.get('/profile', verifyJWT, getStudentData)
 
 
 export default router
