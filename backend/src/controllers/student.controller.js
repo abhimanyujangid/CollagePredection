@@ -8,7 +8,7 @@ import { StudentEducational } from "../models/studentEducational.model.js";
 
 const createStudentProfile = asyncHandler(async (req, res) => {
     const {_id: userId} = req.user;
-    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies } = req.body;
+    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies, fullName } = req.body;
 
     // Check if Student Profile already exists
     const existingProfile = await StudentProfile.findOne({ userId });
@@ -17,6 +17,7 @@ const createStudentProfile = asyncHandler(async (req, res) => {
     // Create Student Profile
     const studentProfile = await StudentProfile.create({
         userId,
+        fullName,
         phoneNumber,
         dateOfBirth,
         gender,
@@ -51,7 +52,7 @@ const createEducationDetails = asyncHandler(async (req, res) => {
 
 const updateStudentProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies } = req.body;
+    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies, fullName } = req.body;
 
     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
 
@@ -68,6 +69,7 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
         {
             $set: {
                 phoneNumber,
+                fullName,
                 dateOfBirth,
                 preferences,
                 gender,
@@ -122,10 +124,24 @@ const getStudentData = asyncHandler(async (req, res) => {
         StudentEducational.findOne({ userId }),
     ]);
 
-    if (!studentProfile || !studentEducational) throw new ApiError(404, "Student profile not found");
+    console.log(studentProfile, studentEducational);
 
-    res.status(200).json(new ApiResponse(200, { student: studentProfile, studentEducational }, "Student profile fetched successfully"));
+    let data = {}; // Initialize data as an empty object
+
+    if (studentProfile) {
+        data.student = studentProfile || {};
+    }
+    if (studentEducational) {
+        data.studentEducational = studentEducational || {};
+    }
+
+    if(Object.keys(data).length === 0) {
+        throw new ApiError(404, "Student data not found");
+    }
+
+    res.status(200).json(new ApiResponse(200, data, "Student profile fetched successfully"));
 });
+
 
 // export const getStudentProfile = asyncHandler(async (req, res) => {
 //     const { _id: userId } = req.params;

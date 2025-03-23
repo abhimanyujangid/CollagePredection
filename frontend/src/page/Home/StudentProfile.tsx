@@ -1,7 +1,18 @@
 import AcademicInformationForm from '@/components/AcademicInformationForm'
 import PersonalInformationForm from '@/components/PersonalInformationForm'
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
+import { getStudentDataAction } from '@/store/auth/studentSlice'
+import { useEffect } from 'react'
 
 const StudentProfile = () => {
+  const dispatch = useAppDispatch()
+  const { student, studentEducation, loading } = useAppSelector((state) => state.student)
+
+  useEffect(() => {
+    dispatch(getStudentDataAction());
+  }, [dispatch]);
+
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="border-b border-gray-200 dark:border-gray-700">
@@ -12,8 +23,8 @@ const StudentProfile = () => {
         </nav>
       </div>
       <div className='grid grid-cols-1 gap-6 mt-6'>
-        <PersonalInformationForm />
-        <AcademicInformationForm />
+        <PersonalInformationForm data={{student,loading}} />
+        <AcademicInformationForm data={{studentEducation,loading}}/>
       </div>
       </div>
   )

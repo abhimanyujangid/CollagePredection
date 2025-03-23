@@ -39,22 +39,23 @@ export const studentEducationAction = createAsyncThunk(
     }
 );
 
-export const updateEducationDetailsServiceAction = createAsyncThunk(
+export const updateEducationDetailsAction = createAsyncThunk(
     "student/updateEducationDetails",
     async ({ data }: { data: IStudentEducation }, { rejectWithValue }) => {
         try {
             const response = await updateEducationDetailsService(data);
         } catch (error: any) {
+            toast.error(error.message);
             return rejectWithValue(error.message);
         }
     }
 );
 
-export const updateStudentProfileServiceAction = createAsyncThunk(
+export const updateStudentProfileAction = createAsyncThunk(
     "student/updateStudentProfile",
-    async ({ data }: { data: IStudent }, { rejectWithValue }) => {
+    async ({ data, id }: { data: IStudent ,id:string}, { rejectWithValue }) => {
         try {
-            const response = await updateStudentProfileService(data);
+            const response = await updateStudentProfileService(data,id);
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
@@ -66,7 +67,9 @@ export const getStudentDataAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await getStudentDataService();
-            return response?.data?.data;
+            if(response?.data?.data){
+                return response.data.data;
+            }
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
@@ -121,36 +124,38 @@ const studentSlice = createSlice({
             )
             .addCase(getStudentDataAction.rejected, (state, { payload }) => {
                 state.loading = false;
+                state.student = null;
+                state.studentEducation = null;
                 state.error = payload as string;
             }
             )
-            .addCase(updateStudentProfileServiceAction.pending, (state) => {
+            .addCase(updateStudentProfileAction.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             }
             )
-            .addCase(updateStudentProfileServiceAction.fulfilled, (state, ) => {
+            .addCase(updateStudentProfileAction.fulfilled, (state, ) => {
                 state.loading = false;
                 toast.success("Student profile updated successfully");
             }
             )
-            .addCase(updateStudentProfileServiceAction.rejected, (state, { payload }) => {
+            .addCase(updateStudentProfileAction.rejected, (state, { payload }) => {
                 state.loading = false;
                 state.error = payload as string;
                 toast.error(payload as string);
             }
             )
-            .addCase(updateEducationDetailsServiceAction.pending, (state) => {
+            .addCase(updateEducationDetailsAction.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             }
             )
-            .addCase(updateEducationDetailsServiceAction.fulfilled, (state, ) => {
+            .addCase(updateEducationDetailsAction.fulfilled, (state, ) => {
                 state.loading = false;
                 toast.success("Student education details updated successfully");
             }
             )
-            .addCase(updateEducationDetailsServiceAction.rejected, (state, { payload }) => {
+            .addCase(updateEducationDetailsAction.rejected, (state, { payload }) => {
                 state.loading = false;
                 state.error = payload as string;
                 toast.error(payload as string);

@@ -21,7 +21,7 @@ const router = Router()
 //secured routes
 router.post('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), createStudentProfile)
 router.post('/education', verifyJWT, StudentEducationValidator(), verifyPermission([UserRolesEnum.STUDENT]), createEducationDetails)
-router.put('/profile', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateStudentProfile)
+router.put('/profile/:id', verifyJWT, StudentProfileValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateStudentProfile)
 router.put('/education', verifyJWT, StudentEducationValidator(), verifyPermission([UserRolesEnum.STUDENT]), updateEducationDetails)
 router.get('/profile', verifyJWT, getStudentData)
 

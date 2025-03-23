@@ -14,12 +14,9 @@ import { toast } from "sonner"
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { registerAction } from "@/store/auth/authSlice";
 import { RegisterData } from "@/types/AuthTypes";
-import { getCurrentUserS, registerS, registerService } from "@/services/apiClient";
-import axios from "axios";
 
 // ✅ Zod Schema for Validation
 const formSchema = z.object({
-  fullName: z.string().min(3, "Full Name must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
   password: z
     .string()
@@ -45,7 +42,6 @@ const Register = () => {
   } = useForm<RegisterData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName:"",
       email: "",
       password: "",
       role: "STUDENT",
@@ -106,12 +102,7 @@ const Register = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Full Name */}
-              <div>
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" type="text" {...register("fullName")} placeholder="Full Name" required disabled={loading} />
-              {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName.message}</p>}
-            </div>
+            
             {/* Email */}
             <div>
               <Label htmlFor="email">Email Address</Label>

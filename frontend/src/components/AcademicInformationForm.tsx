@@ -4,7 +4,14 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 import { Button } from "./ui/button";
 
-export default function AcademicInformationForm() {
+interface IAcademicInformationProps {
+  data: {
+    studentEducation: any,
+    loading: boolean
+  }
+}
+
+export default function AcademicInformationForm(data: IAcademicInformationProps) {
   return (
     <Card className="p-4 mt-6 bg-muted/50">
       <CardHeader>

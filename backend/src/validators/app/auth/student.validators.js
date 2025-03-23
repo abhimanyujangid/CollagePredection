@@ -8,6 +8,10 @@ const StudentProfileValidator = () => {
             .notEmpty()
             .isMobilePhone()
             .withMessage("Invalid phone number"),
+        body("fullName")
+            .trim()
+            .notEmpty()
+            .withMessage("Full name is required"),
         body("dateOfBirth")
             .trim()
             .notEmpty()

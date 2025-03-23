@@ -1,36 +1,74 @@
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
 import { IStudent } from "@/types/profile";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { studentProfileAction, updateStudentProfileAction } from "@/store/auth/studentSlice";
 
 const studentSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
-  email: z.string().email("Invalid email address"),
   phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
   dateOfBirth: z.string().min(1, "Date of Birth is required"),
   gender: z.enum(["male", "female", "other"], { message: "Select a valid gender" }),
   cast: z.enum(["general", "obc", "sc", "st", "ews"], { message: "Select a valid cast" }),
-  hobbies: z.array(z.string()).optional(),
 });
 
-export default function PersonalInformationForm() {
-  const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm<IStudent>({
+interface IStudentProps {
+  data: {
+    student: IStudent | null;
+    loading: boolean;
+  };
+}
+
+export default function PersonalInformationForm({ data }: IStudentProps) {
+  const { student, loading} = data;
+  const dispatch = useAppDispatch();
+  // _id: new ObjectId('67df9c3805a57087c3adf4bc'),
+  // userId: new ObjectId('67dcdff5bf35deb933ff6747'),
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<IStudent>({
     resolver: zodResolver(studentSchema),
+    defaultValues: {
+      fullName: "",
+      phoneNumber: "",
+      dateOfBirth: "",
+      gender: "",
+      cast: "",
+      hobbies: [],
+    },
   });
-  const [hobbies, setHobbies] = useState<string[]>([]);
+
+  const [hobbies, setHobbies] = useState<string[]>(student?.hobbies || []);
   const hobbyInput = watch("hobbies");
+
+  useEffect(() => {
+    if (student) {
+      setValue("fullName", student.fullName || "");
+      setValue("phoneNumber", student.phoneNumber || "");
+      setValue("dateOfBirth", student.dateOfBirth ? student.dateOfBirth.split("T")[0] : "");
+      setValue("gender", student.gender || "");
+      setValue("cast", student.cast || "");
+      setHobbies(student.hobbies || []);
+    }
+  }, [student, setValue]);
 
   const addHobby = () => {
     if (hobbyInput && !hobbies.includes(hobbyInput)) {
       setHobbies([...hobbies, hobbyInput]);
-      setValue("hobbies", "");
+      setValue("hobbies", ""); // Clear input after adding
     }
   };
 
@@ -38,32 +76,37 @@ export default function PersonalInformationForm() {
     setHobbies(hobbies.filter((h) => h !== hobby));
   };
 
+  const onSubmit = (data: IStudent) => {
+    data.hobbies = hobbies;
+    const id = student?._id || "";
+    if (student) {
+      dispatch(updateStudentProfileAction({ data, id }));
+    } else {
+      dispatch(studentProfileAction({ data }));
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
-      <Card className="p-4 bg-muted/50">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Card className="bg-muted/50">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
           <p className="text-sm text-muted-foreground">Update your personal details and preferences.</p>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           <div className="col-span-2">
             <Label>Full Name</Label>
-            <Input {...register("fullName")} placeholder="John Smith" />
+            <Input {...register("fullName")} placeholder="John Smith" disabled={loading}/>
             {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
-          </div>
-          <div className="col-span-2">
-            <Label>Email</Label>
-            <Input {...register("email")} type="email" placeholder="john.smith@example.com" />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
           <div>
             <Label>Phone Number</Label>
-            <Input {...register("phoneNumber")} placeholder="1234567890" />
+            <Input {...register("phoneNumber")} placeholder="1234567890" disabled={loading}/>
             {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
           </div>
           <div>
             <Label>Date of Birth</Label>
-            <Input {...register("dateOfBirth")} type="date" />
+            <Input {...register("dateOfBirth")} type="date" disabled={loading}/>
             {errors.dateOfBirth && <p className="text-red-500 text-sm">{errors.dateOfBirth.message}</p>}
           </div>
           <div>
@@ -72,14 +115,16 @@ export default function PersonalInformationForm() {
               name="gender"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    {["male", "female", "other"].map((gender) => (
+                      <SelectItem key={gender} value={gender}>
+                        {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               )}
@@ -92,16 +137,16 @@ export default function PersonalInformationForm() {
               name="cast"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select cast" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="general">General</SelectItem>
-                    <SelectItem value="obc">OBC</SelectItem>
-                    <SelectItem value="sc">SC</SelectItem>
-                    <SelectItem value="st">ST</SelectItem>
-                    <SelectItem value="ews">EWS</SelectItem>
+                    {["general", "obc", "sc", "st", "ews"].map((cast) => (
+                      <SelectItem key={cast} value={cast}>
+                        {cast.toUpperCase()}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               )}
@@ -111,8 +156,10 @@ export default function PersonalInformationForm() {
           <div className="col-span-2">
             <Label>Hobbies</Label>
             <div className="flex gap-2">
-              <Input {...register("hobbies")} placeholder="Enter hobby" />
-              <Button type="button" onClick={addHobby}>Add</Button>
+              <Input {...register("hobbies")} placeholder="Enter hobby" disabled={loading} />
+              <Button type="button" onClick={addHobby} disabled={loading}>
+                Add
+              </Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {hobbies.map((hobby) => (
@@ -123,7 +170,11 @@ export default function PersonalInformationForm() {
             </div>
           </div>
         </CardContent>
-        <Button type="submit">Save</Button>
+        <div className="p-4 flex justify-end">
+          <Button type="submit">{
+            loading ? "Loading..." : student ? "Update" : "Create"
+         }</Button>
+        </div>
       </Card>
     </form>
   );

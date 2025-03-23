@@ -33,7 +33,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 // Register user
 const registerUser = asyncHandler(async (req, res) => {
-    const { email, fullName, password, role, terms } = req.body
+    const { email,  password, role, terms } = req.body
 
     console.log("req.body: " )
 
@@ -41,7 +41,6 @@ const registerUser = asyncHandler(async (req, res) => {
     if (userExists) throw new ApiError(409, "user with email already exists")
 
     const user = await User.create({
-        fullName,
         email,
         password,
         terms,
@@ -451,17 +450,16 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 // Update user details
 const updateUserDetails = asyncHandler(async (req, res) => {
-    const { fullName, email } = req.body;
+    const {  email } = req.body;
 
-    if (!fullName || !email) {
-        throw new ApiError(400, "All fields are required");
+   if (!email) {
+        throw new ApiError(400, "Email is required");
     }
 
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
-                fullName,
                 email
             }
         },
@@ -471,7 +469,7 @@ const updateUserDetails = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(
-            new ApiResponse(200, user, "Account details updated successfully")
+            new ApiResponse(200, user, "User details updated successfully")
         )
 });
 

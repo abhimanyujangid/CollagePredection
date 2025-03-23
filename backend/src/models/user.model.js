@@ -18,12 +18,6 @@ const userSchema = new Schema(
             lowercase: true,
             trim: true,
         },
-        fullName: {
-            type: String,
-            required: [true, 'fullname is required'],
-            trim: true,
-            index: true
-        },
         avatar: {
             type: {
                 url: String,
@@ -97,7 +91,6 @@ userSchema.methods.generateAccessToken = function () {
         {
             _id: this._id,
             email: this.email,
-            username: this.username,
             role: this.role,
         },
         process.env.ACCESS_TOKEN_SECRET,

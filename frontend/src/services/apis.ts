@@ -76,8 +76,8 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.post("students/education", data);
   };
   
-  export const updateStudentProfileService = async (data: IStudent) => {
-    return await apiClient.put("students/profile", data);
+  export const updateStudentProfileService = async (data: IStudent,id: string) => {
+    return await apiClient.put(`students/profile/${id}`, data);
   };
 
   
