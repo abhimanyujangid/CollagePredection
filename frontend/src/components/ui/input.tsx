@@ -1,10 +1,20 @@
-import * as React from "react"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  loading?: boolean;
+};
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
-    return (
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, loading, ...props }, ref) => {
+    return loading ? (
+      <div
+        className={cn(
+          "flex h-9 w-full animate-pulse rounded-md bg-gray-300 dark:bg-gray-700",
+          className
+        )}
+      ></div>
+    ) : (
       <input
         type={type}
         className={cn(
@@ -14,9 +24,11 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
-Input.displayName = "Input"
+);
 
-export { Input }
+Input.displayName = "Input";
+
+export { Input };
+
