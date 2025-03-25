@@ -4,16 +4,15 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAppDispatch } from "@/hooks/reduxHook";
 import { indianStates, twelfthStreams } from "@/constant/Dummydata";
 import CoustomDropdown from "./CoustomDropdown";
-import CustomDropdown from "./CoustomDropdown";
+import { tenthLabel, twelfthLabel } from "@/constant/inputLabel";
+import { twelfthDropDownData } from "@/constant/dropDownData";
+import { useState } from "react";
 
 interface IAcademicInformationProps {
   data: {
@@ -21,9 +20,6 @@ interface IAcademicInformationProps {
     loading: boolean
   }
 }
-
-
-
 
 export default function AcademicInformationForm(data: IAcademicInformationProps) {
   const dispatch = useAppDispatch();
@@ -53,14 +49,15 @@ export default function AcademicInformationForm(data: IAcademicInformationProps)
         percentage: 0,
         yearOfPassing: 0,
       },
-      competitiveExams: {
+      competitiveExams: [{
         examName: "",
-        score: 0,
         yearOfPassing: 0,
+        score: 0,
         rank: 0,
-      }
+      }]
     },
   });
+
 
   return (
     <form action="">
@@ -70,17 +67,12 @@ export default function AcademicInformationForm(data: IAcademicInformationProps)
           <p className="text-sm text-muted-foreground">Please provide your academic details.</p>
         </CardHeader>
         <CardContent>
-           {/* For 10th  Details */}
+          {/* For 10th  Details */}
           <div>
             <Label >Class 10th Details</Label>
             <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  p-4">
               {
-                [
-                  { label: "School Name", name: "tenth.schoolName", type: "text" },
-                  { label: "Board", name: "tenth.board", type: "text" },
-                  { label: "Percentage", name: "tenth.percentage", type: "number" },
-                  { label: "Year of Passing", name: "tenth.yearOfPassing", type: "number" },
-                ].map(({ label, name, type }: { label: string, name: string, type: string }) => (
+                tenthLabel.map(({ label, name, type }: { label: string, name: string, type: string }) => (
                   <div className="mb-4" key={name}>
                     <Label >{label}</Label>
                     <Input id={name} type={type} {...register(name)} />
@@ -100,42 +92,79 @@ export default function AcademicInformationForm(data: IAcademicInformationProps)
             <Label >Class 12th Details</Label>
             <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  p-4">
               {
-                [
-                  { label: "School Name", name: "twelfth.schoolName", type: "text" },
-                  { label: "Board", name: "twelfth.board", type: "text" },
-                  { label: "Percentage %", name: "twelfth.percentage", type: "number" },
-                  { label: "Year of Passing", name: "twelfth.yearOfPassing", type: "number" },
-                ].map(({ label, name, type }: { label: string, name: string, type: string }) => (
+                twelfthLabel.map(({ label, name, type }: { label: string, name: string, type: string }) => (
                   <div className="mb-4" key={name}>
                     <Label >{label}</Label>
                     <Input id={name as keyof IStudentEducation} type={type} {...register(name as keyof IStudentEducation)} />
                   </div>
                 ))
               }
-              {[
-                {
-                  label: "Stream",
-                  placeholder: "Select a stream",
-                  name: "twelfth.stream",
-                  data: twelfthStreams.map((stream) => stream.name),
-                },
-                {
-                  label: "State",
-                  placeholder: "Select a state",
-                  name: "twelfth.state",
-                  data: indianStates.map((state) => state.name),
-                },
-              ].map(({ label, placeholder, name, data }) => (
+              {/* For DropDown */}
+              {twelfthDropDownData.map(({ label, placeholder, name, data }) => (
                 <div className="mb-4" key={name}>
                   <Label htmlFor={name}>{label}</Label>
                   <CoustomDropdown control={control} data={data} placeholder={placeholder} name={name} />
                 </div>
               ))}
-<div >
-  <Button>Submit</Button>
-</div>
+
+              {/* For Subject marks */}
+              <div className="col-span-2">
+                <Label>Subject with Marks</Label>
+                <div className="flex gap-2">
+                  <Input placeholder="Subject Name" />
+                  <Input placeholder="Max marks" type="number" />
+                  <Input placeholder="Obtained marks" type="number" />
+                  <Button type="button" >
+                    Add
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {/* Todo: add badge in this show Subject anem and macx and obtain marks  */}
+                </div>
+              </div>
+              
             </section>
-            </div>
+          </div>
+
+          {/* For Competitive Exams */}
+          <div>
+            <Label>Competitive Exams</Label>
+            <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 p-4">
+              <div className="mb-4">
+                <Label>Exam Name</Label>
+                <Input placeholder="Exam Name" {...register("currentExam.examName")} />
+              </div>
+              <div className="mb-4">
+                <Label>Year of Passing</Label>
+                <Input placeholder="Year of Passing" type="number" {...register("currentExam.yearOfPassing")} />
+              </div>
+              <div className="mb-4">
+                <Label>Score</Label>
+                <Input placeholder="Score" type="number" {...register("currentExam.score")} />
+              </div>
+              <div className="mb-4">
+                <Label>Rank</Label>
+                <Input placeholder="Rank" type="number" {...register("currentExam.rank")} />
+              </div>
+              <div className="mb-4 col-span-4">
+                <Button type="button" onClick={''}>
+                  Add
+                </Button>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-4 col-span-4">
+                {/* {competitiveExams.map((exam, index) => (
+                  <Badge key={index} className="p-2 border bg-white shadow-sm">
+                    <p>{`Exam: ${exam.examName}, Year: ${exam.yearOfPassing}, Score: ${exam.score}, Rank: ${exam.rank}`}</p>
+                  </Badge>
+                ))} */}
+              </div>
+            </section>
+          </div>
+
+          <div >
+                <Button>Submit</Button>
+              </div>
         </CardContent>
       </Card>
     </form>

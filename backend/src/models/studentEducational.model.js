@@ -17,8 +17,9 @@ const studentEducationalSchema = new Schema({
         subjectsWithMarks: [
             {
                 subject: { type: String },
-                marks: { type: Number },
-            },
+                maxMarks: { type: Number },
+                obtainedMarks: { type: Number },
+            }
         ],
         board: { type: String, required: true },
         state: { type: String, required: true },

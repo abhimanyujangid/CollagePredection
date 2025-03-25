@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { studentProfileAction, updateStudentProfileAction } from "@/store/auth/studentSlice";
 import CustomDropdown from "./CoustomDropdown";
 import { cast, gender } from "@/constant/Dummydata";
+import { personalInformationLabel } from "@/constant/inputLabel";
 
 interface IStudentProps {
   data: {
@@ -85,7 +86,7 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
           <p className="text-sm text-muted-foreground">Update your personal details and preferences.</p>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {["fullName", "phoneNumber", "dateOfBirth"].map((field) => (
+          {personalInformationLabel.map((field) => (
             <div key={field}>
               <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
               <Input {...register(field)} placeholder={field === "dateOfBirth" ? "YYYY-MM-DD" : ""} type={field === "dateOfBirth" ? "date" : "tel"}  loading={loading} />

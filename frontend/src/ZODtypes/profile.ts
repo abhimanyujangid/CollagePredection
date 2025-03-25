@@ -1,5 +1,6 @@
 
 // This file contains the types for the profile of the user.
+import { max } from "date-fns";
 import { z } from "zod";
 
 
@@ -17,7 +18,8 @@ export const AvailableCasts = z.enum(["general", "obc", "sc", "st", "ews"], {
 export const ISubjectWithMarksSchema = z.object({
     _id: z.string().optional(),
     subject: z.string().min(1, "Subject name is required"),
-    marks: z.number().min(0, "Marks cannot be negative")
+    maxMarks: z.number().min(1, "Max marks must be at least 1"),
+    obtainedMarks: z.number().min(0, "Marks obtained cannot be negative")
 });
 
 export const ITenthSchema = z.object({
