@@ -1,12 +1,15 @@
 import { z } from "zod";
 
-const studentSchema = z.object({
+export const studentSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
   phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
   dateOfBirth: z.string().min(1, "Date of Birth is required"),
   gender: z.enum(["male", "female", "other"], { message: "Select a valid gender" }),
   cast: z.enum(["general", "obc", "sc", "st", "ews"], { message: "Select a valid cast" }),
 });
+
+
+
 
 
 const studentEducationSchema = z.object({
@@ -38,5 +41,3 @@ const studentEducationSchema = z.object({
 });
 
 
-
-export { studentSchema, studentEducationSchema };

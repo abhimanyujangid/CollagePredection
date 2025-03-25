@@ -1,8 +1,8 @@
 // API functions for different actions
 
-import { LoginCredentials, RegisterData } from "@/types/AuthTypes";
+import { LoginCredentials, RegisterData } from "@/ZODtypes/AuthTypes";
 import apiClient from "./apiClient";
-import { IStudent, IStudentEducation } from "@/types/profile";
+import { IStudent, IStudentEducation } from "@/ZODtypes/profile";
 
 
 

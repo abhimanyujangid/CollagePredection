@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,20 +12,9 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner"
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { registerAction } from "@/store/auth/authSlice";
-import { RegisterData } from "@/types/AuthTypes";
+import { RegisterData, RegisterDataSchema } from "@/ZODtypes/AuthTypes";
 
-// ✅ Zod Schema for Validation
-const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-    .regex(/\d/, "Must contain at least one number")
-    .regex(/[!@#$%^&*]/, "Must contain at least one special character"),
-  role: z.enum(["STUDENT", "COLLEGE_ADMIN"]),
-  terms: z.boolean().refine((v) => v, { message: "You must agree to the terms" }),
-});
+
 
 
 
@@ -40,7 +28,7 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm<RegisterData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(RegisterDataSchema),
     defaultValues: {
       email: "",
       password: "",

@@ -1,5 +1,4 @@
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,14 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { IStudent } from "@/types/profile";
+import { IStudent, IStudentSchema } from "@/ZODtypes/profile";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { studentProfileAction, updateStudentProfileAction } from "@/store/auth/studentSlice";
 import CustomDropdown from "./CoustomDropdown";
 import { cast, gender } from "@/constant/Dummydata";
-import { studentSchema } from "@/validation/zodValidation";
-
-
 
 interface IStudentProps {
   data: {
@@ -24,8 +20,9 @@ interface IStudentProps {
 }
 
 export default function PersonalInformationForm({ data }: IStudentProps) {
-  const { student, loading} = data;
+  const { student, loading } = data;
   const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -34,13 +31,13 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
     watch,
     formState: { errors },
   } = useForm<IStudent>({
-    resolver: zodResolver(studentSchema),
+    resolver: zodResolver(IStudentSchema),
     defaultValues: {
       fullName: "",
       phoneNumber: "",
       dateOfBirth: "",
-      gender: "",
-      cast: "",
+      gender: undefined,
+      cast: undefined,
       hobbies: [],
     },
   });
@@ -91,8 +88,8 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
           {["fullName", "phoneNumber", "dateOfBirth"].map((field) => (
             <div key={field}>
               <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
-              <Input {...register(field)} placeholder={field === "dateOfBirth" ? "YYYY-MM-DD" : ""} type={field === "dateOfBirth" ? "date" : "tel"} disabled={loading} />
-              {errors[field] && <p className="text-red-500 text-sm">{errors[field].message}</p>}
+              <Input {...register(field)} placeholder={field === "dateOfBirth" ? "YYYY-MM-DD" : ""} type={field === "dateOfBirth" ? "date" : "tel"}  loading={loading} />
+              {errors[field] && <p className="text-red-500 text-sm">{errors[field]?.message as string}</p>}
             </div>
           ))}
           {["gender", "cast"].map((field) => (
@@ -100,13 +97,13 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
               <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
               <CustomDropdown
                 control={control}
+                loading={loading}
                 data={field === "gender" ? gender : cast}
                 placeholder={`Select a ${field}`}
                 name={field}
-                disabled={loading}
                 upperCase={field === "cast"}
               />
-              {errors[field] && <p className="text-red-500 text-sm">{errors[field].message}</p>}
+              {errors[field] && <p className="text-red-500 text-sm">{errors[field]?.message as string}</p>}
             </div>
           ))}
           <div className="col-span-2">
@@ -129,7 +126,7 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
         <div className="p-4 flex justify-end">
           <Button type="submit">{
             loading ? "Loading..." : student ? "Update" : "Create"
-         }</Button>
+          }</Button>
         </div>
       </Card>
     </form>

@@ -1,7 +1,7 @@
 import CompleteQuestion from "@/components/HowItwork/CompleteQuestion";
 import CreateProfile from "@/components/HowItwork/CreateProfile";
 import YourMatch from "@/components/HowItwork/YourMatch";
-import { IFeatureCardProps } from "@/types/landing";
+import { IFeatureCardProps } from "@/ZODtypes/landing";
 import { Filter, School, Sun } from "lucide-react";
 
 const landingPageLinks: INavLink[] = [

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IStudentEducation } from "@/types/profile";
+import { IStudentEducation, IStudentEducationSchema } from "@/ZODtypes/profile";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -14,7 +14,6 @@ import { useAppDispatch } from "@/hooks/reduxHook";
 import { indianStates, twelfthStreams } from "@/constant/Dummydata";
 import CoustomDropdown from "./CoustomDropdown";
 import CustomDropdown from "./CoustomDropdown";
-import { studentEducationSchema } from "@/validation/zodValidation";
 
 interface IAcademicInformationProps {
   data: {
@@ -36,7 +35,7 @@ export default function AcademicInformationForm(data: IAcademicInformationProps)
     watch,
     formState: { errors },
   } = useForm<IStudentEducation>({
-    resolver: zodResolver(studentEducationSchema),
+    resolver: zodResolver(IStudentEducationSchema),
     defaultValues: {
       tenth: {
         schoolName: "",

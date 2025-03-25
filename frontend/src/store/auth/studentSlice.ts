@@ -1,4 +1,4 @@
-import { IStudent, IStudentEducation, IStudentState } from "@/types/profile";
+import { IStudent, IStudentEducation, IStudentState } from "@/ZODtypes/profile";
 import { toast } from "sonner";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {

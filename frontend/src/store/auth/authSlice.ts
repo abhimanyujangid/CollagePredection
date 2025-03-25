@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginCredentials, RegisterData, AuthState, User } from '../../types/AuthTypes';
+import { LoginCredentials, RegisterData, AuthState, User } from '../../ZODtypes/AuthTypes';
 import { getCurrentUserService, loginService, logoutService, registerService } from '@/services/apis.ts';
 import { toast } from 'sonner';
 import { LocalStorage } from '@/utils';

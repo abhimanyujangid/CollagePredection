@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -8,12 +9,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, loading, ...props }, ref) => {
     return loading ? (
-      <div
-        className={cn(
-          "flex h-9 w-full animate-pulse rounded-md bg-gray-300 dark:bg-gray-700",
-          className
-        )}
-      ></div>
+      <Skeleton className={cn("h-9 w-full rounded-md", className)} />
     ) : (
       <input
         type={type}
@@ -31,4 +27,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 export { Input };
-
