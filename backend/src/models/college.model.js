@@ -5,6 +5,7 @@ const collegeSchema = new Schema({
   collegeName: { type: String, required: true },
   rankingNIRF: { type: Number, default: 0 }, // National Institutional Ranking Framework (NIRF) ranking
   university: { type: String, required: true },
+  type: { type: String, enum: ["private", "government", "deemed", "state"], default: "private" },
   logo: {
     type: {
       public_id: String,

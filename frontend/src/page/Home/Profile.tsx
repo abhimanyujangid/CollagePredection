@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/hooks/reduxHook'
-import React from 'react'
 import StudentProfile from './StudentProfile'
-import CollegeAdminProfile from './CollegeAdminProfile'
+import CollegeAdminProfile from './CollegeAdmin/CollegeAdminProfile'
 
 const Profile = () => {
     const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)

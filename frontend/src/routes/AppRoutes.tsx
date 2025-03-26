@@ -9,6 +9,9 @@ import Dashboard from '@/page/Home/Dashboard';
 import Recommendation from '@/page/Home/Recommendation';
 import Profile from '@/page/Home/Profile';
 import ProtectedRoutes from './ProtectedRoutes';
+import AddCollege from '@/page/Home/CollegeAdmin/AddCollege';
+import ListOfCollege from '@/page/Home/CollegeAdmin/ListOfCollege';
+import {AdminProfile} from '@/page/Home/CollegeAdmin/AdminProfile';
 
 const AppRoutes = () => (
   <Router>
@@ -25,7 +28,11 @@ const AppRoutes = () => (
       <Route index element={<LandingPage />} />
       <Route path={ROUTES.DASHBOARD} element={<ProtectedRoutes><Dashboard /></ProtectedRoutes>} >
       <Route path='ai' element={<Recommendation/>} />
-      <Route path={ROUTES.PROFILE} element={<Profile/>} />
+      <Route path={ROUTES.PROFILE} element={<Profile/>} >
+        <Route index element={<AdminProfile/>} />
+        <Route path='add-college' element={<AddCollege/>} />
+        <Route path='list-of-colleges' element={<ListOfCollege/>} />
+      </Route>
 
       </Route>
     </Route>
