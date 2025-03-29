@@ -5,10 +5,10 @@ export const phoneNumberSchema = z.object({
   number: z.string().min(10, "Phone number must be at least 10 digits")
 });
 
-export const documentSchema = z.object({
-  url: z.string().url().optional(),
-  public_id: z.string().optional()
-});
+export const backendDocumentSchema = z.object({
+  url: z.string().url("Invalid URL"),
+  public_id: z.string(),
+})
 
 export const educationSchema = z.object({
   degree: z.string().min(2, "Degree is required"),
@@ -21,9 +21,22 @@ export const profileSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   phoneNumber: phoneNumberSchema,
   gender: z.enum(["male", "female", "other"]),
-  profilePicture: documentSchema.optional(),
+  profilePicture: z
+      .instanceof(File, { message: "Profile image is required" })
+      .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed") || backendDocumentSchema,
   dateOfBirth: z.date(),
   highestEducation: educationSchema,
-  verificationDocuments: z.array(documentSchema),
+  verificationDocuments: z
+      .instanceof(File, { message: "Document is required" }) || backendDocumentSchema,
+      
   bio: z.string().max(300, "Bio must not exceed 300 characters").optional(),
 });
+
+export const ICollegeAdminStateSchema = z.object({
+  data: profileSchema.nullable(),
+  loading: z.boolean(),
+  error: z.string().nullable(),
+});
+
+export type ICollegeAdminState = z.infer<typeof ICollegeAdminStateSchema>;
+export type ProfileFormValues = z.infer<typeof profileSchema>;

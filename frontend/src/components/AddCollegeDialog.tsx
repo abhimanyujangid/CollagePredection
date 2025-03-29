@@ -18,32 +18,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
     Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
 } from "@/components/ui/form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import FormFieldComponent from "./FormFieldComponent";
+import NumberFormField from "./NumberFormField";
+import TextareaFormField from "./TextareaFormField";
+import SelectFormField from "./SelectFormField";
 
 const collegeSchema = z.object({
     collegeName: z.string().min(2, "College name is required"),
     rankingNIRF: z.number().min(0, "Ranking cannot be negative"),
     university: z.string().min(2, "University name is required"),
     type: z.enum(["private", "government", "deemed", "state"]),
-    logo: z.object({
-        public_id: z.string().optional(),
-        url: z.string().optional(),
-    }).optional(),
+    typeOfCollege: z.enum(["Engineering", "Medical", "Management", "Law", "Arts", "Science"]),
+    logo: z
+    .instanceof(File, { message: "Profile image is required" })
+    .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed"),
     address: z.object({
         city: z.string().min(2, "City is required"),
         state: z.string().min(2, "State is required"),
@@ -53,7 +44,6 @@ const collegeSchema = z.object({
     email: z.string().email("Invalid email address"),
     contactNumber: z.string().min(10, "Contact number must be at least 10 digits"),
     description: z.string().optional(),
-    typeOfCollege: z.enum(["Engineering", "Medical", "Management", "Law", "Arts", "Science"]),
     rating: z.number().min(0).max(5, "Rating must be between 0 and 5"),
     placementStatistics: z.object({
         averagePackage: z.number().min(0, "Average package cannot be negative"),
@@ -86,11 +76,9 @@ export function AddCollegeDialog() {
     const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setLogoPreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+            form.setValue("logo", file);
+            form.clearErrors("logo");
+            setLogoPreview(URL.createObjectURL(file));
         }
     };
 
@@ -103,9 +91,11 @@ export function AddCollegeDialog() {
     };
 
     const onSubmit = (data: CollegeFormValues) => {
+        if(recruiters.length > 0) form.setValue("placementStatistics.topRecruiters", recruiters);
+        
         console.log(data);
         // Here you would typically send the data to your backend
-        setOpen(false);
+        // setOpen(false);
     };
 
     return (
@@ -143,83 +133,46 @@ export function AddCollegeDialog() {
                                         />
                                     </label>
                                 </Button>
+                                {form.formState.errors.logo && (
+                                    <span className="text-red-500">{form.formState.errors.logo.message}</span>
+                                )}
                             </div>
 
                             {/* Basic Information */}
                             <div className="grid grid-cols-1 gap-4">
-                                <FormField
+                                <FormFieldComponent
                                     control={form.control}
                                     name="collegeName"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>College Name</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Enter college name" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                    label="College Name"
+                                    placeholder="Enter college name" />
 
-                                <FormField
+                                <FormFieldComponent
                                     control={form.control}
                                     name="university"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>University</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Enter university name" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                    label="University"
+                                    placeholder="Enter university name" />
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <FormField
+
+                                <div className="grid grid-cols-3 gap-4">
+                                    <SelectFormField
                                         control={form.control}
                                         name="type"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>College Type</FormLabel>
-                                                <Select
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select type" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="private">Private</SelectItem>
-                                                        <SelectItem value="government">Government</SelectItem>
-                                                        <SelectItem value="deemed">Deemed</SelectItem>
-                                                        <SelectItem value="state">State</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="College Type"
+                                        options={["private", "government", "deemed", "state"]}
+                                        placeholder="Select type"
                                     />
-
-                                    <FormField
+                                    <SelectFormField
+                                        control={form.control}
+                                        name="typeOfCollege"
+                                        label="Type Of College"
+                                        options={["Engineering", "Medical", "Management", "Law", "Arts", "Science"]}
+                                        placeholder="Select type"
+                                    />
+                                    <NumberFormField
                                         control={form.control}
                                         name="rankingNIRF"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>NIRF Ranking</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="number"
-                                                        placeholder="Enter ranking"
-                                                        {...field}
-                                                        onChange={(e) => field.onChange(Number(e.target.value))}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="NIRF Ranking"
+                                        placeholder="Enter NIRF ranking"
                                     />
                                 </div>
                             </div>
@@ -228,55 +181,23 @@ export function AddCollegeDialog() {
                             <div className="space-y-4">
                                 <Label className="text-base">Contact Information</Label>
                                 <div className="grid grid-cols-1 gap-4">
-                                    <FormField
+                                    <FormFieldComponent
                                         control={form.control}
+                                        type="email"
                                         name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="email"
-                                                        placeholder="college@example.com"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
+                                        label="Email"
+                                        placeholder="Enter email address" />
+                                    <FormFieldComponent
                                         control={form.control}
                                         name="contactNumber"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Contact Number</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Enter contact number" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
+                                        label="Contact Number"
+                                        placeholder="Enter contact number" />
+                                    <FormFieldComponent
+                                        type="url"
                                         control={form.control}
                                         name="website"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Website</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="url"
-                                                        placeholder="https://example.com"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                        label="Website"
+                                        placeholder="Enter website URL" />
                                 </div>
                             </div>
 
@@ -284,33 +205,16 @@ export function AddCollegeDialog() {
                             <div className="space-y-4">
                                 <Label className="text-base">Address</Label>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <FormField
+                                    <FormFieldComponent
                                         control={form.control}
                                         name="address.city"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>City</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Enter city" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
+                                        label="City"
+                                        placeholder="Enter city" />
+                                    <FormFieldComponent
                                         control={form.control}
                                         name="address.state"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>State</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Enter state" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                        label="State"
+                                        placeholder="Enter state" />
                                 </div>
                             </div>
 
@@ -318,42 +222,18 @@ export function AddCollegeDialog() {
                             <div className="space-y-4">
                                 <Label className="text-base">Placement Statistics</Label>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <FormField
+                                    <NumberFormField
                                         control={form.control}
                                         name="placementStatistics.averagePackage"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Average Package (LPA)</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="number"
-                                                        placeholder="Enter average package"
-                                                        {...field}
-                                                        onChange={(e) => field.onChange(Number(e.target.value))}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="Average Package (LPA)"
+                                        placeholder="Enter average package"
                                     />
 
-                                    <FormField
+                                    <NumberFormField
                                         control={form.control}
                                         name="placementStatistics.highestPackage"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Highest Package (LPA)</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="number"
-                                                        placeholder="Enter highest package"
-                                                        {...field}
-                                                        onChange={(e) => field.onChange(Number(e.target.value))}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="Highest Package (LPA)"
+                                        placeholder="Enter highest package"
                                     />
                                 </div>
 
@@ -395,22 +275,11 @@ export function AddCollegeDialog() {
                             </div>
 
                             {/* Description */}
-                            <FormField
+                            <TextareaFormField
                                 control={form.control}
                                 name="description"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Description</FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Enter college description..."
-                                                className="resize-none"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label="Description"
+                                placeholder="Enter description"
                             />
 
                             <DialogFooter>

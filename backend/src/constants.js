@@ -35,4 +35,41 @@ export const CastEnum = {
 };
 export const AvailableCasts = Object.values(CastEnum);
 
+// ============== CollegeType ==============
+export const CollegeTypeEnum = {
+    PRIVATE: "private",
+    GOVERNMENT: "government",
+    DEEMED: "deemed",
+    STATE: "state",
+};
+export const AvailableCollegeTypes = Object.values(CollegeTypeEnum);
+
+// ============== CollegeApplicationStatus ==============
+export const CollegeApplicationStatusEnum = {
+    PENDING: "pending",
+    APPROVED: "approved",
+    REJECTED: "rejected",
+};
+export const AvailableCollegeApplicationStatuses = Object.values(CollegeApplicationStatusEnum);
+
+
+// ============== CollegeStream ==============
+export const CollegeStreamEnum = {
+    ENGINEERING: "Engineering",
+    MEDICAL: "Medical",
+    MANAGEMENT: "Management",
+    LAW: "Law",
+    ARTS: "Arts",
+    SCIENCE: "Science",
+};
+export const AvailableCollegeStreams = Object.values(CollegeStreamEnum);
+
+// ============== CourseType ==============
+export const CourseTypeEnum = {
+    UNDERGRADUATE: "undergraduate",
+    POSTGRADUATE: "postgraduate",
+    DIPLOMA: "diploma",
+};
+export const AvailableCourseTypes = Object.values(CourseTypeEnum);
+
 export const USER_TEMPORARY_TOKEN_EXPIRY = 20 * 60 * 1000; // 20 minutes

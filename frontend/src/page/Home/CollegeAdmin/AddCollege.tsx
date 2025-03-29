@@ -13,6 +13,39 @@ const mockColleges = [
   { id: 5, name: 'NIT Trichy', university: 'NIT', logo: '/logos/nitt.png', type: 'Public', state: 'Tamil Nadu', avgPlacement: '12 LPA' },
 ];
 
+const colleges = [
+  {
+    id: "1",
+    name: "Indian Institute of Technology",
+    logo: "https://via.placeholder.com/50",
+    location: "Mumbai, Maharashtra",
+    annualFees: "₹2,00,000",
+    tags: ["Government", "Top Ranked"],
+    typeOfCollege: "Engineering",
+    averagePackage: "₹15 LPA",
+  },
+  {
+    id: "2",
+    name: "Birla Institute of Technology and Science",
+    logo: "https://via.placeholder.com/50",
+    location: "Pilani, Rajasthan",
+    annualFees: "₹1,70,000",
+    tags: ["Private", "Deemed"],
+    typeOfCollege: "Engineering",
+  },
+  {
+    id: "3",
+    name: "Vellore Institute of Technology",
+    logo: "https://via.placeholder.com/50",
+    location: "Vellore, Tamil Nadu",
+    annualFees: "₹1,60,000",
+    tags: ["Private", "International"],
+    typeOfCollege: "Engineering",
+    averagePackage: "₹10 LPA",
+  },
+  // More mock data can be added here
+];
+
 const ITEMS_PER_PAGE = 2;
 
 const AddCollege = () => {

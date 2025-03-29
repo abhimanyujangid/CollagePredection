@@ -1,18 +1,18 @@
 import asyncHandler from "../utils/asyncHandler.js"
-import ApiError from "../utils/apiError.js"
+import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import mongoose from "mongoose";
 import { CollegeAdminProfile } from "../models/collegeAdminProfile.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 export const createCollegeAdminProfile = asyncHandler(async (req, res) => {
-    const { email, phoneNumber, gender, dateOfBirth, highestEducation, experience, bio } = req.body;
-    const { _id: userId } = req.user;
-
-    // Validate required fields
-    if (![email, phoneNumber, gender, dateOfBirth, highestEducation, experience].every(Boolean)) {
-        throw new ApiError(400, "Email, Phone Number, Gender, Date of Birth, Education, and Experience are required");
-    }
+    const { fullName,  gender, dateOfBirth, bio } = req.body;
+    let { phoneNumber, highestEducation } = req.body;
+    const { _id: userId } = req.user;  
+  
+    
+    console.log("Parsed phoneNumber:", phoneNumber);
 
     // Check if College Admin Profile already exists
     const existingProfile = await CollegeAdminProfile.findOne({ userId });
@@ -23,7 +23,7 @@ export const createCollegeAdminProfile = asyncHandler(async (req, res) => {
 
     // Upload Profile Picture (if provided)
     if (req.files?.profilePicture) {
-        const uploadedProfilePic = await uploadOnCloudinary(req.files.profilePicture[0].path, "image");
+        const uploadedProfilePic = await uploadOnCloudinary(req.files.profilePicture[0].path,"image");
         if (uploadedProfilePic) {
             profilePicture = { url: uploadedProfilePic.secure_url, public_id: uploadedProfilePic.public_id };
         }
@@ -38,19 +38,29 @@ export const createCollegeAdminProfile = asyncHandler(async (req, res) => {
             }
         }
     }
+    console.log("Uploaded Profile Picture:");
+    if (typeof phoneNumber === "string") {
+        phoneNumber = JSON.parse(phoneNumber);
+        console.log("Parsed phoneNumber:", phoneNumber);
+    }
+    
+    if (typeof highestEducation === "string") {
+        highestEducation = JSON.parse(highestEducation);
+        console.log("Parsed highestEducation:", highestEducation);
+    }
 
+    console.log('Testing 5')
     // Create College Admin Profile
     const collegeAdminProfile = await CollegeAdminProfile.create({
         userId,
-        email,
+        fullName,
         phoneNumber,
         gender,
         dateOfBirth,
         highestEducation,
-        experience,
         profilePicture,
         verificationDocuments,
-        bio,
+        bio: bio ? bio : undefined
     });
 
     if (!collegeAdminProfile) throw new ApiError(500, "Failed to create College Admin Profile");

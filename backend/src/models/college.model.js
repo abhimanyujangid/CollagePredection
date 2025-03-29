@@ -1,11 +1,16 @@
 import { Schema, model } from "mongoose";
+import { AvailableCollegeStreams, AvailableCollegeTypes } from "../constants";
 
 const collegeSchema = new Schema({
   administratorId: { type: Schema.Types.ObjectId, ref: "CollegeAdminProfile", required: true },
   collegeName: { type: String, required: true },
-  rankingNIRF: { type: Number, default: 0 }, // National Institutional Ranking Framework (NIRF) ranking
+  rankingNIRF: { type: Number, default: 0 },
   university: { type: String, required: true },
-  type: { type: String, enum: ["private", "government", "deemed", "state"], default: "private" },
+  type: { type: String, enum: AvailableCollegeTypes, default: CollegeTypeEnum.PRIVATE },
+  typeOfCollege: {
+    type: String, enum: AvailableCollegeStreams
+    , required: true
+  },
   logo: {
     type: {
       public_id: String,

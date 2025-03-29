@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { AvailableCollegeApplicationStatuses, AvailableGenders, CollegeApplicationStatusEnum } from "../constants.js";
 
 const phoneNumberSchema = new Schema({
   countryCode: { type: String, default: "+91" },
@@ -12,9 +13,9 @@ const documentSchema = new Schema({
 
 const educationSchema = new Schema({
   degree: { type: String, required: true },
-  fieldOfStudy: { type: String },
-  institution: { type: String },
-  yearOfPassing: { type: Number }
+  fieldOfStudy: { type: String , required: true },
+  institution: { type: String , required: true },
+  yearOfPassing: { type: Number,  required: true },
 }, { _id: false });
 
 const collegeAdminProfileSchema = new Schema({
@@ -24,19 +25,20 @@ const collegeAdminProfileSchema = new Schema({
     required: true 
   },
   fullName:{
-    type:string,
+    type: String,
     required:true
   },
   phoneNumber: { 
     type: phoneNumberSchema, 
     required: true 
   },
-  gender: { type: String, enum: ["male", "female", "other"] },
+  gender: { type: String, enum: AvailableGenders, required: true },
   profilePicture: { 
     type: documentSchema, 
-    default: {} 
+    default: {} ,
+    required: true
   },
-  dateOfBirth: { type: Date },
+  dateOfBirth: { type: Date, required: true },
   highestEducation: { 
     type: educationSchema, 
     required: true 
@@ -46,8 +48,8 @@ const collegeAdminProfileSchema = new Schema({
   isVerified: { type: Boolean, default: false },
   status: {
     type: String,
-    enum: ["pending", "approved", "rejected"],
-    default: "pending"
+    enum:AvailableCollegeApplicationStatuses,
+    default: CollegeApplicationStatusEnum.PENDING,
   },
   // Flexible field for additional dynamic properties
   customFields: { type: Schema.Types.Mixed }

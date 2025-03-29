@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import {
+    verifyJWT,
+    verifyPermission,
+} from "../middlewares/auth.middleware.js";
 import { createCollegeAdminProfile, getCollegeAdminProfile, deleteCollegeAdminProfile } from "../controllers/collegeAdmin.controller.js";
-import { upload } from "../middlewares/multer.middleware.js";
+import { upload } from '../middlewares/multer.middleware.js'
+import { CollegeAdminProfileValidator } from "../validators/app/auth/collegeAdminProfile.js";
+import { UserRolesEnum } from "../constants.js";
 
 const router = Router();
 
@@ -12,8 +17,9 @@ const uploadMiddleware = upload.fields([
 ]);
 
 // Secured Routes
-router.post("/college-admins", verifyJWT("administrator"), uploadMiddleware, createCollegeAdminProfile);
-router.get("/college-admins", verifyJWT("administrator"), getCollegeAdminProfile);
-router.delete("/college-admins/:id", verifyJWT("administrator"), deleteCollegeAdminProfile);
+router.route("/create").post(verifyJWT, verifyPermission([UserRolesEnum.COLLEGE_ADMIN]), uploadMiddleware, CollegeAdminProfileValidator(), createCollegeAdminProfile);
+router.route("/profile").get(verifyJWT, verifyPermission([UserRolesEnum.COLLEGE_ADMIN]), getCollegeAdminProfile);
+router.route("/delete/:id").delete(verifyJWT, verifyPermission([UserRolesEnum.COLLEGE_ADMIN]), deleteCollegeAdminProfile);
+// router.route("/update").put(verifyJWT, verifyPermission([UserRolesEnum.COLLEGE_ADMIN]), uploadMiddleware, CollegeAdminProfileValidator(), updateCollegeAdminProfile);
 
 export default router;
