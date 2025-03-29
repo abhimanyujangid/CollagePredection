@@ -32,6 +32,7 @@ import { DEGREE_LEVELS, FIELDS_OF_STUDY } from "@/constant/dropDownData";
 
 export function AdminProfile() {
   const [profilePreview, setProfilePreview] = useState<string | undefined>(undefined);
+  const [ disableFiled , setDisableFiled ] = useState<boolean>(false);
   const { data,  loading, error } = useAppSelector((state) => state.collegeAdmin);
   const [documents, setDocuments] = useState<File | undefined>(undefined);
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ export function AdminProfile() {
 useEffect(()=>{
   dispatch(getCollegeAdminProfileAction())
   if(data) {
+    setDisableFiled(true)
     setProfilePreview(data?.profilePicture?.url)
   }
 },[])
@@ -130,7 +132,7 @@ useEffect(()=>{
                         disabled
                       />
                       <FormControl>
-                        <Input placeholder="1234567890" {...field} loading={loading} />
+                        <Input placeholder="1234567890" {...field} loading={loading}  disabled={disableFiled} />
                       </FormControl>
                     </div>
                     <FormMessage />

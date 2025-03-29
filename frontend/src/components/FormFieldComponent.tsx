@@ -9,9 +9,10 @@ type FormFieldProps<T extends FieldValues> = {
     placeholder?: string;
     type?: string; // Optional type prop to specify input type
     loading?: boolean;
+    disabled?: boolean;
 };
 
-const FormFieldComponent = <T extends FieldValues>({ control, name, label, placeholder, type, loading }: FormFieldProps<T>) => {
+const FormFieldComponent = <T extends FieldValues>({ control, name, label, placeholder, type, loading, disabled }: FormFieldProps<T>) => {
     return (
         <Controller
             control={control}
@@ -20,7 +21,7 @@ const FormFieldComponent = <T extends FieldValues>({ control, name, label, place
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
-                        <Input type={type || "text"} placeholder={placeholder} {...field} loading={loading}/>
+                        <Input type={type || "text"} placeholder={placeholder} {...field} loading={loading} disabled={disabled} />
                     </FormControl>
                     <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
