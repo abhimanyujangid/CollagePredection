@@ -44,6 +44,9 @@ export function AdminProfile() {
 
 useEffect(()=>{
   dispatch(getCollegeAdminProfileAction())
+  if(data) {
+    setProfilePreview(data?.profilePicture?.url)
+  }
 },[])
 
 
