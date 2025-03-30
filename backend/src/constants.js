@@ -55,12 +55,12 @@ export const AvailableCollegeApplicationStatuses = Object.values(CollegeApplicat
 
 // ============== CollegeStream ==============
 export const CollegeStreamEnum = {
-    ENGINEERING: "Engineering",
-    MEDICAL: "Medical",
-    MANAGEMENT: "Management",
-    LAW: "Law",
-    ARTS: "Arts",
-    SCIENCE: "Science",
+    engineering: "engineering",
+    medical: "medical",
+    management: "management",
+    law: "law",
+    arts: "arts",
+    science: "science",
 };
 export const AvailableCollegeStreams = Object.values(CollegeStreamEnum);
 
