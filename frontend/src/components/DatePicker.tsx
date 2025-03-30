@@ -11,9 +11,10 @@ import { format } from "date-fns";
 type DatePickerProps = {
     name: string;
     label: string;
+    disabled?: boolean;
 };
 
-const DatePicker: FC<DatePickerProps> = ({ name, label }) => {
+const DatePicker: FC<DatePickerProps> = ({ name, label, disabled }) => {
     const { control } = useFormContext();
 
     return (
@@ -33,6 +34,7 @@ const DatePicker: FC<DatePickerProps> = ({ name, label }) => {
                                         !field.value && "text-muted-foreground",
                                         fieldState.error && "border-red-500"
                                     )}
+                                    disabled={disabled}
                                 >
                                     {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />

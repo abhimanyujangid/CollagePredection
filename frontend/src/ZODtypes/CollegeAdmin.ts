@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import * as z from "zod";
 
 export const phoneNumberSchema = z.object({
@@ -30,6 +31,8 @@ export const profileSchema = z.object({
       .instanceof(File, { message: "Document is required" }) || backendDocumentSchema,
       
   bio: z.string().max(300, "Bio must not exceed 300 characters").optional(),
+  status: z.string().optional(),
+  createdAt: z.date().optional(),
 });
 
 export const ICollegeAdminStateSchema = z.object({

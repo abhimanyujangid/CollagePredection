@@ -8,9 +8,10 @@ type NumberFormFieldProps = {
     label: string;
     placeholder?: string;
     loading?: boolean;
+    disabled?: boolean;
 };
 
-const NumberFormField: React.FC<NumberFormFieldProps> = ({ control, name, label, placeholder,loading }) => {
+const NumberFormField: React.FC<NumberFormFieldProps> = ({ control, name, label, placeholder,loading,disabled }) => {
     return (
         <Controller
             control={control}
@@ -25,6 +26,7 @@ const NumberFormField: React.FC<NumberFormFieldProps> = ({ control, name, label,
                             {...field}
                             onChange={(e) => field.onChange(Number(e.target.value))}
                             loading={loading}
+                            disabled={disabled}
                         />
                     </FormControl>
                     <FormMessage>{fieldState.error?.message}</FormMessage>

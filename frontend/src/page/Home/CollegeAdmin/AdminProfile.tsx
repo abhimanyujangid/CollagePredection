@@ -25,6 +25,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { createCollegeAdminProfileAction, getCollegeAdminProfileAction } from "@/store/auth/collegeAdminSlice";
 import { DEGREE_LEVELS, FIELDS_OF_STUDY } from "@/constant/dropDownData";
+import { Badge } from "@/components/ui/badge";
 
 
 
@@ -34,6 +35,7 @@ export function AdminProfile() {
   const [profilePreview, setProfilePreview] = useState<string | undefined>(undefined);
   const [ disableFiled , setDisableFiled ] = useState<boolean>(false);
   const { data,  loading, error } = useAppSelector((state) => state.collegeAdmin);
+
   const [documents, setDocuments] = useState<File | undefined>(undefined);
   const dispatch = useAppDispatch();
   const form = useForm<ProfileFormValues>({
@@ -79,7 +81,19 @@ useEffect(()=>{
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader>
-       
+       { data && <Badge
+          variant="secondary"
+          className={`w-16 text-center ${
+            data?.status === "approved"
+              ? "bg-green-500 text-white"
+              : data?.status === "pending"
+              ? "bg-yellow-500 text-white"
+              : "bg-red-500 text-white"
+          }`}
+          
+        >
+          {data ? data.status : "pending"}
+        </Badge>}
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -116,6 +130,8 @@ useEffect(()=>{
                 placeholder="Select a gender"
                 label="Gender"
                 options={['male', 'female', 'other']}
+                loading={loading}
+                disabled={disableFiled}
               />
 
               {/* Phone Number */}
@@ -141,7 +157,7 @@ useEffect(()=>{
               />
 
               {/* Date of Birth */}
-              <DatePicker name="dateOfBirth" label="Date of Birth" />
+              <DatePicker name="dateOfBirth" label="Date of Birth" disabled={disableFiled} />
             </div>
 
             {/* Education Section */}
@@ -154,6 +170,8 @@ useEffect(()=>{
                   label="Degree"  
                   placeholder="Bachelor's"
                   options={DEGREE_LEVELS as string[]}
+                  disabled={disableFiled}
+                  loading={loading}
                 />
               <SelectFormField
                   control={form.control}
@@ -161,6 +179,8 @@ useEffect(()=>{
                   label="Field of Study"
                   placeholder="Computer Science"
                   options={FIELDS_OF_STUDY as string[]}
+                  disabled={disableFiled}
+                  loading={loading}
                 />
                 <FormFieldComponent
                   control={form.control}
@@ -168,6 +188,7 @@ useEffect(()=>{
                   label="Institution"
                   placeholder="ABC University"
                   loading={loading}
+                  disabled={disableFiled}
                 />
                <NumberFormField
                   control={form.control}
@@ -175,6 +196,7 @@ useEffect(()=>{
                   label="Year of Passing"
                   placeholder="2023"
                   loading={loading}
+                  disabled={disableFiled}
                 />
                 
               </div>

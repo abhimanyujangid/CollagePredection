@@ -1,12 +1,19 @@
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  loading?: boolean;
+  disabled?: boolean
+}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, loading = false, disabled, ...props }, ref) => {
+    if (loading) {
+      return <Skeleton className="h-[60px] w-full rounded-md" />;
+    }
+
     return (
       <textarea
         className={cn(
@@ -14,11 +21,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           className
         )}
         ref={ref}
+        disabled={disabled}
         {...props}
       />
     );
   }
 );
+
 Textarea.displayName = 'Textarea';
 
 export { Textarea };

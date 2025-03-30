@@ -7,6 +7,8 @@ type TextareaFormFieldProps = {
   name: string;
   label: string;
   placeholder?: string;
+  disabled?: boolean;
+  loading?: boolean;
 };
 
 const TextareaFormField: React.FC<TextareaFormFieldProps> = ({ control, name, label, placeholder }) => {
@@ -20,7 +22,7 @@ const TextareaFormField: React.FC<TextareaFormFieldProps> = ({ control, name, la
           <FormControl>
             <Textarea placeholder={placeholder} className="resize-none" {...field} />
           </FormControl>
-         <FormMessage>{fieldState.error?.message}</FormMessage>
+          <FormMessage>{fieldState.error?.message}</FormMessage>
         </FormItem>
       )}
     />

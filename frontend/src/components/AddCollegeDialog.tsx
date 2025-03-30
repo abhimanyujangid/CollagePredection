@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -25,6 +25,9 @@ import FormFieldComponent from "./FormFieldComponent";
 import NumberFormField from "./NumberFormField";
 import TextareaFormField from "./TextareaFormField";
 import SelectFormField from "./SelectFormField";
+import UserAvatar from "./UserAvatar";
+import FileUploadButton from "./FileUploadButton";
+import { COLLEGE_STREAMS, COLLEGE_TYPES, INDIAN_STATE } from "@/constant/dropDownData";
 
 const collegeSchema = z.object({
     collegeName: z.string().min(2, "College name is required"),
@@ -33,8 +36,8 @@ const collegeSchema = z.object({
     type: z.enum(["private", "government", "deemed", "state"]),
     typeOfCollege: z.enum(["Engineering", "Medical", "Management", "Law", "Arts", "Science"]),
     logo: z
-    .instanceof(File, { message: "Profile image is required" })
-    .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed"),
+        .instanceof(File, { message: "Profile image is required" })
+        .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed"),
     address: z.object({
         city: z.string().min(2, "City is required"),
         state: z.string().min(2, "State is required"),
@@ -90,9 +93,17 @@ export function AddCollegeDialog() {
         setRecruiters(recruiters.filter((_, i) => i !== index));
     };
 
+    useEffect(() => {
+        if (open) {
+            setLogoPreview(null);
+            setRecruiters([""]);
+            form.reset();
+        }
+    }, [open]);
+
     const onSubmit = (data: CollegeFormValues) => {
-        if(recruiters.length > 0) form.setValue("placementStatistics.topRecruiters", recruiters);
-        
+        if (recruiters.length > 0) form.setValue("placementStatistics.topRecruiters", recruiters);
+
         console.log(data);
         // Here you would typically send the data to your backend
         // setOpen(false);
@@ -115,27 +126,17 @@ export function AddCollegeDialog() {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                             {/* Logo Upload */}
                             <div className="flex flex-col items-center space-y-4">
-                                <Avatar className="w-32 h-32">
-                                    <AvatarImage src={logoPreview || ""} />
-                                    <AvatarFallback>
-                                        {'Logo'}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <Button variant="outline" className="w-40" asChild>
-                                    <label>
-                                        <Upload className="w-4 h-4 mr-2" />
-                                        Upload Photo
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            className="hidden"
-                                            onChange={handleLogoChange}
-                                        />
-                                    </label>
-                                </Button>
-                                {form.formState.errors.logo && (
-                                    <span className="text-red-500">{form.formState.errors.logo.message}</span>
-                                )}
+                                <UserAvatar
+                                    src={typeof logoPreview === "string" ? logoPreview : undefined}
+                                    name={form.watch("logo")}
+                                    size="xl"
+                                />
+                                <FileUploadButton
+                                    onChange={handleLogoChange}
+                                    label="Upload Logo "
+                                    accept="image/*"
+                                    errorMessage={form.formState.errors.logo?.message}
+                                />
                             </div>
 
                             {/* Basic Information */}
@@ -158,14 +159,14 @@ export function AddCollegeDialog() {
                                         control={form.control}
                                         name="type"
                                         label="College Type"
-                                        options={["private", "government", "deemed", "state"]}
+                                        options={COLLEGE_TYPES as string[]}
                                         placeholder="Select type"
                                     />
                                     <SelectFormField
                                         control={form.control}
                                         name="typeOfCollege"
                                         label="Type Of College"
-                                        options={["Engineering", "Medical", "Management", "Law", "Arts", "Science"]}
+                                        options={COLLEGE_STREAMS as string[]}
                                         placeholder="Select type"
                                     />
                                     <NumberFormField
@@ -210,11 +211,14 @@ export function AddCollegeDialog() {
                                         name="address.city"
                                         label="City"
                                         placeholder="Enter city" />
-                                    <FormFieldComponent
+                                        <SelectFormField
                                         control={form.control}
                                         name="address.state"
                                         label="State"
-                                        placeholder="Enter state" />
+                                        placeholder=" Select state"
+                                        options={INDIAN_STATE as string[]}
+                                    />
+                                    
                                 </div>
                             </div>
 

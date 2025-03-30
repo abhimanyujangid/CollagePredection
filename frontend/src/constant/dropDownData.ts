@@ -117,5 +117,54 @@ const FIELDS_OF_STUDY = Object.freeze([
   "Advertising",
 ]);
 
+const COLLEGE_TYPES = Object.freeze([
+  "private",
+  "government",
+  "deemed",
+  "state",
+]);
 
-export { twelfthDropDownData, DEGREE_LEVELS, FIELDS_OF_STUDY };
+
+const COLLEGE_STREAMS = Object.freeze([
+  "Engineering",
+  "Medical",
+  "Management",
+  "Law",
+  "Arts",
+  "Science",
+]);
+ 
+
+
+const INDIAN_STATE = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];
+
+export { twelfthDropDownData, DEGREE_LEVELS, FIELDS_OF_STUDY , COLLEGE_TYPES, COLLEGE_STREAMS , INDIAN_STATE};
