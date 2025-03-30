@@ -63,6 +63,7 @@ import healthcheckRouter from "./routes/healthcheck.routes.js";
 import userRouter from "./routes/user.routes.js";
 import studentRoute from "./routes/student.routes.js"
 import collegeAdminRoute from "./routes/collegeAdmin.routes.js";
+import collegeRoute from "./routes/college.routes.js"
 
 
 // * Seeding handlers
@@ -73,6 +74,7 @@ import { avoidInProduction } from "./middlewares/auth.middleware.js";
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/students",studentRoute)
 app.use("/api/v1/college-admins", collegeAdminRoute)
+app.use("/api/v1/colleges",collegeRoute)
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);

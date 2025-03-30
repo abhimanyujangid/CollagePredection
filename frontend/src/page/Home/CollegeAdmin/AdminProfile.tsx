@@ -28,9 +28,6 @@ import { DEGREE_LEVELS, FIELDS_OF_STUDY } from "@/constant/dropDownData";
 import { Badge } from "@/components/ui/badge";
 
 
-
-
-
 export function AdminProfile() {
   const [profilePreview, setProfilePreview] = useState<string | undefined>(undefined);
   const [ disableFiled , setDisableFiled ] = useState<boolean>(false);
@@ -46,7 +43,7 @@ export function AdminProfile() {
   });
 
 useEffect(()=>{
-  dispatch(getCollegeAdminProfileAction())
+   dispatch(getCollegeAdminProfileAction())
   if(data) {
     setDisableFiled(true)
     setProfilePreview(data?.profilePicture?.url)
@@ -83,7 +80,7 @@ useEffect(()=>{
       <CardHeader>
        { data && <Badge
           variant="secondary"
-          className={`w-16 text-center ${
+          className={`w-20 text-center ${
             data?.status === "approved"
               ? "bg-green-500 text-white"
               : data?.status === "pending"

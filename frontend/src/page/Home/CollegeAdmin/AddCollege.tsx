@@ -80,23 +80,7 @@ const AddCollege = () => {
         </Card>
       ))}
 
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
-          </PaginationItem>
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink isActive={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      
     </div>
   );
 };

@@ -104,3 +104,22 @@ export const registerService = async (data: RegisterData) => {
     return await apiClient.get("college-admins/profile");
   };
 
+
+  // ======================= College API ===================
+
+
+export const createCollegeService = async (formData: FormData) => {
+    return await apiClient.post("colleges", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};
+
+export const getCollegeByIdService = async (id: string) => {
+    return await apiClient.get(`colleges/${id}`);
+};
+
+export const getAdministratorAllCollegesService = async ({ page = 1, limit = 10 }: { page?: number, limit?: number }) => {
+    return await apiClient.get("colleges", { params: { page, limit } });
+};

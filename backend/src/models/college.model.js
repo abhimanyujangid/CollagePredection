@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { AvailableCollegeStreams, AvailableCollegeTypes } from "../constants";
+import { AvailableCollegeStreams, AvailableCollegeTypes, CollegeTypeEnum } from "../constants.js";
 
 const collegeSchema = new Schema({
   administratorId: { type: Schema.Types.ObjectId, ref: "CollegeAdminProfile", required: true },

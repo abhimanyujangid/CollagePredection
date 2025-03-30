@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import * as z from "zod";
 
 export const phoneNumberSchema = z.object({
@@ -19,6 +18,7 @@ export const educationSchema = z.object({
 });
 
 export const profileSchema = z.object({
+  _id: z.string().optional(),
   fullName: z.string().min(2, "Full name is required"),
   phoneNumber: phoneNumberSchema,
   gender: z.enum(["male", "female", "other"]),

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Upload, Plus, Minus } from "lucide-react";
+import { Upload, Plus, Minus, Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,6 @@ import {
     Form,
 } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import FormFieldComponent from "./FormFieldComponent";
 import NumberFormField from "./NumberFormField";
 import TextareaFormField from "./TextareaFormField";
@@ -28,60 +27,40 @@ import SelectFormField from "./SelectFormField";
 import UserAvatar from "./UserAvatar";
 import FileUploadButton from "./FileUploadButton";
 import { COLLEGE_STREAMS, COLLEGE_TYPES, INDIAN_STATE } from "@/constant/dropDownData";
+import { collegeSchema, ICollege } from "@/ZODtypes/college";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
+import { createCollegeAction } from "@/store/auth/collegeSlice";
 
-const collegeSchema = z.object({
-    collegeName: z.string().min(2, "College name is required"),
-    rankingNIRF: z.number().min(0, "Ranking cannot be negative"),
-    university: z.string().min(2, "University name is required"),
-    type: z.enum(["private", "government", "deemed", "state"]),
-    typeOfCollege: z.enum(["Engineering", "Medical", "Management", "Law", "Arts", "Science"]),
-    logo: z
-        .instanceof(File, { message: "Profile image is required" })
-        .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed"),
-    address: z.object({
-        city: z.string().min(2, "City is required"),
-        state: z.string().min(2, "State is required"),
-        country: z.string().default("India"),
-    }),
-    website: z.string().url("Invalid website URL").optional().or(z.literal("")),
-    email: z.string().email("Invalid email address"),
-    contactNumber: z.string().min(10, "Contact number must be at least 10 digits"),
-    description: z.string().optional(),
-    rating: z.number().min(0).max(5, "Rating must be between 0 and 5"),
-    placementStatistics: z.object({
-        averagePackage: z.number().min(0, "Average package cannot be negative"),
-        highestPackage: z.number().min(0, "Highest package cannot be negative"),
-        topRecruiters: z.array(z.string()),
-    }),
-});
 
-type CollegeFormValues = z.infer<typeof collegeSchema>;
+
 
 export function AddCollegeDialog() {
     const [open, setOpen] = useState(false);
     const [logoPreview, setLogoPreview] = useState<string | null>(null);
     const [recruiters, setRecruiters] = useState<string[]>([""]);
+    const dispatch = useAppDispatch();
+    const { data : collegeAdmin } = useAppSelector((state) => state.collegeAdmin);
+    const {  loading, error } = useAppSelector((state) => state.college);
 
-    const form = useForm<CollegeFormValues>({
+    const form = useForm<ICollege>({
         resolver: zodResolver(collegeSchema),
         defaultValues: {
             type: "private",
             address: { country: "India" },
             rating: 0,
-            placementStatistics: {
-                averagePackage: 0,
-                highestPackage: 0,
-                topRecruiters: [],
-            },
+            
         },
     });
 
+  
     const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             form.setValue("logo", file);
-            form.clearErrors("logo");
-            setLogoPreview(URL.createObjectURL(file));
+            if (file) {
+                const objectUrl = URL.createObjectURL(file);
+                setLogoPreview(objectUrl);
+              }
         }
     };
 
@@ -101,12 +80,14 @@ export function AddCollegeDialog() {
         }
     }, [open]);
 
-    const onSubmit = (data: CollegeFormValues) => {
-        if (recruiters.length > 0) form.setValue("placementStatistics.topRecruiters", recruiters);
-
-        console.log(data);
-        // Here you would typically send the data to your backend
-        // setOpen(false);
+    const onSubmit = async (data: ICollege) => {
+        try {
+            if (recruiters.length > 0) form.setValue("placementStatistics.topRecruiters", recruiters);
+            if (collegeAdmin) data._id = collegeAdmin._id ;
+            await dispatch(createCollegeAction(data));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -145,13 +126,15 @@ export function AddCollegeDialog() {
                                     control={form.control}
                                     name="collegeName"
                                     label="College Name"
-                                    placeholder="Enter college name" />
+                                    placeholder="Enter college name"
+                                    disabled={loading} />
 
                                 <FormFieldComponent
                                     control={form.control}
                                     name="university"
                                     label="University"
-                                    placeholder="Enter university name" />
+                                    placeholder="Enter university name" 
+                                    disabled={loading}/>
 
 
                                 <div className="grid grid-cols-3 gap-4">
@@ -161,6 +144,7 @@ export function AddCollegeDialog() {
                                         label="College Type"
                                         options={COLLEGE_TYPES as string[]}
                                         placeholder="Select type"
+                                        disabled={loading}
                                     />
                                     <SelectFormField
                                         control={form.control}
@@ -168,12 +152,14 @@ export function AddCollegeDialog() {
                                         label="Type Of College"
                                         options={COLLEGE_STREAMS as string[]}
                                         placeholder="Select type"
+                                        disabled={loading}
                                     />
                                     <NumberFormField
                                         control={form.control}
                                         name="rankingNIRF"
                                         label="NIRF Ranking"
                                         placeholder="Enter NIRF ranking"
+                                        disabled={loading}
                                     />
                                 </div>
                             </div>
@@ -187,18 +173,21 @@ export function AddCollegeDialog() {
                                         type="email"
                                         name="email"
                                         label="Email"
-                                        placeholder="Enter email address" />
+                                        placeholder="Enter email address"
+                                        disabled={loading} />
                                     <FormFieldComponent
                                         control={form.control}
                                         name="contactNumber"
                                         label="Contact Number"
-                                        placeholder="Enter contact number" />
+                                        placeholder="Enter contact number" 
+                                        disabled={loading}/>
                                     <FormFieldComponent
                                         type="url"
                                         control={form.control}
                                         name="website"
                                         label="Website"
-                                        placeholder="Enter website URL" />
+                                        placeholder="Enter website URL"
+                                        disabled={loading} />
                                 </div>
                             </div>
 
@@ -210,13 +199,16 @@ export function AddCollegeDialog() {
                                         control={form.control}
                                         name="address.city"
                                         label="City"
-                                        placeholder="Enter city" />
+                                        placeholder="Enter city" 
+                                        disabled={loading}/>
+
                                         <SelectFormField
                                         control={form.control}
                                         name="address.state"
                                         label="State"
                                         placeholder=" Select state"
                                         options={INDIAN_STATE as string[]}
+                                        disabled={loading}
                                     />
                                     
                                 </div>
@@ -231,6 +223,7 @@ export function AddCollegeDialog() {
                                         name="placementStatistics.averagePackage"
                                         label="Average Package (LPA)"
                                         placeholder="Enter average package"
+                                        disabled={loading}
                                     />
 
                                     <NumberFormField
@@ -238,6 +231,7 @@ export function AddCollegeDialog() {
                                         name="placementStatistics.highestPackage"
                                         label="Highest Package (LPA)"
                                         placeholder="Enter highest package"
+                                        disabled={loading}
                                     />
                                 </div>
 
@@ -259,6 +253,7 @@ export function AddCollegeDialog() {
                                             <Input
                                                 placeholder="Enter recruiter name"
                                                 value={recruiter}
+                                                disabled={loading}
                                                 onChange={(e) => {
                                                     const newRecruiters = [...recruiters];
                                                     newRecruiters[index] = e.target.value;
@@ -287,7 +282,9 @@ export function AddCollegeDialog() {
                             />
 
                             <DialogFooter>
-                                <Button type="submit">Save College</Button>
+                                <Button disabled={loading} type="submit">
+                                    {loading ? <Loader size={20}/> : "Create College"}
+                                </Button>
                             </DialogFooter>
                         </form>
                     </Form>
