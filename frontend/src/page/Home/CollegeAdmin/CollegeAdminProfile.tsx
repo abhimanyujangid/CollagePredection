@@ -1,28 +1,30 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-
-// Define the navigation items
-const navigationItems = [
-  {
-    name: 'Profile',
-    path: '/dashboard/profile',
-    key: 'profile'
-  },
-  {
-    name: 'Add College',
-    path: '/dashboard/profile/add-college',
-    key: 'add-college'
-  },
-  {
-    name: 'List of Colleges',
-    path: '/dashboard/profile/list-of-colleges',
-    key: 'list-colleges'
-  }
-];
 
 const CollegeAdminProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Always available navigation items
+  const navigationItems = [
+    {
+      name: 'Profile',
+      path: '/dashboard/profile',
+      key: 'profile'
+    },
+    {
+      name: 'Add College',
+      path: '/dashboard/profile/add-college',
+      key: 'add-college'
+    }
+  ];
+
+  if (location.pathname.includes('/dashboard/profile/college-details/')) {
+    navigationItems.push({
+      name: 'View Colleges',
+      key: 'view-colleges',
+      path: '#'
+    });
+  }
 
   // Function to determine if a route is active
   const isActiveRoute = (path: string) => {
@@ -39,7 +41,7 @@ const CollegeAdminProfile = () => {
               className={`
                 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm
                 ${isActiveRoute(item.path) 
-                  ? 'border-primary text-primary ' 
+                  ? 'border-primary text-primary' 
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-300'}
               `}
               onClick={() => navigate(item.path)}
@@ -49,7 +51,7 @@ const CollegeAdminProfile = () => {
           ))}
         </nav>
       </div>
-      <div className='grid grid-cols-1 gap-6 mt-6'>
+      <div className="grid grid-cols-1 gap-6 mt-6">
         <Outlet />
       </div>
     </div>
