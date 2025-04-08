@@ -123,3 +123,9 @@ export const getCollegeByIdService = async (id: string) => {
 export const getAdministratorAllCollegesService = async ({ page = 1, limit = 10 }: { page?: number, limit?: number }) => {
     return await apiClient.get("colleges", { params: { page, limit } });
 };
+
+
+export const createStreamService = async (collegeId: string, data: any) => {
+    return await apiClient.post(`colleges/${collegeId}/stream`, data);
+};
+

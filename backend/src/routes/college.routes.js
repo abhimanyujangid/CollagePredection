@@ -3,7 +3,7 @@ import {
     verifyJWT,
     verifyPermission,
 } from "../middlewares/auth.middleware.js";
-import { createCollege, getAdministratorAllColleges, getCollegeById, updateCollege } from "../controllers/college.controller.js";
+import { createCollege, getAdministratorAllColleges, getCollegeById, updateCollege,createStreamOfCollege } from "../controllers/college.controller.js";
 import { upload } from '../middlewares/multer.middleware.js'
 import { collegeRegisterValidator } from "../validators/app/auth/college.validation.js";
 import { UserRolesEnum } from "../constants.js";
@@ -43,6 +43,13 @@ router.put(
     uploadMiddleware,
     collegeRegisterValidator(),
     updateCollege
+);
+
+router.post(
+    "/:collegeId/stream",
+    verifyJWT,
+    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
+    createStreamOfCollege
 );
 
 

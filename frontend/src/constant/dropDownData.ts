@@ -167,4 +167,55 @@ const INDIAN_STATE = [
   "west bengal",
 ];
 
-export { twelfthDropDownData, DEGREE_LEVELS, FIELDS_OF_STUDY , COLLEGE_TYPES, COLLEGE_STREAMS , INDIAN_STATE};
+
+ const DEGREE_TYPES = [
+  "B.Tech - Bachelor of Technology",
+  "M.Tech - Master of Technology",
+  "B.E - Bachelor of Engineering",
+  "M.E - Master of Engineering",
+  "Diploma",
+  "Polytechnic",
+  "MBBS - Bachelor of Medicine, Bachelor of Surgery",
+  "BDS - Bachelor of Dental Surgery",
+  "BAMS - Bachelor of Ayurveda, Medicine and Surgery",
+  "BHMS - Bachelor of Homeopathic Medicine and Surgery",
+  "BUMS - Bachelor of Unani Medicine and Surgery",
+  "BPT - Bachelor of Physiotherapy",
+  "MPT - Master of Physiotherapy",
+  "B.Sc Nursing - Bachelor of Science in Nursing",
+  "M.Sc Nursing - Master of Science in Nursing",
+  "B.Pharm - Bachelor of Pharmacy",
+  "M.Pharm - Master of Pharmacy",
+  "D.Pharm - Diploma in Pharmacy",
+  "BMLT - Bachelor of Medical Laboratory Technology",
+  "B.Sc Radiology - Bachelor of Science in Radiology",
+  "B.Sc Biotechnology - Bachelor of Science in Biotechnology",
+  "B.Sc Microbiology - Bachelor of Science in Microbiology",
+  "B.Sc Anesthesia - Bachelor of Science in Anesthesia",
+  "B.Sc Optometry - Bachelor of Science in Optometry"
+];
+
+
+const EXAM_OPTIONS = [
+ "JEE",
+  "NEET",
+  "BITSAT",
+  "VITEEE",
+  "SRMJEEE",
+  "WBJEE",
+  "COMEDK",
+  "CUET",
+  "CLAT",
+  "AILET",
+  "LSAT",
+  "NATA",
+  "NID",
+  "UCEE",
+  "IPU CET",
+  "AMUEEE",
+  "SET",
+  "SUAT",
+];
+
+
+export { twelfthDropDownData, DEGREE_LEVELS, FIELDS_OF_STUDY , COLLEGE_TYPES, COLLEGE_STREAMS , INDIAN_STATE,DEGREE_TYPES,EXAM_OPTIONS};

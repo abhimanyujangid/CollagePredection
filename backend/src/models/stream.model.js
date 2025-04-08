@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { AvailableCourseTypes, CourseTypeEnum } from "../constants";
+import { AvailableCourseTypes, CourseTypeEnum } from "../constants.js";
 
 // Course Schema (Each Course belongs to a Stream)
 const streamSchema = new Schema({
@@ -9,10 +9,9 @@ const streamSchema = new Schema({
   duration: { type: Number, default: 0 }, // Duration in years
   fees: { type: Number, default: 0 }, // Annual fees in INR
   eligibilityCriteria: {
-    minTenthPercentage: { type: Number, default: 0 },
-    minTwelfthPercentage: { type: Number, default: 0 },
-    requiredExams: [{ type: String }], // e.g., ["JEE", "NEET"]
-    additionalCriteria: { type: Schema.Types.Mixed },
+    minTenthPercentage: { type: Number, default: 50 },
+    minTwelfthPercentage: { type: Number, default: 50 },
+    requiredExams:[ { type: String, default: null }],
   },
 }, { timestamps: true });
 

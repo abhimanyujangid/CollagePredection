@@ -5,6 +5,7 @@ import { College } from "../models/college.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { CollegeAdminProfile } from "../models/collegeAdminProfile.model.js";
 import mongoose from "mongoose";
+import { Stream } from "../models/stream.model.js";
 
 
 export const createCollege = asyncHandler(async (req, res) => {
@@ -87,6 +88,35 @@ export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, { colleges, total, currentPage: parseInt(page), totalPages }, "Colleges fetched successfully"));
 });
 
+export const createStreamOfCollege = asyncHandler(async (req, res) => {
+    const { collegeId } = req.params;
+    const { streamName, type, duration, fees, eligibilityCriteria } = req.body;
+    const { _id: userId } = req.user;
+
+    // Validate MongoDB ObjectID
+    if (!mongoose.Types.ObjectId.isValid(collegeId)) {
+        throw new ApiError(400, "Invalid college ID format");
+    }
+    if(!streamName || !type || !duration  || !eligibilityCriteria) {
+        throw new ApiError(400, "All fields are required");
+    }
+
+    const college = await College.findById(collegeId);
+    if (!college) throw new ApiError(404, "College not found");
+
+    
+    const newStream = await Stream.create({
+        collageId: collegeId,
+        streamName,
+        type,
+        duration,
+        fees,
+        eligibilityCriteria,
+    });
+    if (!newStream) throw new ApiError(400, "Failed to create stream");
+    // Update the college with the new stream ID
+    res.status(201).json(new ApiResponse(201, newStream, "Stream created successfully"));
+});
 
 
 export const getCollegeById = asyncHandler(async (req, res) => {
