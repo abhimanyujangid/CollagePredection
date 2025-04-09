@@ -28,6 +28,8 @@ import { z } from "zod";
 });
 
 
+
+
 export const CollegeStateSchema = z.object({
   getAll: z.array(collegeSchema).nullable(),
   getOneAll: z.any().nullable(),
@@ -35,5 +37,14 @@ export const CollegeStateSchema = z.object({
   error: z.string().nullable(),
 });
 
+
+export const courseSchema = z.object({
+  branches: z.array(z.string()).min(1, "At least one branch is required"),
+  seats: z.number().min(0, "Seats cannot be negative"),
+  minimumEntranceScore: z.number().min(0, "Minimum score cannot be negative"),
+});
+
+
 export type CollegeState = z.infer<typeof CollegeStateSchema>;
 export type ICollege = z.infer<typeof collegeSchema>;
+export type ICourse = z.infer<typeof courseSchema>;

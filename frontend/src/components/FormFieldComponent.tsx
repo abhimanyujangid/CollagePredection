@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 
 type FormFieldProps<T extends FieldValues> = {
-    control: Control<T>;
+    control?: Control<T>;
     name: Path<T>;
     label: string;
     placeholder?: string;

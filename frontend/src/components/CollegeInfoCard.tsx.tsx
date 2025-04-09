@@ -24,13 +24,13 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from './ui/skeleton';
 import { capitalize } from '@/utils';
 import AddStreamDialog from './AddStreamModal';
+import { AddCourse } from './AddCourse';
 
 type Props = {
     data: any;
-    onAddClick: () => void;
 };
 
-const CollegeInfoCard: React.FC<Props> = ({ data, onAddClick }) => {
+const CollegeInfoCard: React.FC<Props> = ({ data }) => {
     if (!data) {
         return (
             <Card className="mb-8">
@@ -119,16 +119,21 @@ const CollegeInfoCard: React.FC<Props> = ({ data, onAddClick }) => {
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead>SR No.</TableHead>
                                     <TableHead>Stream Name</TableHead>
                                     <TableHead>Type</TableHead>
                                     <TableHead>Duration (Years)</TableHead>
                                     <TableHead>Fees (₹)</TableHead>
                                     <TableHead>Eligibility</TableHead>
+                                    <TableHead>Add Course</TableHead>
+                                    <TableHead>Edit</TableHead>
+
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {streams.map((stream, index) => (
+                                {data.streams.map((stream:Stream, index:number) => (
                                     <TableRow key={index}>
+                                        <TableCell>{index + 1}.</TableCell>
                                         <TableCell>{stream.streamName}</TableCell>
                                         <TableCell className="capitalize">{stream.type}</TableCell>
                                         <TableCell>{stream.duration}</TableCell>
@@ -143,6 +148,14 @@ const CollegeInfoCard: React.FC<Props> = ({ data, onAddClick }) => {
                                                 </div>
                                             </div>
                                         </TableCell>
+                                        <TableCell>
+                                            <AddCourse streamId={stream._id} streamName={stream.streamName} examName={stream.eligibilityCriteria.requiredExams.join(', ')} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button variant="outline" size="sm">
+                                                Edit
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -153,6 +166,14 @@ const CollegeInfoCard: React.FC<Props> = ({ data, onAddClick }) => {
                         No streams added yet. Click the button above to add a stream.
                     </div>
                 )}
+
+
+                
+                 <div className="flex justify-between items-center my-6">
+                    <h2 className="text-xl font-semibold text-foreground">
+                        Available Course
+                    </h2>
+                </div>
             </CardContent>
         </Card>
     );

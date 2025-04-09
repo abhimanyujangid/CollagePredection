@@ -1,4 +1,5 @@
 export type Stream = {
+  _id?: string;
     streamName: string;
     type: 'undergraduate' | 'postgraduate' | 'diploma';
     duration: number;

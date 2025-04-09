@@ -19,7 +19,7 @@ function ViewCollege() {
 
   return (
       <div>
-        <CollegeInfoCard data={data?.data} onAddClick={() => setIsModalOpen(true)} />
+        <CollegeInfoCard data={data?.data}  />
     </div>
   );
 }
