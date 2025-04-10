@@ -124,8 +124,26 @@ export const getAdministratorAllCollegesService = async ({ page = 1, limit = 10 
     return await apiClient.get("colleges", { params: { page, limit } });
 };
 
-
+///////////// Strem API ////////////
 export const createStreamService = async (collegeId: string, data: any) => {
     return await apiClient.post(`colleges/${collegeId}/stream`, data);
 };
 
+export const deleteStreamByIdService = async (streamId: string) => {
+    return await apiClient.delete(`colleges/stream/${streamId}`);
+};
+
+
+///////////// Course API ////////////
+export const createCourseOfStreamService = async (streamId: string, data: any) => {
+    return await apiClient.post(`colleges/${streamId}/course`, data);
+};
+
+
+export const updateCourseOfStreamService = async (courseId: string, data: any) => {
+    return await apiClient.put(`colleges/course/${courseId}`, data);
+};
+
+export const deleteCourseOfStreamService = async (courseId: string) => {
+    return await apiClient.delete(`colleges/course/${courseId}`);
+};

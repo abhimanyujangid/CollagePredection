@@ -218,4 +218,33 @@ const EXAM_OPTIONS = [
 ];
 
 
-export { twelfthDropDownData, DEGREE_LEVELS, FIELDS_OF_STUDY , COLLEGE_TYPES, COLLEGE_STREAMS , INDIAN_STATE,DEGREE_TYPES,EXAM_OPTIONS};
+const ENGINEERING_COURSES = [
+  "Computer Science Engineering",
+  "Mechanical Engineering",
+  "Electrical Engineering",
+  "Civil Engineering",
+  "Electronics and Communication Engineering",
+  "Information Technology",
+  "Chemical Engineering",
+  "Aerospace Engineering",
+  "Automobile Engineering",
+  "Biotechnology Engineering",
+  "Environmental Engineering",
+  "Industrial Engineering",
+  "Mechatronics Engineering",
+  "Petroleum Engineering",
+  "Robotics Engineering"
+];
+
+
+export { 
+  twelfthDropDownData, 
+  DEGREE_LEVELS, 
+  FIELDS_OF_STUDY , 
+  COLLEGE_TYPES, 
+  COLLEGE_STREAMS , 
+  INDIAN_STATE,
+  DEGREE_TYPES,
+  EXAM_OPTIONS,
+  ENGINEERING_COURSES
+};

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Upload, Plus, Minus, Loader } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -15,71 +12,99 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Form,
     FormLabel,
 } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import FormFieldComponent from "./FormFieldComponent";
 import NumberFormField from "./NumberFormField";
-import TextareaFormField from "./TextareaFormField";
 import SelectFormField from "./SelectFormField";
-import UserAvatar from "./UserAvatar";
-import FileUploadButton from "./FileUploadButton";
-import { COLLEGE_STREAMS, COLLEGE_TYPES, INDIAN_STATE } from "@/constant/dropDownData";
-import { collegeSchema, courseSchema, ICollege, ICourse } from "@/ZODtypes/college";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
-import { createCollegeAction } from "@/store/auth/collegeSlice";
+import {  courseSchema,  ICourse } from "@/ZODtypes/college";
+import { useAppDispatch} from "@/hooks/reduxHook";
+import { createCourseOfStreamService, updateCourseOfStreamService } from "@/services/apis";
+import { toast } from "sonner";
+import { ENGINEERING_COURSES } from "@/constant/dropDownData";
+import { Loader } from "lucide-react";
+import { updateCourseById } from "@/store/auth/collegeInfo";
 
 
-export function AddCourse({ streamId , streamName,examName}: {examName:string, streamId?: string, streamName?: string }) {
+interface IAddCourse {
+    streamId?: string;
+    streamName?: string;
+    examName?: string;
+    edit?: boolean;
+    seat?: number;
+    minimumEntranceScore?: number;
+    courseId?: string;
+    
+}
+
+export function AddCourse({ streamId, streamName, examName, edit=false, seat,  minimumEntranceScore, courseId }: IAddCourse) {
+
+    
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
-    const loading = false;
+    const [loading, setLoading] = useState(false);
 
     const form = useForm<ICourse>({
         resolver: zodResolver(courseSchema),
         defaultValues: {
-
+            branches: streamName || "",
+            seats: seat || 0,
+            minimumEntranceScore: minimumEntranceScore || 0,
         },
     });
+
+useEffect(() => {
+    if (streamName && seat !== undefined && minimumEntranceScore !== undefined) {
+        form.setValue('branches', streamName);
+        form.setValue('seats', seat);
+        form.setValue('minimumEntranceScore', minimumEntranceScore);
+    }
+}, [streamName, seat, minimumEntranceScore, form]);
 
 
 
 
     const onSubmit = async (data: ICourse) => {
         try {
-
-        } catch (error) {
+            setLoading(true);
+            if(courseId){
+            const response = await updateCourseOfStreamService(courseId as string, data);
+            dispatch(updateCourseById({ courseId, updatedCourse: data }));
+            setOpen(false);
+            toast.success("Course updated successfully");
+            }else{
+            const response = await createCourseOfStreamService(streamId as string, data);
+            toast.success("Course created successfully");
+            }
+        } catch (error:any) {
+            toast.error(error.response?.data?.message || "Something went wrong");
             console.error(error);
+        }finally{
+            setLoading(false);
         }
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Course</Button>
+                <Button variant="outline">{edit ? "Edit " : "Add Course"}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Add New Course</DialogTitle>
+                    <DialogTitle>{edit ? "Edit" : "Add New" } Course</DialogTitle>
                     <DialogDescription>
-                        Add a new course to the stream
+                        {edit ? "Edit" : "Add a new"} course to the stream
                     </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="max-h-[80vh] px-1">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
-
                             {/* Basic Information */}
                             <div className="grid grid-cols-1 gap-4">
-
-
                                 <div className="grid grid-cols-3 gap-4">
                                 <div className="col-span-3">
-
                                     <FormLabel>Stream Name</FormLabel>
                                         <Input
                                             type="text"
@@ -93,7 +118,7 @@ export function AddCourse({ streamId , streamName,examName}: {examName:string, s
                                         control={form.control}
                                         name="branches"
                                         label="Branches Type"
-                                        options={["Engineering", "Medical", "Management", "Law", "Arts", "Science"] as string[]}
+                                        options={ENGINEERING_COURSES as string[]}
                                         placeholder="Select type"
                                     // disabled={loading}
                                     />
@@ -134,7 +159,8 @@ export function AddCourse({ streamId , streamName,examName}: {examName:string, s
 
                             <DialogFooter>
                                 <Button disabled={loading} type="submit">
-                                    {loading ? <Loader size={20} /> : "Create College"}
+                                    {loading ? <Loader size={20} /> : 
+                                    edit ? "Update Course" : "Add Course"}
                                 </Button>
                             </DialogFooter>
                         </form>

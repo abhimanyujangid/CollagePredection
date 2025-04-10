@@ -39,9 +39,9 @@ export const CollegeStateSchema = z.object({
 
 
 export const courseSchema = z.object({
-  branches: z.array(z.string()).min(1, "At least one branch is required"),
+  branches: z.string().min(1, "At least one branch is required"),
   seats: z.number().min(0, "Seats cannot be negative"),
-  minimumEntranceScore: z.number().min(0, "Minimum score cannot be negative"),
+  minimumEntranceScore: z.number().min(0, "Minimum score cannot be negative").optional(),
 });
 
 

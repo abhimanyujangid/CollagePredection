@@ -6,8 +6,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { CollegeAdminProfile } from "../models/collegeAdminProfile.model.js";
 import mongoose from "mongoose";
 import { Stream } from "../models/stream.model.js";
+import { Course } from "../models/course.model.js";
 
-
+//=============================CREATE COLLEGE=============================
 export const createCollege = asyncHandler(async (req, res) => {
     try {
         const { collegeName, rankingNIRF, university, type, typeOfCollege, website, email, contactNumber, description } = req.body;
@@ -59,6 +60,7 @@ export const createCollege = asyncHandler(async (req, res) => {
     }
 });
 
+//=============================GET ALL COLLEGES=============================
 export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const administratorId = req.user._id;
     const { page = 1, limit = 10 } = req.query;
@@ -88,6 +90,7 @@ export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, { colleges, total, currentPage: parseInt(page), totalPages }, "Colleges fetched successfully"));
 });
 
+//=============================CREATE STREAM=============================
 export const createStreamOfCollege = asyncHandler(async (req, res) => {
     const { collegeId } = req.params;
     const { streamName, type, duration, fees, eligibilityCriteria } = req.body;
@@ -118,7 +121,27 @@ export const createStreamOfCollege = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, newStream, "Stream created successfully"));
 });
 
+//============================= Delete Stream =============================
+export const deleteStream = asyncHandler(async (req, res) => {
 
+    const { streamId } = req.params;
+    if (!streamId) throw new ApiError(400, "Invalid Stream ID");
+    const deletedStream = await Stream.findByIdAndDelete(streamId);
+    if (!deletedStream) throw new ApiError(404, "Stream not found");
+
+    const deletedCourses = await Course.deleteMany({ streamId });
+
+    if (deletedCourses.deletedCount > 0) {
+        console.log(`Deleted ${deletedCourses.deletedCount} courses associated with stream ID ${streamId}`);
+    }
+
+    res.status(200).json(new ApiResponse(200, null, "Stream deleted successfully"));
+}
+);
+
+
+
+//=============================GET ALL COURSES=============================
 export const getCollegeById = asyncHandler(async (req, res) => {
     try {
         const { id } = req.params;
@@ -207,6 +230,7 @@ export const getCollegeById = asyncHandler(async (req, res) => {
     }
 });
 
+//=============================UPDATE COLLEGE=============================
 export const updateCollege = asyncHandler(async (req, res) => {
     const collegeId = req.params.id;
     const { collegeName, rankingNIRF, university, address, website, email, contactNumber, description, placementStatistics } = req.body;
@@ -231,7 +255,7 @@ export const updateCollege = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, updatedCollege, "College updated successfully"));
 });
 
-
+//=============================DELETE COLLEGE=============================
 export const deleteCollege = asyncHandler(async (req, res) => {
     const collegeId = req.params.id;
     if (!collegeId) throw new ApiError(400, "Invalid College ID");
@@ -241,3 +265,66 @@ export const deleteCollege = asyncHandler(async (req, res) => {
 
     res.status(200).json(new ApiResponse(200, null, "College deleted successfully"));
 });
+
+
+
+//=============================CREATE COURSE=============================
+export const createCourseOfStream = asyncHandler(async (req, res) => {
+    const { streamId } = req.params;
+    const {  branches, seats,  minimumEntranceScore } = req.body;
+
+    
+
+    // Validate MongoDB ObjectID
+    if(![ branches, seats, minimumEntranceScore].every(Boolean)) {
+        throw new ApiError(400, "All fields are required");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(streamId)) {
+        throw new ApiError(400, "Invalid stream ID format");
+    }
+
+    const streamExists = await Stream.findById(streamId);
+    if (!streamExists) throw new ApiError(404, "Stream not found");
+
+    const newCourse = await Course.create({
+        streamId,
+        branches,
+        seats,
+        minimumEntranceScore,
+    });
+
+    res.status(201).json(new ApiResponse(201, newCourse, "Course created successfully"));
+});
+
+//============================= Update Course =============================
+export const updateCourse = asyncHandler(async (req, res) => {
+    const { courseId } = req.params;
+    const { branches, seats,  minimumEntranceScore } = req.body;
+    // Validate MongoDB ObjectID
+
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+        throw new ApiError(400, "Invalid course ID format");
+    }
+    if(![ branches, seats,minimumEntranceScore].every(Boolean)) {
+        throw new ApiError(400, "All fields are required");
+    }
+    const updatedCourse = await Course.findByIdAndUpdate(courseId, {
+        branches,
+        seats,
+        minimumEntranceScore
+    }, { new: true, runValidators: true });
+    if (!updatedCourse) throw new ApiError(404, "Course not found");
+    res.status(200).json(new ApiResponse(200, updatedCourse, "Course updated successfully"));
+});
+
+//=============================DELETE COURSE=============================
+export const deleteCourse = asyncHandler(async (req, res) => {
+    const { courseId } = req.params;
+    if (!courseId) throw new ApiError(400, "Invalid Course ID");
+    const deletedCourse = await Course.findByIdAndDelete(courseId);
+
+    if (!deletedCourse) throw new ApiError(404, "Course not found");
+
+    res.status(200).json(new ApiResponse(200, null, "Course deleted successfully"));
+})

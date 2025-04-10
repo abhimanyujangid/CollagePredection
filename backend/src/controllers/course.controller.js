@@ -5,8 +5,8 @@ import { Course } from "../models/course.model.js";
 import { Stream } from "../models/stream.model.js";
 
 export const createCourse = asyncHandler(async (req, res) => {
-    const { streamId, branches, seats, fees, minimumEntranceScore } = req.body;
-    if(![streamId, branches, seats, fees, minimumEntranceScore].every(Boolean)) {
+    const { streamId, branches, seats,  minimumEntranceScore } = req.body;
+    if(![streamId, branches, seats, minimumEntranceScore].every(Boolean)) {
         throw new ApiError(400, "All fields are required");
     }
     const streamExists = await Stream.findById(streamId);
@@ -16,7 +16,6 @@ export const createCourse = asyncHandler(async (req, res) => {
         streamId,
         branches,
         seats,
-        fees,
         minimumEntranceScore,
     });
 
@@ -33,11 +32,10 @@ export const getAllCourses = asyncHandler(async (req, res) => {
 
 export const updateCourse = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { branches, seats, fees, minimumEntranceScore } = req.body;
+    const { branches, seats,  minimumEntranceScore } = req.body;
     const updatedCourse = await Course.findByIdAndUpdate(id, {
         branches,
         seats,
-        fees,
         minimumEntranceScore
     }, { new: true, runValidators: true });
     if (!updatedCourse) throw new ApiError(404, "Course not found");

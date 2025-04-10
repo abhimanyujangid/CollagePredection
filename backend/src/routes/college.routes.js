@@ -3,7 +3,17 @@ import {
     verifyJWT,
     verifyPermission,
 } from "../middlewares/auth.middleware.js";
-import { createCollege, getAdministratorAllColleges, getCollegeById, updateCollege,createStreamOfCollege } from "../controllers/college.controller.js";
+import { 
+    createCollege, 
+    getAdministratorAllColleges, 
+    getCollegeById, 
+    updateCollege,
+    createStreamOfCollege,
+    deleteStream,
+    createCourseOfStream,
+    updateCourse,
+    deleteCourse 
+} from "../controllers/college.controller.js";
 import { upload } from '../middlewares/multer.middleware.js'
 import { collegeRegisterValidator } from "../validators/app/auth/college.validation.js";
 import { UserRolesEnum } from "../constants.js";
@@ -45,12 +55,49 @@ router.put(
     updateCollege
 );
 
+//================================= STREAM ROUTES ==========================================
+
 router.post(
     "/:collegeId/stream",
     verifyJWT,
     verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
     createStreamOfCollege
 );
+
+router.delete(
+    "/stream/:streamId",
+    verifyJWT,
+    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
+    deleteStream
+);
+
+
+//================================= COURSE ROUTES ==========================================
+router.post(
+    "/:streamId/course",
+    verifyJWT,
+    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
+    createCourseOfStream
+);
+
+router.put(
+    "/course/:courseId",
+    verifyJWT,
+    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
+    updateCourse
+);
+
+router.delete(
+    "/course/:courseId",
+    verifyJWT,
+    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
+    deleteCourse
+);
+
+
+
+//============================================================================================
+
 
 
 export default router;

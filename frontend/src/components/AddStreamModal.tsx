@@ -24,6 +24,9 @@ import {  DEGREE_TYPES, EXAM_OPTIONS } from "@/constant/dropDownData";
 import { useParams } from "react-router-dom";
 import { create } from "domain";
 import { createStreamService } from "@/services/apis";
+import { add, addSeconds } from "date-fns";
+import { addStream } from "@/store/auth/collegeInfo";
+import { toast } from "sonner";
 
 // Define the Stream schema using Zod
 const streamSchema = z.object({
@@ -80,8 +83,9 @@ export function AddStreamDialog() {
     const onSubmit = async (data: IStream) => {
         try {
             setLoading(true);
-            await createStreamService(collegeId || "", data);
+           const response = await createStreamService(collegeId || "", data);
             form.reset();
+            toast.success("Stream added successfully");
             setOpen(false);
         } catch (error) {
             console.error(error);
