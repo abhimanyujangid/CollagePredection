@@ -32,8 +32,9 @@ export function CollegeCard({
     onViewClick,
 }: CollegeCardProps) {
     return (
-        <Card className="w-[300px] overflow-hidden">
-            <CardHeader className={`bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white p-4`}>
+        <Card className="w-32 sm:w-80 md:w-96 flex-shrink-0">
+
+            <CardHeader className={`bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white p-4 rounded-t-lg`}>
                 <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 border-2 border-white/20">
                         <AvatarImage src={logoUrl} alt={name} />
