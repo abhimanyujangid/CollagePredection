@@ -12,6 +12,8 @@ import AddCollege from '@/page/Home/CollegeAdmin/AddCollege';
 import {AdminProfile} from '@/page/Home/CollegeAdmin/AdminProfile';
 import ViewCollege from '@/page/Home/CollegeAdmin/ViewCollege';
 import ProtectedRoutes from './ProtectedRoutes';
+import Home from '@/page/Home/Home';
+import AllCollege from '@/page/Home/AllCollege';
 
 const AppRoutes = () => (
   <Router>
@@ -27,6 +29,9 @@ const AppRoutes = () => (
     <Route path={ROUTES.MANPAGE} element={<MainLayout />}>
       <Route index element={<LandingPage />} />
       <Route path={ROUTES.DASHBOARD} element={<ProtectedRoutes><Dashboard /></ProtectedRoutes>} >
+      <Route path="/dashboard" element={<Home />} >
+        <Route index element={<AllCollege />} />
+      </Route>
       <Route path='ai' element={<Recommendation/>} />
       <Route path={ROUTES.PROFILE} element={<Profile/>} >
         <Route index element={<AdminProfile/>} />
