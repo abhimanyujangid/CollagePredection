@@ -11,6 +11,7 @@ export interface Category {
 }
 
 const Home = () => {
+  
   const [activeCategory, setActiveCategory] = useState<number>(1);
 
   const categories: Category[] = [

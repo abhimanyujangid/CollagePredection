@@ -1,6 +1,7 @@
 import { ICollege } from '@/ZODtypes/college';
 import { Img } from './Img';
 import { Link } from 'react-router-dom';
+import { capitalize } from '@/utils';
 
 
   
@@ -18,7 +19,7 @@ const CollegeLIstCard = ({ college }: CollegeLIstCardProps) => {
                             <Img src={college?.logo?.url} alt="profile" className="w-16 h-16 rounded-full" />
                         </div>
                         <div className="ml-4">
-                        <span className="text-lg font-bold text-indigo-700 dark:text-indigo-300">{college?.collegeName}</span>
+                        <span className="text-lg font-bold text-indigo-700 dark:text-indigo-300">{capitalize(college?.university)}</span>
                             <h4 className="text-lg font-medium text-gray-900 dark:text-white">
                                 {college?.university}
                             </h4>
@@ -27,7 +28,7 @@ const CollegeLIstCard = ({ college }: CollegeLIstCardProps) => {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
-                                <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">{college?.address?.city}, {college?.address?.state}, {college?.address?.country}</span>
+                                <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">{capitalize(college?.address?.city)}, {capitalize(college?.address?.state)}, {college?.address?.country}</span>
                             </div>
                         </div>
                     </div>
@@ -55,10 +56,10 @@ const CollegeLIstCard = ({ college }: CollegeLIstCardProps) => {
                     <div className="col-span-1">
                         <div className="flex flex-wrap gap-2">
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-800 text-indigo-800 dark:text-indigo-200">
-                                {college?.type.charAt(0).toUpperCase() + college?.type.slice(1)}
+                                {capitalize(college?.type)}
                             </span>
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
-                                {college?.typeOfCollege.charAt(0).toUpperCase() + college?.typeOfCollege.slice(1)}
+                                {capitalize(college?.typeOfCollege)}
                             </span>
                             
                         </div>

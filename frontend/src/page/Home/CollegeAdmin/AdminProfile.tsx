@@ -23,7 +23,7 @@ import DatePicker from "@/components/DatePicker";
 import FileUploadButton from "@/components/FileUploadButton";
 import UserAvatar from "@/components/UserAvatar";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
-import { createCollegeAdminProfileAction, getCollegeAdminProfileAction } from "@/store/auth/collegeAdminSlice";
+import { createCollegeAdminProfileAction } from "@/store/auth/collegeAdminSlice";
 import { DEGREE_LEVELS, FIELDS_OF_STUDY } from "@/constant/dropDownData";
 import { Badge } from "@/components/ui/badge";
 
@@ -35,6 +35,7 @@ export function AdminProfile() {
 
   const [documents, setDocuments] = useState<File | undefined>(undefined);
   const dispatch = useAppDispatch();
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: data || {
@@ -43,7 +44,6 @@ export function AdminProfile() {
   });
 
 useEffect(()=>{
-   dispatch(getCollegeAdminProfileAction())
   if(data) {
     setDisableFiled(true)
     setProfilePreview(data?.profilePicture?.url)

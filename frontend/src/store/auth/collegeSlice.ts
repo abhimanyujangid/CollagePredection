@@ -35,6 +35,8 @@ export const createCollegeAction = createAsyncThunk(
                 return response.data.data;
             }
         } catch (error: any) {
+            console.log(error?.response?.data);
+            toast.error(error?.response?.data?.message);
             return rejectWithValue(error?.response?.data?.message);
         }
     }
@@ -90,7 +92,6 @@ const collegeSlice = createSlice({
             (state, { payload }) => {
                 state.loading = false;
                 state.error = payload as string;
-                toast.error(payload as string);
             }
         )
         .addCase(getCollegeByIdAction.pending, (state) => {

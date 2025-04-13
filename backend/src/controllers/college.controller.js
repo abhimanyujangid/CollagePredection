@@ -12,12 +12,14 @@ import { Course } from "../models/course.model.js";
 export const createCollege = asyncHandler(async (req, res) => {
     try {
         const { collegeName, rankingNIRF, university, type, typeOfCollege, website, email, contactNumber, description } = req.body;
+
         const { _id: userId } = req.user;
         let { address, placementStatistics } = req.body;
 
-        const collegeExists = await College.findOne({ collegeName });
-        if (collegeExists) throw new ApiError(400, "College name already exists");
-
+        const collegeExists = await College.findOne({ collegeName: collegeName.toLowerCase(), university: university.toLowerCase() });
+        if (collegeExists) {
+            throw new ApiError(400, "College already exists");
+        }
         const administratorExists = await CollegeAdminProfile.findOne({ userId });
         if (!administratorExists || administratorExists.status !== "approved") {
             throw new ApiError(400, "Sorry, you are not authorized to create a college");
@@ -38,11 +40,13 @@ export const createCollege = asyncHandler(async (req, res) => {
             placementStatistics = JSON.parse(placementStatistics);
         }
 
+        
+
         const newCollege = await College.create({
             administratorId: userId,
-            collegeName,
+            collegeName: collegeName.toLowerCase(),
             rankingNIRF,
-            university,
+            university: university.toLowerCase(),
             address,
             website: website ? website : "",
             email: email ? email : "",
@@ -66,9 +70,6 @@ export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
     const skip = (page - 1) * limit;
 
-
-
-
     const pipeline = [
         { $match: { administratorId } },
         { $sort: { createdAt: -1 } },
@@ -86,6 +87,7 @@ export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const colleges = result[0].data;
 
     if (!colleges.length) throw new ApiError(404, "Colleges not found");
+    console.log(colleges, total, page, totalPages);
 
     res.status(200).json(new ApiResponse(200, { colleges, total, currentPage: parseInt(page), totalPages }, "Colleges fetched successfully"));
 });
