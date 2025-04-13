@@ -7,6 +7,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
+import { console } from "inspector";
 
 interface PaginationNavProps {
     currentPage: number;
@@ -15,6 +16,7 @@ interface PaginationNavProps {
     itemsPerPage: number;
     onPageChange: (page: number) => void;
 }
+
 
 export function PaginationNav({
     currentPage,

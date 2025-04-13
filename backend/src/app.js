@@ -64,6 +64,7 @@ import userRouter from "./routes/user.routes.js";
 import studentRoute from "./routes/student.routes.js"
 import collegeAdminRoute from "./routes/collegeAdmin.routes.js";
 import collegeRoute from "./routes/college.routes.js"
+import collegeConstantDataRoute from "./routes/constantData.routes.js";
 
 
 // * Seeding handlers
@@ -75,6 +76,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/students",studentRoute)
 app.use("/api/v1/college-admins", collegeAdminRoute)
 app.use("/api/v1/colleges",collegeRoute)
+app.use("/api/v1/college-constant-data", collegeConstantDataRoute)
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);

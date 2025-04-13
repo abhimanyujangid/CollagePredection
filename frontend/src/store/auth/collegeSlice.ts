@@ -35,7 +35,7 @@ export const createCollegeAction = createAsyncThunk(
                 return response.data.data;
             }
         } catch (error: any) {
-            console.log(error?.response?.data);
+            console.log(error?.response?.data?.message);
             toast.error(error?.response?.data?.message);
             return rejectWithValue(error?.response?.data?.message);
         }

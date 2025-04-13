@@ -141,8 +141,6 @@ export const deleteStream = asyncHandler(async (req, res) => {
 }
 );
 
-
-
 //=============================GET ALL COURSES=============================
 export const getCollegeById = asyncHandler(async (req, res) => {
     try {
@@ -214,7 +212,6 @@ export const getCollegeById = asyncHandler(async (req, res) => {
                 }
             }
         ]);
-        console.log(college);
 
         if (!college || college.length === 0) {
             throw new ApiError(404, "College not found");

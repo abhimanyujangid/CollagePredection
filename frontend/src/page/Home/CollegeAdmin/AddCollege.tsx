@@ -4,14 +4,16 @@ import { Card } from '@/components/ui/card';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
 import { getAdministratorAllCollegesAction } from '@/store/auth/collegeSlice';
 import CollegeLIstCard from '@/components/CollegeLIstCard';
-import { useNavigate } from 'react-router-dom';
+import { PaginationNav } from '@/components/CustomPagination';
 
 const AddCollege = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
   const { getAll, loading, error } = useAppSelector((state) => state.college);
+  console.log( 'getAll',getAll);
 
   useEffect(() => {
+    console.log('currentPage', currentPage);
     // Fetch colleges from the server or perform any side effects here
     dispatch(getAdministratorAllCollegesAction({ page: currentPage, limit: 10 }));
   }, [dispatch, currentPage]);
@@ -27,13 +29,24 @@ const AddCollege = () => {
         {!loading && getAll?.colleges?.length === 0 ? (
           <p className='text-center'>No colleges found.</p>
         ) : (
-          <ul>
+          <>
             {getAll?.colleges?.map((college, index) => (
               <div key={college.id || index} className='mb-4 hover:shadow-xl hover:scale-95 transition duration-300 w-[60rem]'>
                 <CollegeLIstCard  college={college}  />
               </div>
             ))}
-          </ul>
+            {getAll?.totalPages >1 &&
+              <PaginationNav
+              currentPage={getAll?.currentPage || 1}
+              totalItems={getAll?.total || 0}
+              totalPages={getAll?.totalPages || 1}
+              itemsPerPage={10}
+              onPageChange={(page) => {
+                dispatch(getAdministratorAllCollegesAction({ page, limit: 10 }));
+              }}
+              />
+            }
+          </>
         )}
       </Card>
     </div>

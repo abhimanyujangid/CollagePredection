@@ -1,14 +1,28 @@
 import { Router } from "express";
-import { createConstantData, getConstantData, updateConstantData, deleteConstantData  } from "../controllers/constantData.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+
+import {
+    createConstantDataMany,
+    createConstantStreamDataMany,
+    createConstantEntranceExamDataMany,
+    getConstantData, 
+    getConstantStreamData,
+    getConstantEntranceExamData } from "../controllers/collegeConstant.controller.js";
+import { validate } from "../validators/validate.js";
 
 const router = Router()
 
 //secured routes
-router.route("/").post(verifyJWT("admin"), createConstantData);
-router.route("/").get(verifyJWT("student','administrator','admin"), getConstantData);
-router.route("/:constantDataId").put(verifyJWT("admin"), updateConstantData);
-router.route("/:constantDataId").delete(verifyJWT("admin"), deleteConstantData);
+
+// For creating constant data
+router.route("/").post(validate, createConstantDataMany);
+router.route("/stream").post(validate, createConstantStreamDataMany);
+router.route("/entrance-exam").post(validate, createConstantEntranceExamDataMany);
+
+
+// For getting constant data
+router.route("/").get(validate, getConstantData);
+router.route("/stream").get(validate, getConstantStreamData);
+router.route("/entrance-exam").get( getConstantEntranceExamData);
 
 
 export default router

@@ -147,3 +147,19 @@ export const updateCourseOfStreamService = async (courseId: string, data: any) =
 export const deleteCourseOfStreamService = async (courseId: string) => {
     return await apiClient.delete(`colleges/course/${courseId}`);
 };
+
+
+//=================================DROPDOWN API =================================
+
+export const getConstantDataService = async (typeOfCollege?: string) => {
+    return await apiClient.get("college-constant-data", { params: { typeOfCollege } });
+};
+
+export const getConstantStreamDataService = async (typeOfCollege?: string) => {
+    return await apiClient.get("college-constant-data/stream", { params: { typeOfCollege } });
+};
+
+export const getConstantEntranceExamDataService = async (typeOfCollege?: string) => {
+    return await apiClient.get("college-constant-data/entrance-exam", { params: { typeOfCollege } });
+};
+
