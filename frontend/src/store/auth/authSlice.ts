@@ -124,6 +124,22 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = payload as string;
       })
+      .addCase(getCurrentUserAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCurrentUserAction.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = payload as User;
+      })
+      .addCase(getCurrentUserAction.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = payload as string;
+      })
+      
      ;
       
   },

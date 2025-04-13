@@ -8,10 +8,10 @@ import LandingPage from '@/layouts/LandingPage';
 import Dashboard from '@/page/Home/Dashboard';
 import Recommendation from '@/page/Home/Recommendation';
 import Profile from '@/page/Home/Profile';
-import ProtectedRoutes from './ProtectedRoutes';
 import AddCollege from '@/page/Home/CollegeAdmin/AddCollege';
 import {AdminProfile} from '@/page/Home/CollegeAdmin/AdminProfile';
 import ViewCollege from '@/page/Home/CollegeAdmin/ViewCollege';
+import ProtectedRoutes from './ProtectedRoutes';
 
 const AppRoutes = () => (
   <Router>

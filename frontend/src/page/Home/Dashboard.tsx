@@ -7,11 +7,7 @@ import { Outlet } from 'react-router-dom'
 
 const Dashboard = () => {
 
-  const dispatch = useAppDispatch();
-  
-    useEffect(() => {
-      dispatch(getCurrentUserAction())
-    },[])
+ 
 
   return (
     <div className='main-layout px-19'>
