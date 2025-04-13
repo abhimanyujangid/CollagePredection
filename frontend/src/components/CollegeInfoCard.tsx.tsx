@@ -184,9 +184,7 @@ const CollegeInfoCard = () => {
                                              />
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outline" size="sm">
-                                                Edit
-                                            </Button>
+                                        <AddStreamDialog isEdit={true} stream={stream}/>
                                         </TableCell>
                                         <TableCell>
                                             <ReusableAlertDialog

@@ -47,9 +47,19 @@ export interface IStream extends z.infer<typeof streamSchema> {
 }
 
 // Create a new action for adding streams
+interface Iprops {
+    streamName?: string;
+    streamType?: string;
+    streamDuration?: number;
+    streamFees?: number;
+    streamEligibilityCriteria?: any;
+    streamRequiredExams?: string[];
+    isEdit?: boolean;   
+}
 
 
-export function AddStreamDialog() {
+export function AddStreamDialog({ isEdit=false }: Iprops) {
+
     const [open, setOpen] = useState(false);
     const [requiredExams, setRequiredExams] = useState<string[]>([""]);
     const dispatch = useAppDispatch();
@@ -70,6 +80,9 @@ export function AddStreamDialog() {
         },
     });
 
+
+
+
     
 
 
@@ -83,9 +96,20 @@ export function AddStreamDialog() {
     const onSubmit = async (data: IStream) => {
         try {
             setLoading(true);
-           const response = await createStreamService(collegeId || "", data);
-            form.reset();
-            toast.success("Stream added successfully");
+            if(isEdit){
+
+            }
+            else{
+                const response = await createStreamService(collegeId || "", data);
+                form.reset();
+                const newData = {
+                    ...response?.data?.data,
+                    courses: []
+                }
+                // dispatch(addStream(newData));
+                toast.success("Stream added successfully");
+            }
+          
             setOpen(false);
         } catch (error) {
             console.error(error);
@@ -97,13 +121,13 @@ export function AddStreamDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Stream</Button>
+                <Button variant="outline">{isEdit ? "Edit " : "Add New Stream"} </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Add New Stream</DialogTitle>
+                    <DialogTitle>{isEdit ? "Update" : "Add New"} Stream</DialogTitle>
                     <DialogDescription>
-                        Add a new stream to the system. Fill in all the required information.
+                        {isEdit ? "Update" : "Add New"} stream to the system. Fill in all the required information.
                     </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="max-h-[80vh] px-1">
@@ -183,7 +207,7 @@ export function AddStreamDialog() {
 
                             <DialogFooter>
                                 <Button disabled={loading} type="submit">
-                                    {loading ? <Loader size={20}/> : "Add Stream"}
+                                    {loading ? <Loader size={20}/> : isEdit ? "Update Stream" : "Add Stream"}
                                 </Button>
                             </DialogFooter>
                         </form>
