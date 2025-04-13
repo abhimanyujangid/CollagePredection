@@ -1,8 +1,11 @@
 import React from 'react'
+import Steps from './Steps'
 
 const Recommendation = () => {
   return (
-    <div>Recommendation</div>
+    <div>
+      <Steps />
+    </div>
   )
 }
 
