@@ -17,7 +17,7 @@ import { z } from "zod";
     }),
     website: z.string().url("Invalid website URL").optional().or(z.literal("")),
     email: z.string().email("Invalid email address"),
-    contactNumber: z.string().min(10, "Contact number must be at least 10 digits"),
+    contactNumber: z.string().min(10, "Contact number must be at least 10 digits").optional(),
     description: z.string().optional(),
     rating: z.number().min(0).max(5, "Rating must be between 0 and 5"),
     placementStatistics: z.object({
