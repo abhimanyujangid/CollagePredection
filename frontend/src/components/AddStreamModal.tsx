@@ -20,7 +20,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import NumberFormField from "./NumberFormField";
 import SelectFormField from "./SelectFormField";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
-import {  DEGREE_TYPES, EXAM_OPTIONS } from "@/constant/dropDownData";
+import {   EXAM_OPTIONS } from "@/constant/dropDownData";
 import { useParams } from "react-router-dom";
 import { create } from "domain";
 import { createStreamService } from "@/services/apis";
@@ -55,10 +55,12 @@ interface Iprops {
     streamEligibilityCriteria?: any;
     streamRequiredExams?: string[];
     isEdit?: boolean;   
+    streams?: string[];
+    exams?: string[];
 }
 
 
-export function AddStreamDialog({ isEdit=false }: Iprops) {
+export function AddStreamDialog({ isEdit=false, streams, exams }: Iprops) {
 
     const [open, setOpen] = useState(false);
     const [requiredExams, setRequiredExams] = useState<string[]>([""]);
@@ -118,6 +120,7 @@ export function AddStreamDialog({ isEdit=false }: Iprops) {
         }
     };
 
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -139,7 +142,7 @@ export function AddStreamDialog({ isEdit=false }: Iprops) {
                                     control={form.control}
                                     name="streamName"
                                     label="Stream Name"
-                                    options={DEGREE_TYPES as string[]}
+                                    options={streams as string[]}
                                     placeholder="Enter stream name"
                                     disabled={loading} 
                                 />
@@ -199,7 +202,7 @@ export function AddStreamDialog({ isEdit=false }: Iprops) {
                                 control={form.control}
                                 name="eligibilityCriteria.requiredExams"
                                 label="Required Exams"
-                                options={EXAM_OPTIONS as string[]}
+                                options={exams as string[]}
                                 placeholder="Select exams"
                                 disabled={loading}
                             />

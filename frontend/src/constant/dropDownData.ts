@@ -135,7 +135,6 @@ const COLLEGE_STREAMS = Object.freeze([
 ]);
  
 
-
 const INDIAN_STATE = [
   "andhra pradesh",
   "arunachal pradesh",
@@ -165,7 +164,17 @@ const INDIAN_STATE = [
   "uttar pradesh",
   "uttarakhand",
   "west bengal",
+  // Union Territories
+  "andaman and nicobar islands",
+  "chandigarh",
+  "dadra and nagar haveli and daman and diu",
+  "delhi",
+  "jammu and kashmir",
+  "ladakh",
+  "lakshadweep",
+  "puducherry"
 ];
+
 
 
  const DEGREE_TYPES = [

@@ -152,14 +152,26 @@ export const deleteCourseOfStreamService = async (courseId: string) => {
 //=================================DROPDOWN API =================================
 
 export const getConstantDataService = async (typeOfCollege?: string) => {
-    return await apiClient.get("college-constant-data", { params: { typeOfCollege } });
+    const res = await apiClient.get("college-constant-data", { params: { typeOfCollege } });
+    if(res.status === 200) {
+        return res.data;
+    }
+    throw new Error("Failed to fetch constant data");
 };
 
 export const getConstantStreamDataService = async (typeOfCollege?: string) => {
-    return await apiClient.get("college-constant-data/stream", { params: { typeOfCollege } });
+    const res =  await apiClient.get("college-constant-data/stream", { params: { typeOfCollege } });
+    if(res.status === 200) {
+        return res.data;
+    }
+    throw new Error("Failed to fetch stream data");
 };
 
 export const getConstantEntranceExamDataService = async (typeOfCollege?: string) => {
-    return await apiClient.get("college-constant-data/entrance-exam", { params: { typeOfCollege } });
+    const res = await apiClient.get("college-constant-data/entrance-exam", { params: { typeOfCollege } });
+    if(res.status === 200) {
+        return res.data;
+    }
+    throw new Error("Failed to fetch entrance exam data");
 };
 

@@ -22,7 +22,7 @@ const collegeSchema = new Schema({
     state: { type: String, required: true },
     country: { type: String, default: "India" },
   },
-  website: { type: String },
+  website: { type: String, required: true },
   email: { type: String },
   contactNumber: { type: String },
   description: { type: String },

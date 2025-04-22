@@ -10,10 +10,8 @@ const AddCollege = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
   const { getAll, loading, error } = useAppSelector((state) => state.college);
-  console.log( 'getAll',getAll);
 
   useEffect(() => {
-    console.log('currentPage', currentPage);
     // Fetch colleges from the server or perform any side effects here
     dispatch(getAdministratorAllCollegesAction({ page: currentPage, limit: 10 }));
   }, [dispatch, currentPage]);

@@ -28,15 +28,17 @@ import AddStreamDialog from './AddStreamModal';
 import { AddCourse } from './AddCourse';
 import { ReusableAlertDialog } from './ReusableAlertDialog';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook';
-import { deleteCourseOfStreamService, deleteStreamByIdService } from '@/services/apis';
+import { deleteCourseOfStreamService, deleteStreamByIdService, getConstantDataService, getConstantEntranceExamDataService, getConstantStreamDataService } from '@/services/apis';
 import { toast } from 'sonner';
 import { deleteCourseById, deleteStreamById } from '@/store/auth/collegeInfo';
+import useFetch from '@/hooks/useFetch';
 
 
 
 const CollegeInfoCard = () => {
-        const college = useAppSelector((state) => state.collegeInfo)
-        const dispatch = useAppDispatch();
+    const college = useAppSelector((state) => state.collegeInfo)
+    console.log();
+    const dispatch = useAppDispatch();
 
     if (!college) {
         return (
@@ -56,7 +58,14 @@ const CollegeInfoCard = () => {
     }
 
 
-    const  deleteCourse = async(courseId: string) => {
+    const { data: streams } = useFetch(getConstantStreamDataService, college?.typeOfCollege);
+    const { data: exams } = useFetch(getConstantEntranceExamDataService, college?.typeOfCollege);
+    const { data: courseStream } = useFetch(getConstantDataService, college?.typeOfCollege);
+
+
+
+
+    const deleteCourse = async (courseId: string) => {
         try {
             const response = await deleteCourseOfStreamService(courseId);
             toast.success('Course deleted successfully');
@@ -141,7 +150,7 @@ const CollegeInfoCard = () => {
                     <h2 className="text-xl font-semibold text-foreground">
                         Available Streams
                     </h2>
-                    <AddStreamDialog />
+                    <AddStreamDialog streams={streams as string[] || []} exams={exams as string[] || []} />
                 </div>
 
                 {college?.streams.length > 0 ? (
@@ -165,7 +174,7 @@ const CollegeInfoCard = () => {
                                 {college.streams.map((stream: Stream, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1}.</TableCell>
-                                        <TableCell>{stream.streamName}</TableCell>
+                                        <TableCell>{capitalize(stream.streamName)}</TableCell>
                                         <TableCell className="capitalize">{stream.type}</TableCell>
                                         <TableCell>{stream.duration}</TableCell>
                                         <TableCell>₹{stream.fees.toLocaleString()}</TableCell>
@@ -180,11 +189,12 @@ const CollegeInfoCard = () => {
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <AddCourse streamId={stream._id} streamName={stream.streamName} examName={stream.eligibilityCriteria.requiredExams.join(', ')}
-                                             />
+                                            <AddCourse streamId={stream._id} streamName={capitalize(stream.streamName)} examName={stream.eligibilityCriteria.requiredExams.join(', ')}
+                                            courseStream={courseStream as string[] || []}
+                                            />
                                         </TableCell>
                                         <TableCell>
-                                        <AddStreamDialog isEdit={true} stream={stream}/>
+                                            <AddStreamDialog isEdit={true} stream={stream}  />
                                         </TableCell>
                                         <TableCell>
                                             <ReusableAlertDialog
@@ -215,13 +225,13 @@ const CollegeInfoCard = () => {
 
                 {college?.streams.length > 0 ? (
                     <div className="space-y-4">
-                        {college.streams.map((stream: Stream, index: number) => (
+                        {college?.streams.map((stream: Stream, index: number) => (
                             <div
                                 key={index}
                                 className="rounded-lg border shadow-sm p-4"
                             >
                                 <h3 className="text-lg font-semibold mb-2">
-                                    {index + 1}. {stream.streamName}
+                                    {index + 1}. {capitalize(stream.streamName)} 
                                 </h3>
                                 <div className="overflow-x-auto">
                                     <Table>

@@ -60,6 +60,7 @@ export const getConstantData = asyncHandler(async (req, res) => {
     .select("course -_id");
 
     const formattedData = data.map(item => item.course);
+    console.log("formattedData", formattedData);
 
     if (!data || data.length === 0) {
         throw new ApiError(404, "ConstantData not found");

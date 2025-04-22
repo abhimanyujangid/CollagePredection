@@ -19,8 +19,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import NumberFormField from "./NumberFormField";
 import SelectFormField from "./SelectFormField";
-import {  courseSchema,  ICourse } from "@/ZODtypes/college";
-import { useAppDispatch} from "@/hooks/reduxHook";
+import { courseSchema, ICourse } from "@/ZODtypes/college";
+import { useAppDispatch } from "@/hooks/reduxHook";
 import { createCourseOfStreamService, updateCourseOfStreamService } from "@/services/apis";
 import { toast } from "sonner";
 import { ENGINEERING_COURSES } from "@/constant/dropDownData";
@@ -36,12 +36,12 @@ interface IAddCourse {
     seat?: number;
     minimumEntranceScore?: number;
     courseId?: string;
-    
+    courseStream: string[];
+
 }
 
-export function AddCourse({ streamId, streamName, examName, edit=false, seat,  minimumEntranceScore, courseId }: IAddCourse) {
+export function AddCourse({ streamId, streamName, examName, edit = false, seat, minimumEntranceScore, courseId, courseStream }: IAddCourse) {
 
-    
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
@@ -55,13 +55,13 @@ export function AddCourse({ streamId, streamName, examName, edit=false, seat,  m
         },
     });
 
-useEffect(() => {
-    if (streamName && seat !== undefined && minimumEntranceScore !== undefined) {
-        form.setValue('branches', streamName);
-        form.setValue('seats', seat);
-        form.setValue('minimumEntranceScore', minimumEntranceScore);
-    }
-}, [streamName, seat, minimumEntranceScore, form]);
+    useEffect(() => {
+        if (streamName && seat !== undefined && minimumEntranceScore !== undefined) {
+            form.setValue('branches', streamName);
+            form.setValue('seats', seat);
+            form.setValue('minimumEntranceScore', minimumEntranceScore);
+        }
+    }, [streamName, seat, minimumEntranceScore, form]);
 
 
 
@@ -69,19 +69,19 @@ useEffect(() => {
     const onSubmit = async (data: ICourse) => {
         try {
             setLoading(true);
-            if(courseId){
-            const response = await updateCourseOfStreamService(courseId as string, data);
-            dispatch(updateCourseById({ courseId, updatedCourse: data }));
-            setOpen(false);
-            toast.success("Course updated successfully");
-            }else{
-            const response = await createCourseOfStreamService(streamId as string, data);
-            toast.success("Course created successfully");
+            if (courseId) {
+                const response = await updateCourseOfStreamService(courseId as string, data);
+                dispatch(updateCourseById({ courseId, updatedCourse: data }));
+                setOpen(false);
+                toast.success("Course updated successfully");
+            } else {
+                const response = await createCourseOfStreamService(streamId as string, data);
+                toast.success("Course created successfully");
             }
-        } catch (error:any) {
+        } catch (error: any) {
             toast.error(error.response?.data?.message || "Something went wrong");
             console.error(error);
-        }finally{
+        } finally {
             setLoading(false);
         }
     };
@@ -93,7 +93,7 @@ useEffect(() => {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>{edit ? "Edit" : "Add New" } Course</DialogTitle>
+                    <DialogTitle>{edit ? "Edit" : "Add New"} Course</DialogTitle>
                     <DialogDescription>
                         {edit ? "Edit" : "Add a new"} course to the stream
                     </DialogDescription>
@@ -104,8 +104,8 @@ useEffect(() => {
                             {/* Basic Information */}
                             <div className="grid grid-cols-1 gap-4">
                                 <div className="grid grid-cols-3 gap-4">
-                                <div className="col-span-3">
-                                    <FormLabel>Stream Name</FormLabel>
+                                    <div className="col-span-3">
+                                        <FormLabel>Stream Name</FormLabel>
                                         <Input
                                             type="text"
                                             placeholder="Enter stream name"
@@ -118,12 +118,12 @@ useEffect(() => {
                                         control={form.control}
                                         name="branches"
                                         label="Branches Type"
-                                        options={ENGINEERING_COURSES as string[]}
+                                        options={courseStream as string[]}
                                         placeholder="Select type"
                                     // disabled={loading}
                                     />
 
-<NumberFormField
+                                    <NumberFormField
                                         control={form.control}
                                         name="seats"
                                         label="seats Ranking"
@@ -131,19 +131,19 @@ useEffect(() => {
                                     // disabled={loading}
                                     />
 
-                                    
+
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
                                     <div>
-                                    <FormLabel>Exam Name</FormLabel>
-                                    <Input
+                                        <FormLabel>Exam Name</FormLabel>
+                                        <Input
                                             type="text"
                                             placeholder="Enter stream name"
                                             value={examName}
                                             disabled
                                         />
                                     </div>
-                                        
+
                                     <NumberFormField
                                         control={form.control}
                                         name="minimumEntranceScore"
@@ -159,8 +159,8 @@ useEffect(() => {
 
                             <DialogFooter>
                                 <Button disabled={loading} type="submit">
-                                    {loading ? <Loader size={20} /> : 
-                                    edit ? "Update Course" : "Add Course"}
+                                    {loading ? <Loader size={20} /> :
+                                        edit ? "Update Course" : "Add Course"}
                                 </Button>
                             </DialogFooter>
                         </form>
