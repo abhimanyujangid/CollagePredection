@@ -9,7 +9,6 @@ const streamSchema = new Schema({
   duration: { type: Number, default: 0 }, // Duration in years
   fees: { type: Number, default: 0 }, // Annual fees in INR
   eligibilityCriteria: {
-    minTenthPercentage: { type: Number, default: 50 },
     minTwelfthPercentage: { type: Number, default: 50 },
     requiredExams:[ { type: String, default: null }],
   },
