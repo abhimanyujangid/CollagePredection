@@ -66,6 +66,9 @@ import collegeAdminRoute from "./routes/collegeAdmin.routes.js";
 import collegeRoute from "./routes/college.routes.js"
 import collegeConstantDataRoute from "./routes/constantData.routes.js";
 
+// * Upload data routes
+import uploadDataRoute from "./routes/uploadData.routes.js";
+
 
 // * Seeding handlers
 import { avoidInProduction } from "./middlewares/auth.middleware.js";
@@ -77,6 +80,9 @@ app.use("/api/v1/students",studentRoute)
 app.use("/api/v1/college-admins", collegeAdminRoute)
 app.use("/api/v1/colleges",collegeRoute)
 app.use("/api/v1/college-constant-data", collegeConstantDataRoute)
+
+// * Upload data routes
+app.use("/api/v1/upload", uploadDataRoute);
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);

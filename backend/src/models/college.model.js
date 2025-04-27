@@ -8,15 +8,23 @@ const collegeSchema = new Schema({
   university: { type: String, required: true },
   type: { type: String, enum: AvailableCollegeTypes, default: CollegeTypeEnum.PRIVATE },
   typeOfCollege: {
-    type: String, enum: AvailableCollegeStreams
-    , required: true
+    type: String,
+     enum: AvailableCollegeStreams,
+     required: true
   },
-  logo: {
-    type: {
-      public_id: String,
-      url: String
-    }, default: ""
-  }, // College logo URL
+  instituteId:{
+    type: String,
+    required: true
+  },
+  logo_tag:{
+    type: String
+  },
+  // logo: {
+  //   type: {
+  //     public_id: String,
+  //     url: String
+  //   }, default: ""
+  // }, // College logo URL
   address: {
     city: { type: String, required: true },
     state: { type: String, required: true },
@@ -33,7 +41,7 @@ const collegeSchema = new Schema({
     type:Number,
     default:0
   },
-  percetionScore:{
+  perceptionScore:{
     type:Number,
     default:0
   },

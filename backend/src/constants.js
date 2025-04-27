@@ -27,11 +27,19 @@ export const AvailableGenders = Object.values(GenderEnum);
 
 // ============== Cast ==============
 export const CastEnum = {
-    GENERAL: "general",
-    OBC: "obc",
-    SC: "sc",
-    ST: "st",
-    EWS: "ews",
+    OPEN: "OPEN",
+    OBC: "OBC",
+    SC: "SC",
+    ST: "ST",
+    EWS: "EWS",
+    OPEN_PWD:"OPEN_PWD",
+    OBC_PWD:"OBC_PWD",
+    SC_PWD:"SC_PWD",
+    ST_PWD:"ST_PWD",
+    EWS_PWD:"EWS_PWD",
+
+
+    // PWD: "pwd",
 };
 export const AvailableCasts = Object.values(CastEnum);
 
@@ -39,7 +47,6 @@ export const AvailableCasts = Object.values(CastEnum);
 export const CollegeTypeEnum = {
     PRIVATE: "private",
     GOVERNMENT: "government",
-    DEEMED: "deemed",
     STATE: "state",
 };
 export const AvailableCollegeTypes = Object.values(CollegeTypeEnum);
