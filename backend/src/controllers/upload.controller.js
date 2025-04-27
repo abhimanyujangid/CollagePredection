@@ -7,6 +7,8 @@ import { Course } from "../models/course.model.js";
 import { College } from "../models/college.model.js";
 import { Categorie } from "../models/categories.model.js";
 import { BSC_OTHER } from "../CollegeDB/BSC_OTHER.js";
+import { IIT_ENG } from "../CollegeDB/IIT_ENG.js";
+
 
 /**
  * @desc Uploads college data to the database
@@ -14,7 +16,7 @@ import { BSC_OTHER } from "../CollegeDB/BSC_OTHER.js";
  * @access Private
  */
 export const uploadCollege = asyncHandler(async (req, res) => {
-    const data = BSC_OTHER;
+    const data = IIT_ENG;
 
     // Get admin ID from authenticated user
     const administratorId = "67e2d550f62f96c6a50f2308";
