@@ -75,6 +75,7 @@ export const AvailableCollegeStreams = Object.values(CollegeStreamEnum);
 export const CourseTypeEnum = {
     UNDERGRADUATE: "undergraduate",
     POSTGRADUATE: "postgraduate",
+    DUAL_DEGREE: "dual_degree",
     DIPLOMA: "diploma",
 };
 export const AvailableCourseTypes = Object.values(CourseTypeEnum);

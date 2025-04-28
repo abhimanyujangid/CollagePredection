@@ -1,13 +1,15 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { IITENG } from "../CollegeDB/IITENG.js";
 import { Stream } from "../models/stream.model.js";
 import { Course } from "../models/course.model.js";
 import { College } from "../models/college.model.js";
 import { Categorie } from "../models/categories.model.js";
 import { BSC_OTHER } from "../CollegeDB/BSC_OTHER.js";
 import { IIT_ENG } from "../CollegeDB/IIT_ENG.js";
+import { IIT_DUAL_DEGREE } from "../CollegeDB/IIT_DUAL_DEGREE.js";
+import { NIT_DUAL_DEGREE } from "../CollegeDB/NIT_DUAL_DEGREE.js";
+import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js"
 
 
 /**
