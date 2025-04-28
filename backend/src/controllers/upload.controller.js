@@ -18,7 +18,7 @@ import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js"
  * @access Private
  */
 export const uploadCollege = asyncHandler(async (req, res) => {
-    const data = IIT_ENG;
+    const data = OTHER_INSTITUTE_BETCH;
 
     // Get admin ID from authenticated user
     const administratorId = "67e2d550f62f96c6a50f2308";
@@ -41,9 +41,9 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                 collegeName: collegeData.collegeName,
                 university: collegeData.university,
                 instituteId: collegeData.instituteId,
-                logo_tag: collegeData.logo_tag,
+                logo_tag: "eng",
                 type: collegeData.type,
-                typeOfCollege: collegeData.typeOfCollege,
+                typeOfCollege: "engineering",
                 address: {
                     city: collegeData.city,
                     state: collegeData.state,
@@ -70,7 +70,7 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                     fees: 0, // Default value
                     eligibilityCriteria: {
                         minTwelfthPercentage: 75, // Default value
-                        requiredExams: ["jee_advanced"]
+                        requiredExams: ["jee_mains"]  //jee_advanced, jee_mains
                     }
                 });
                 createdStreams++;

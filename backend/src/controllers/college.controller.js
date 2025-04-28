@@ -147,6 +147,7 @@ export const deleteStream = asyncHandler(async (req, res) => {
 export const getCollegeById = asyncHandler(async (req, res) => {
     try {
         const { id } = req.params;
+        
         // Validate MongoDB ObjectID
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new ApiError(400, "Invalid college ID format");
@@ -154,18 +155,14 @@ export const getCollegeById = asyncHandler(async (req, res) => {
 
         const collegeId = new mongoose.Types.ObjectId(id);
 
-        // Use aggregation pipeline to fetch college with related streams and courses
+        // Aggregation pipeline with proper data handling
         const college = await College.aggregate([
-            {
-                $match: {
-                    _id: collegeId
-                }
-            },
+            { $match: { _id: collegeId } },
             {
                 $lookup: {
                     from: 'streams',
                     localField: '_id',
-                    foreignField: 'collageId',
+                    foreignField: 'collegeId', // Fixed typo from 'collageId' to 'collegeId'
                     as: 'streams',
                     pipeline: [
                         {
@@ -173,49 +170,72 @@ export const getCollegeById = asyncHandler(async (req, res) => {
                                 from: 'courses',
                                 localField: '_id',
                                 foreignField: 'streamId',
-                                as: 'courses'
+                                as: 'courses',
+                                pipeline: [{
+                                    $project: {
+                                        _id: 1,
+                                        streamId: 1,
+                                        branches: { $ifNull: ['$branches', []] }
+                                    }
+                                }]
+                            }
+                        },
+                        { 
+                            $project: {
+                                _id: 1,
+                                streamName: 1,
+                                streamType: 1,
+                                duration: 1,
+                                fees: 1,
+                                eligibilityCriteria: 1,
+                                courses: { $ifNull: ['$courses', []] }
                             }
                         },
                         { $sort: { streamName: 1 } }
                     ]
                 }
             },
-
             {
                 $project: {
                     _id: 1,
-                    administratorId: 1,
                     collegeName: 1,
                     rankingNIRF: { $ifNull: ['$rankingNIRF', 0] },
                     university: 1,
                     type: 1,
                     typeOfCollege: 1,
-                    logo: { $ifNull: ['$logo', { public_id: '', url: '' }] },
+                    instituteId: 1,
+                    logo_tag: { $ifNull: ['$logo_tag', ''] },
                     address: {
-                        city: '$address.city',
-                        state: '$address.state',
-                        country: { $ifNull: ['$address.country', 'India'] }
+                        $ifNull: [
+                            '$address',
+                            { city: '', state: '', country: 'India' }
+                        ]
                     },
                     website: { $ifNull: ['$website', ''] },
-                    email: { $ifNull: ['$email', ''] },
                     contactNumber: { $ifNull: ['$contactNumber', ''] },
                     description: { $ifNull: ['$description', ''] },
-                    rating: { $ifNull: ['$rating', 0] },
+                    teacherLeanerRatio: { $ifNull: ['$teacherLeanerRatio', 0] },
+                    researchScore: { $ifNull: ['$researchScore', 0] },
+                    perceptionScore: { $ifNull: ['$perceptionScore', 0] },
+                    graducationOutcome: { $ifNull: ['$graducationOutcome', 0] },
                     placementStatistics: {
-                        averagePackage: { $ifNull: ['$placementStatistics.averagePackage', 0] },
-                        highestPackage: { $ifNull: ['$placementStatistics.highestPackage', 0] },
-                        topRecruiters: { $ifNull: ['$placementStatistics.topRecruiters', []] }
+                        $ifNull: [
+                            '$placementStatistics',
+                            {
+                                averagePackage: 0,
+                                highestPackage: 0,
+                                topRecruiters: []
+                            }
+                        ]
                     },
-                    streams: {
-                        $ifNull: ['$streams', []]
-                    },
+                    streams: { $ifNull: ['$streams', []] },
                     createdAt: 1,
                     updatedAt: 1
                 }
             }
         ]);
 
-        if (!college || college.length === 0) {
+        if (!college?.length) {
             throw new ApiError(404, "College not found");
         }
 
@@ -225,9 +245,9 @@ export const getCollegeById = asyncHandler(async (req, res) => {
 
     } catch (error) {
         console.error('Error in getCollegeById:', error);
-        return res.status(error.statusCode || 500).json(
-            new ApiError(error.statusCode || 500, error.message || "Internal Server Error")
-        );
+        const statusCode = error.statusCode || 500;
+        const message = error.message || "Internal Server Error";
+        return res.status(statusCode).json(new ApiError(statusCode, message));
     }
 });
 
