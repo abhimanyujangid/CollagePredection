@@ -7,9 +7,7 @@ import { z } from "zod";
     university: z.string().min(2, "University name is required"),
     type: z.enum(["private", "government", "deemed", "state"]),
     typeOfCollege: z.enum(["engineering", "medical", "management", "law", "arts", "science"]),
-    logo: z
-        .instanceof(File, { message: "Profile image is required" })
-        .refine((file) => file?.type.startsWith("image/"), "Only image files are allowed"),
+    logo_tag: z.string().min(1, "Logo tag is required"),
     address: z.object({
         city: z.string().min(2, "City is required"),
         state: z.string().min(2, "State is required"),

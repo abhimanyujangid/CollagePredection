@@ -155,14 +155,14 @@ export const getCollegeById = asyncHandler(async (req, res) => {
 
         const collegeId = new mongoose.Types.ObjectId(id);
 
-        // Aggregation pipeline with proper data handling
+        // Aggregation pipeline with proper data handling and categories integration
         const college = await College.aggregate([
             { $match: { _id: collegeId } },
             {
                 $lookup: {
                     from: 'streams',
                     localField: '_id',
-                    foreignField: 'collegeId', // Fixed typo from 'collageId' to 'collegeId'
+                    foreignField: 'collegeId',
                     as: 'streams',
                     pipeline: [
                         {
@@ -171,13 +171,47 @@ export const getCollegeById = asyncHandler(async (req, res) => {
                                 localField: '_id',
                                 foreignField: 'streamId',
                                 as: 'courses',
-                                pipeline: [{
-                                    $project: {
-                                        _id: 1,
-                                        streamId: 1,
-                                        branches: { $ifNull: ['$branches', []] }
+                                pipeline: [
+                                    {
+                                        $lookup: {
+                                            from: 'categories',
+                                            localField: '_id',
+                                            foreignField: 'courseId',
+                                            as: 'categories',
+                                            pipeline: [
+                                                {
+                                                    $project: {
+                                                        _id: 1,
+                                                        courseId: 1,
+                                                        caste: 1,
+                                                        gender: 1,
+                                                        quotas: {
+                                                            $map: {
+                                                                input: "$quotas",
+                                                                as: "quota",
+                                                                in: {
+                                                                    quotaName: "$$quota.quotaName",
+                                                                    data: {
+                                                                        $ifNull: ["$$quota.data", []]
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                { $sort: { caste: 1, "quotas.quotaName": 1 } }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        $project: {
+                                            _id: 1,
+                                            streamId: 1,
+                                            branches: { $ifNull: ['$branches', []] },
+                                            categories: { $ifNull: ['$categories', []] }
+                                        }
                                     }
-                                }]
+                                ]
                             }
                         },
                         { 
@@ -213,6 +247,7 @@ export const getCollegeById = asyncHandler(async (req, res) => {
                     },
                     website: { $ifNull: ['$website', ''] },
                     contactNumber: { $ifNull: ['$contactNumber', ''] },
+                    email: { $ifNull: ['$email', ''] },
                     description: { $ifNull: ['$description', ''] },
                     teacherLeanerRatio: { $ifNull: ['$teacherLeanerRatio', 0] },
                     researchScore: { $ifNull: ['$researchScore', 0] },
