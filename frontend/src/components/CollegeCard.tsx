@@ -3,15 +3,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { capitalize } from "@/utils";
 
 interface CollegeCardProps {
     name: string;
-    location: string;
-    logoUrl?: string;
+    location: {
+        city: string;
+        state: string;
+        country?: string;
+    }[];
+    logo_tag?: string;
     nirfRank?: number;
     yearlyFees?: string;
     collegeType?: string;
-    type?: string;
+    streamType?: [];
     topCourses?: string[];
     gradientFrom?: string;
     gradientTo?: string;
@@ -21,30 +26,33 @@ interface CollegeCardProps {
 export function CollegeCard({
     name,
     location,
-    logoUrl,
+    logo_tag,
     nirfRank,
     yearlyFees,
     collegeType = "Private",
-    type = "Engineering",
+    streamType = [],
     topCourses = [],
     gradientFrom = "from-blue-600",
     gradientTo = "to-cyan-500",
     onViewClick,
 }: CollegeCardProps) {
+
+    console.log("CollegeCard Props:", topCourses)
     return (
-        <Card className="w-32 sm:w-80 md:w-96 flex-shrink-0">
+        <Card className="w-32 sm:w-80 md:w-96 flex-shrink-0 pb-12 relative">
 
             <CardHeader className={`bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white p-4 rounded-t-lg`}>
                 <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10 border-2 border-white/20">
-                        <AvatarImage src={logoUrl} alt={name} />
-                        <AvatarFallback>
-                            <Building2 className="h-5 w-5" />
+                    <Avatar className="h-12 w-12 border-2 border-white/30 shadow-lg">
+
+                        <AvatarFallback className="text-sm text-primary font-bold ">
+                            {logo_tag?.toUpperCase() || "NA"}
                         </AvatarFallback>
                     </Avatar>
                     <div>
                         <h3 className="font-semibold text-base leading-tight">{name}</h3>
-                        <p className="text-xs text-white/80">{location}</p>
+                        <p className="text-xs text-white/80">{location?.city}, {location?.state}</p>
+                        
                     </div>
                 </div>
             </CardHeader>
@@ -63,7 +71,7 @@ export function CollegeCard({
 
                         {yearlyFees && (
                             <div className="flex-1 bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
-                                <p className="text-xs text-green-800 dark:text-green-300">Yearly Fees</p>
+                                <p className="text-xs text-green-800 dark:text-green-300">Institute Id</p>
                                 <p className="text-base font-semibold text-green-900 dark:text-green-200">
                                     {yearlyFees}
                                 </p>
@@ -76,37 +84,39 @@ export function CollegeCard({
                             variant="secondary"
                             className="text-xs bg-purple-100 text-purple-800 hover:bg-purple-200 dark:bg-purple-900 dark:text-purple-300"
                         >
-                            {collegeType}
+                            {capitalize(collegeType)}
                         </Badge>
-                        <Badge
-                            variant="secondary"
-                            className="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300"
-                        >
-                            {type}
-                        </Badge>
+                        {streamType?.map((type: any, index) => (
+                            <Badge
+                                key={index}
+                                variant="secondary"
+                                className="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300"
+                            >
+                                {capitalize(type?.streamType)}
+                            </Badge>
+                        ))}
+                      
                     </div>
 
                     {topCourses && topCourses.length > 0 && (
-                        <div className="space-y-1.5">
-                            <p className="text-xs font-medium text-muted-foreground">Top Courses</p>
-                            <div className="flex flex-wrap gap-1.5">
-                                {topCourses.map((course, index) => (
-                                    <Badge
-                                        key={index}
-                                        variant="outline"
-                                        className="text-xs bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100 
-                             dark:bg-teal-900/20 dark:text-teal-300 dark:border-teal-800"
-                                    >
-                                        {course}
-                                    </Badge>
-                                ))}
-                            </div>
+                        <div className="space-x-1.5">
+                            <p className="text-xs font-medium text-muted-foreground">Top Course</p>
+                            {topCourses.slice(0, 3).map((course, index) => (
+                                <Badge
+                                    key={index}
+                                    variant="outline"
+                                    className="text-xs bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100 
+                                 dark:bg-teal-900/20 dark:text-teal-300 dark:border-teal-800"
+                                >
+                                    {course}
+                                </Badge>
+                            ))}
                         </div>
                     )}
                 </div>
             </CardContent>
 
-            <CardFooter className="p-4 pt-0">
+            <CardFooter className="p-4 absolute bottom-0 left-0 right-0 ">
                 <Button
                     className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 
                      hover:to-purple-600 text-white shadow-lg hover:shadow-xl transition-all 

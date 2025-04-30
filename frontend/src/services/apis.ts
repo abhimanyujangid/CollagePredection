@@ -175,3 +175,16 @@ export const getConstantEntranceExamDataService = async (typeOfCollege?: string)
     throw new Error("Failed to fetch entrance exam data");
 };
 
+
+
+// ================================= DASHBOARD DATA =======================
+
+
+export const getTopTensCollegesService = async () => {
+    const res = await apiClient.get("dashboard/top-tens-colleges");
+    if(res.status === 200) {
+        return res.data;
+    }
+    throw new Error("Failed to fetch top ten colleges");
+};
+
