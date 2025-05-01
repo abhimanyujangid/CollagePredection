@@ -3,15 +3,14 @@ import { CollegeCard } from '@/components/CollegeCard';
 import { HorizontalCarousel } from '@/components/CollegeCarousel';
 import useFetch from '@/hooks/useFetch';
 import { getTopTensCollegesService } from '@/services/apis';
+import { CollegeCardSkeleton } from '@/skelton/CollegeCardSkeleton';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-// Skeleton loader for CollegeCard
-const CollegeCardSkeleton = () => (
-  <div className="w-72 h-80 bg-gray-200 animate-pulse rounded-xl shadow-md"></div>
-);
+
 
 const AllCollege = () => {
   const { data, loading, error } = useFetch(getTopTensCollegesService);
-
+  const navigate = useNavigate();
   const renderCarousel = (
     title: string,
     streamKey: keyof typeof data,
@@ -21,7 +20,7 @@ const AllCollege = () => {
     const colleges = data?.[streamKey] || [];
 
     return (
-      <HorizontalCarousel title={title} viewAllRoute="/dashboard/all-colleges">
+      <HorizontalCarousel title={title} viewAllRoute={`/dashboard/${streamKey}`}>
         {loading
           ? Array.from({ length: 5 }).map((_, index) => (
               <CollegeCardSkeleton key={index} />
@@ -45,7 +44,7 @@ const AllCollege = () => {
                 gradientFrom={gradientFrom}
                 gradientTo={gradientTo}
                 onViewClick={() =>
-                  alert(`View details for ${college.collegeName}`)
+                  navigate(`/dashboard/${streamKey}/${college._id}`)
                 }
               />
             ))
