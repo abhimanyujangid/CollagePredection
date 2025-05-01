@@ -8,25 +8,47 @@ const collegeSchema = new Schema({
   university: { type: String, required: true },
   type: { type: String, enum: AvailableCollegeTypes, default: CollegeTypeEnum.PRIVATE },
   typeOfCollege: {
-    type: String, enum: AvailableCollegeStreams
-    , required: true
+    type: String,
+     enum: AvailableCollegeStreams,
+     required: true
   },
-  logo: {
-    type: {
-      public_id: String,
-      url: String
-    }, default: ""
-  }, // College logo URL
+  instituteId:{
+    type: String,
+    required: true
+  },
+  logo_tag:{
+    type: String
+  },
+  // logo: {
+  //   type: {
+  //     public_id: String,
+  //     url: String
+  //   }, default: ""
+  // }, // College logo URL
   address: {
     city: { type: String, required: true },
     state: { type: String, required: true },
     country: { type: String, default: "India" },
   },
-  website: { type: String, required: true },
-  email: { type: String },
+  website: { type: String},
   contactNumber: { type: String },
   description: { type: String },
-  rating: { type: Number, default: 0 }, // College rating (e.g., out of 5)
+  teacherLeanerRatio:{
+    type:Number,
+    default:0
+  },
+  researchScore:{
+    type:Number,
+    default:0
+  },
+  perceptionScore:{
+    type:Number,
+    default:0
+  },
+  graducationOutcome:{
+    type:Number,
+    default:0
+  },
   placementStatistics: {
     averagePackage: { type: Number, default: 0 }, // Avg salary in LPA
     highestPackage: { type: Number, default: 0 }, // Highest salary in LPA

@@ -75,5 +75,7 @@ export class LocalStorage {
 
 export const capitalize = (s: string) => {
   if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+  const replaced = s.replace(/_/g, ' ')
+  return replaced.charAt(0).toUpperCase() + replaced.slice(1).toLowerCase()
 }
+

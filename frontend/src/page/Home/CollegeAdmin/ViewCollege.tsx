@@ -7,7 +7,8 @@ import { Stream } from '@/ZODtypes/streams';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function ViewCollege() {
+
+function ViewCollege(collegeAdmin:boolean = true) {
   const [streams, setStreams] = useState<Stream[]>([]);
   const dispatch = useAppDispatch();
 
@@ -27,7 +28,7 @@ function ViewCollege() {
 
   return (
       <div>
-        <CollegeInfoCard />
+        <CollegeInfoCard collegeAdmin={collegeAdmin}/>
     </div>
   );
 }
