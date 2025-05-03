@@ -9,6 +9,7 @@ import { PaginationNav } from '@/components/CustomPagination';
 const AddCollege = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  console.log("selectedFilters",selectedFilters)
   const dispatch = useAppDispatch();
   const { getAll, loading, error } = useAppSelector((state) => state.college);
 
@@ -24,7 +25,7 @@ const AddCollege = () => {
     dispatch(getAdministratorAllCollegesAction({ 
       page: currentPage, 
       limit: 10,
-      filters: selectedFilters.length > 0 ? selectedFilters : undefined
+      filter: selectedFilters.length > 0 ? selectedFilters : ""
     }));
   }, [dispatch, currentPage, selectedFilters]);
   

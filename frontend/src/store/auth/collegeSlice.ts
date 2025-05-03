@@ -57,9 +57,9 @@ export const getCollegeByIdAction = createAsyncThunk(
 
 export const getAdministratorAllCollegesAction = createAsyncThunk(
     "collegeAdmin/getAdministratorAllColleges",
-    async ({ page = 1, limit = 10 }: { page?: number, limit?: number }, { rejectWithValue }) => {
+    async ({ page = 1, limit = 10 , filter }: { page?: number, limit?: number, filter:string[] }, { rejectWithValue }) => {
         try {
-            const response = await getAdministratorAllCollegesService({ page, limit });
+            const response = await getAdministratorAllCollegesService({ page, limit , filter});
             if (response?.data?.data) {
                 return response.data.data;
             }
