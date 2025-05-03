@@ -71,7 +71,6 @@ export const createCollege = asyncHandler(async (req, res) => {
 export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const administratorId = req.user._id;
     const { page = 1, limit = 10, filter } = req.query;
-    console.log("filter", filter);
     const skip = (page - 1) * limit;
 
     // Parse filter into an array if it's a string (e.g., from query string)
