@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { getAllCollegesService } from '@/services/apis';
 import { CollegeCard } from '@/components/CollegeCard';
 import { CollegeCardSkeleton } from '@/skelton/CollegeCardSkeleton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { capitalize } from '@/utils';
 import { Card } from '@/components/ui/card';
 import NoCollegesMessage from '@/components/NoCollegesMessage';
@@ -16,6 +16,7 @@ const Colleges = () => {
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef();
   const {typeOfCollege} = useParams();
+  const navigate = useNavigate();
   
   // Function to fetch colleges
   const fetchColleges = async (pageNum) => {
@@ -92,7 +93,7 @@ const Colleges = () => {
                     location={college.address || "Unknown"}
                     logo_tag={college.logo_tag}
                     nirfRank={college.rankingNIRF}
-                    yearlyFees={college.yearlyFees || college.fees || "Contact college"}
+                    yearlyFees={college.instituteId} 
                     collegeType={college.type}
                     streamType={college?.streams}
                     topCourses={
@@ -116,7 +117,7 @@ const Colleges = () => {
                   location={college.address || "Unknown"}
                   logo_tag={college.logo_tag}
                   nirfRank={college.rankingNIRF}
-                  yearlyFees={college.yearlyFees || college.fees || "Contact college"}
+                  yearlyFees={college.instituteId} 
                   collegeType={college.type}
                   streamType={college?.streams}
                   topCourses={
@@ -127,7 +128,7 @@ const Colleges = () => {
                   gradientFrom="from-blue-600"
                   gradientTo="to-cyan-500"
                   onViewClick={() =>
-                    alert(`View details for ${college.collegeName}`)
+                    navigate(`/dashboard/${typeOfCollege}/${college._id}`)
                   }
                 />
               );
