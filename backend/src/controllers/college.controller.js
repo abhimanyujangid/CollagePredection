@@ -70,11 +70,30 @@ export const createCollege = asyncHandler(async (req, res) => {
 //=============================GET ALL COLLEGES=============================
 export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
     const administratorId = req.user._id;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, filter } = req.query;
     const skip = (page - 1) * limit;
 
+    // Parse filter into an array if it's a string (e.g., from query string)
+    let filterArray = [];
+    if (filter) {
+        try {
+            filterArray = Array.isArray(filter)
+                ? filter
+                : typeof filter === "string"
+                ? JSON.parse(filter)
+                : [];
+        } catch (e) {
+            return res.status(400).json(new ApiResponse(400, null, "Invalid filter format"));
+        }
+    }
+
+    const matchStage = {
+        administratorId,
+        ...(filterArray.length > 0 && { typeOfCollege: { $in: filterArray } })
+    };
+
     const pipeline = [
-        { $match: { administratorId } },
+        { $match: matchStage },
         { $sort: { createdAt: -1 } },
         {
             $facet: {
@@ -91,8 +110,15 @@ export const getAdministratorAllColleges = asyncHandler(async (req, res) => {
 
     if (!colleges.length) throw new ApiError(404, "Colleges not found");
 
-    res.status(200).json(new ApiResponse(200, { colleges, total, currentPage: parseInt(page), totalPages }, "Colleges fetched successfully"));
+    res.status(200).json(
+        new ApiResponse(
+            200,
+            { colleges, total, currentPage: parseInt(page), totalPages },
+            "Colleges fetched successfully"
+        )
+    );
 });
+
 
 //=============================CREATE STREAM=============================
 export const createStreamOfCollege = asyncHandler(async (req, res) => {

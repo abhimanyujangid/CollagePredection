@@ -132,11 +132,13 @@ export const getCollegeByIdService = async (id: string) => {
 export const getAdministratorAllCollegesService = async ({
   page = 1,
   limit = 10,
+  filter,
 }: {
   page?: number;
   limit?: number;
+  filter?: string[];
 }) => {
-  return await apiClient.get("colleges", { params: { page, limit } });
+  return await apiClient.get("colleges", { params: { page, limit, filter } });
 };
 
 ///////////// Strem API ////////////

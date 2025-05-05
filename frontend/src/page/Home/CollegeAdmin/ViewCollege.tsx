@@ -5,7 +5,7 @@ import { getCollegeByIdService } from '@/services/apis';
 import { setCollegeData } from '@/store/auth/collegeInfo';
 import { Stream } from '@/ZODtypes/streams';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 
 function ViewCollege(collegeAdmin:boolean = true) {
