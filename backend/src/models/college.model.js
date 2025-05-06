@@ -7,11 +7,11 @@ const collegeSchema = new Schema({
   rankingNIRF: { type: Number, default: 0 },
   university: { type: String, required: true },
   type: { type: String, enum: AvailableCollegeTypes, default: CollegeTypeEnum.PRIVATE },
-  typeOfCollege: {
+  typeOfCollege: [{
     type: String,
      enum: AvailableCollegeStreams,
      required: true
-  },
+  }],
   instituteId:{
     type: String,
     required: true

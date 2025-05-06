@@ -5,12 +5,9 @@ import { Stream } from "../models/stream.model.js";
 import { Course } from "../models/course.model.js";
 import { College } from "../models/college.model.js";
 import { Categorie } from "../models/categories.model.js";
-import { BSC_OTHER } from "../CollegeDB/BSC_OTHER.js";
 import { IIT_ENG } from "../CollegeDB/IIT_ENG.js";
-import { IIT_DUAL_DEGREE } from "../CollegeDB/IIT_DUAL_DEGREE.js";
-import { NIT_DUAL_DEGREE } from "../CollegeDB/NIT_DUAL_DEGREE.js";
-import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js"
-
+import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js";
+// import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js";
 
 /**
  * @desc Uploads college data to the database
@@ -18,13 +15,23 @@ import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js"
  * @access Private
  */
 export const uploadCollege = asyncHandler(async (req, res) => {
-    const data = OTHER_INSTITUTE_BETCH;
+    console.log("Upload API triggered");
 
-    // Get admin ID from authenticated user
+    const data = IIT_ENG;
+    console.log("Input college data count:", data.length);
+
     const administratorId = "67e2d550f62f96c6a50f2308";
     if (!administratorId) {
         throw new ApiError(401, "Unauthorized access");
     }
+
+    // // Optional: clear previous data
+    // await College.deleteMany({ administratorId });
+    // await Stream.deleteMany({});
+    // await Course.deleteMany({});
+    // await Categorie.deleteMany({});
+
+    // return
 
     let createdColleges = 0;
     let createdStreams = 0;
@@ -32,18 +39,22 @@ export const uploadCollege = asyncHandler(async (req, res) => {
     let createdCategories = 0;
 
     try {
-        // Process colleges sequentially but optimize internal operations
         for (const collegeData of data) {
+            // Prevent duplicate colleges
+            const existing = await College.findOne({ instituteId: collegeData.instituteId });
+            if (existing) {
+                console.log(`Skipping duplicate college: ${collegeData.collegeName}`);
+                continue;
+            }
 
-            // 1. Create College Document first
             const college = await College.create({
                 administratorId,
                 collegeName: collegeData.collegeName,
                 university: collegeData.university,
                 instituteId: collegeData.instituteId,
-                logo_tag: "eng",
+                logo_tag: collegeData.logo_tag,
                 type: collegeData.type,
-                typeOfCollege: "engineering",
+                typeOfCollege: collegeData.typeOfCollege,
                 address: {
                     city: collegeData.city,
                     state: collegeData.state,
@@ -56,36 +67,30 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                 perceptionScore: collegeData.perceptionScore
             });
             createdColleges++;
-            const collageId = college._id;
+            console.log(`Created college: ${college.collegeName}`);
 
-            console.log("Created college:", college.collegeName);
-            console.log("Created college ID:", collageId);
-            // 2. Process all Streams for this college (concurrently)
             const streamPromises = collegeData.branches.map(async (branchData) => {
+                const exam = collegeData.logo_tag === "iit" ? "jee_advanced" : "jee_mains";
                 const stream = await Stream.create({
                     collegeId: college._id,
                     streamName: branchData.streamName,
                     streamType: branchData.streamType,
-                    duration: 4, // Default duration for engineering
-                    fees: 0, // Default value
+                    duration: branchData.streamType === "dual_degree" ? 5 : 4,
+                    fees: 0,
                     eligibilityCriteria: {
-                        minTwelfthPercentage: 75, // Default value
-                        requiredExams: ["jee_mains"]  //jee_advanced, jee_mains
+                        minTwelfthPercentage: 75,
+                        requiredExams: exam
                     }
                 });
                 createdStreams++;
 
-
-                console.log("Created stream:", stream.streamName);
-                // 3. Process all Courses for this stream (concurrently)
-                const coursePromises = branchData?.courses.map(async (courseData) => {
+                const coursePromises = branchData.courses.map(async (courseData) => {
                     const course = await Course.create({
                         streamId: stream._id,
                         branches: courseData.branches
                     });
                     createdCourses++;
 
-                    // 4. Process all Categories for this course (concurrently)
                     const categoryPromises = courseData.Categories.map(async (categoryData) => {
                         await Categorie.create({
                             courseId: course._id,
@@ -101,23 +106,18 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                         });
                         createdCategories++;
                     });
-                    console.log("Created course:", course._id);
 
-                    // Wait for all categories to be created for this course
                     await Promise.all(categoryPromises);
                     return course;
                 });
 
-                // Wait for all courses to be created for this stream
                 await Promise.all(coursePromises);
                 return stream;
             });
 
-            // Wait for all streams to be created for this college
             await Promise.all(streamPromises);
         }
 
-        // Return success response
         return res.status(201).json(
             new ApiResponse(201, {
                 createdColleges,
@@ -128,7 +128,6 @@ export const uploadCollege = asyncHandler(async (req, res) => {
         );
 
     } catch (error) {
-        // Handle specific errors
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             throw new ApiError(400, `Validation error: ${messages.join(', ')}`);
