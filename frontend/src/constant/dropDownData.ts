@@ -206,7 +206,8 @@ const INDIAN_STATE = [
 
 
 const EXAM_OPTIONS = [
- "JEE",
+ "JEE_Advanced",
+  "JEE_Main",
   "NEET",
   "BITSAT",
   "VITEEE",
@@ -246,6 +247,74 @@ const ENGINEERING_COURSES = [
 ];
 
 
+ const STATE_BOARD = [
+  "Central Board of Secondary Education",
+  "Council for the Indian School Certificate Examinations",
+  "Andhra Pradesh Board of Intermediate Education",
+  "Assam Higher Secondary Education Council",
+  "Bihar School Examination Board",
+  "Chhattisgarh Board of Secondary Education",
+  "Goa Board of Secondary and Higher Secondary Education",
+  "Gujarat Secondary and Higher Secondary Education Board",
+  "Haryana Board of School Education",
+  "Himachal Pradesh Board of School Education",
+  "Jharkhand Academic Council",
+  "Karnataka Pre-University Education Board",
+  "Kerala Board of Higher Secondary Education",
+  "Madhya Pradesh Board of Secondary Education",
+  "Maharashtra State Board of Secondary and Higher Secondary Education",
+  "Manipur Council of Higher Secondary Education",
+  "Meghalaya Board of School Education",
+  "Mizoram Board of School Education",
+  "Nagaland Board of School Education",
+  "Odisha Council of Higher Secondary Education",
+  "Punjab School Education Board",
+  "Rajasthan Board of Secondary Education",
+  "Tamil Nadu Directorate of Government Examinations",
+  "Telangana State Board of Intermediate Education",
+  "Tripura Board of Secondary Education",
+  "Uttar Pradesh Madhyamik Shiksha Parishad",
+  "Uttarakhand Board of School Education",
+  "West Bengal Council of Higher Secondary Education",
+  "Board of Secondary Education, Arunachal Pradesh",
+  "Sikkim Board of Secondary Education",
+  "Delhi Board of School Education (DBSE)",
+  "Jammu and Kashmir Board of School Education",
+  "Ladakh Board of School Education",
+  "Puducherry State Education Board",
+  "Andaman and Nicobar Islands School Education Board",
+  "Chandigarh Board of Secondary Education",
+  "Dadra and Nagar Haveli and Daman and Diu School Education Board",
+  "Lakshadweep State Education Board"
+];
+
+
+
+const TWELFTH_STREAM = [
+  "Science (PCM)",
+  "Science (PCB)",
+  "Science (PCMB)",
+  "Commerce",
+  "Arts/Humanities",
+  "Vocational Studies",
+  "Agriculture",
+  "Fine Arts",
+  "Home Science",
+  "Information Technology",
+  "Computer Science",
+  "Hotel Management",
+  "Physical Education",
+  "Mass Media",
+  "Business Studies",
+  "Fashion Studies",
+  "Travel and Tourism",
+  "Engineering Graphics",
+  "Retail",
+  "Healthcare",
+  "Legal Studies",
+];
+
+
 export { 
   twelfthDropDownData, 
   DEGREE_LEVELS, 
@@ -255,5 +324,7 @@ export {
   INDIAN_STATE,
   DEGREE_TYPES,
   EXAM_OPTIONS,
-  ENGINEERING_COURSES
+  ENGINEERING_COURSES,
+  STATE_BOARD,
+  TWELFTH_STREAM
 };

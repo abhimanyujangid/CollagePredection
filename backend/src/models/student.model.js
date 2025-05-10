@@ -7,12 +7,9 @@ const studentSchema = new Schema({
     phoneNumber: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
     gender: { type: String, enum: AvailableGenders, required: true },
+    city:{ type: String, required: true },
+    state:{ type: String, required: true },
     cast: { type: String, enum: AvailableCasts, required: true },
-    hobbies: [{ type: String }],
-    preferences: {
-        preferredCourses: { type: String },
-        preferredLocations: [{ type: String }],
-    },
 });
 
 export const StudentProfile = model('StudentProfile', studentSchema);

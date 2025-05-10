@@ -53,6 +53,6 @@ const indianStates = [
   
 
   const gender = ["male", "female", "other"];
-  const cast = ["general", "obc", "sc", "st", "ews"];
+  const cast = ["OPEN", "OBC", "SC", "ST", "EWS", "OPEN_PWD", "OBC_PWD", "SC_PWD", "ST_PWD", "EWS_PWD"];
   
   export { indianStates, indianUnionTerritories, gender, cast, twelfthStreams };  

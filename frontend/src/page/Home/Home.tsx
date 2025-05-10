@@ -2,6 +2,7 @@ import DashboardSidebar from '@/components/DashboardSidebar';
 import { Outlet } from 'react-router-dom';
 import { Users, Stethoscope, Palette, Building2, Scale, MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
+import { useAppSelector } from '@/hooks/reduxHook';
 
 export interface Category {
   id: number;
@@ -13,6 +14,7 @@ export interface Category {
 const Home = () => {
   
   const [activeCategory, setActiveCategory] = useState<number>(1);
+    const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
 
   const categories: Category[] = [
     { id: 1, name: 'All', icon: <Building2 className="w-5 h-5" />, path: '/dashboard' },

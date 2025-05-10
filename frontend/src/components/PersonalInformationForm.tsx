@@ -5,13 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { IStudent, IStudentSchema } from "@/ZODtypes/profile";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHook";
 import { studentProfileAction, updateStudentProfileAction } from "@/store/auth/studentSlice";
 import CustomDropdown from "./CoustomDropdown";
 import { cast, gender } from "@/constant/Dummydata";
 import { personalInformationLabel } from "@/constant/inputLabel";
+import { set } from "date-fns";
+import { INDIAN_STATE } from "@/constant/dropDownData";
 
 interface IStudentProps {
   data: {
@@ -29,7 +30,6 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
     handleSubmit,
     control,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<IStudent>({
     resolver: zodResolver(IStudentSchema),
@@ -39,12 +39,10 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
       dateOfBirth: "",
       gender: undefined,
       cast: undefined,
-      hobbies: [],
+      state: undefined,
+      city: "",
     },
   });
-
-  const [hobbies, setHobbies] = useState<string[]>(student?.hobbies || []);
-  const hobbyInput = watch("hobbies");
 
   useEffect(() => {
     if (student) {
@@ -53,23 +51,12 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
       setValue("dateOfBirth", student.dateOfBirth ? student.dateOfBirth.split("T")[0] : "");
       setValue("gender", student.gender || "");
       setValue("cast", student.cast || "");
-      setHobbies(student.hobbies || []);
+      setValue("state", student.state || "");
+      setValue("city", student.city || "");
     }
   }, [student, setValue]);
 
-  const addHobby = () => {
-    if (hobbyInput && !hobbies.includes(hobbyInput)) {
-      setHobbies([...hobbies, hobbyInput]);
-      setValue("hobbies", ""); // Clear input after adding
-    }
-  };
-
-  const removeHobby = (hobby: string) => {
-    setHobbies(hobbies.filter((h) => h !== hobby));
-  };
-
   const onSubmit = (data: IStudent) => {
-    data.hobbies = hobbies;
     const id = student?._id || "";
     if (student) {
       dispatch(updateStudentProfileAction({ data, id }));
@@ -89,7 +76,7 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
           {personalInformationLabel.map((field) => (
             <div key={field}>
               <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
-              <Input {...register(field)} placeholder={field === "dateOfBirth" ? "YYYY-MM-DD" : ""} type={field === "dateOfBirth" ? "date" : "tel"}  loading={loading} />
+              <Input {...register(field)} placeholder={field === "dateOfBirth" ? "YYYY-MM-DD" : " "} type={field === "dateOfBirth" ? "date" : "tel"}  loading={loading} />
               {errors[field] && <p className="text-red-500 text-sm">{errors[field]?.message as string}</p>}
             </div>
           ))}
@@ -107,21 +94,16 @@ export default function PersonalInformationForm({ data }: IStudentProps) {
               {errors[field] && <p className="text-red-500 text-sm">{errors[field]?.message as string}</p>}
             </div>
           ))}
-          <div className="col-span-2">
-            <Label>Hobbies</Label>
-            <div className="flex gap-2">
-              <Input {...register("hobbies")} placeholder="Enter hobby" disabled={loading} />
-              <Button type="button" onClick={addHobby} disabled={loading}>
-                Add
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {hobbies.map((hobby) => (
-                <Badge key={hobby} className="cursor-pointer" onClick={() => removeHobby(hobby)}>
-                  {hobby} ✕
-                </Badge>
-              ))}
-            </div>
+          <div>
+            <label>State</label>
+             <CustomDropdown
+                control={control}
+                loading={loading}
+                data={INDIAN_STATE}
+                placeholder={`Select a State`}
+                name={"state"}
+              />
+            {errors.state && <p className="text-red-500 text-sm">{errors.state?.message as string}</p>}
           </div>
         </CardContent>
         <div className="p-4 flex justify-end">

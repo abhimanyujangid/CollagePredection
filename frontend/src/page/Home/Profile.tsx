@@ -6,12 +6,12 @@ import { getCollegeAdminProfileAction } from '@/store/auth/collegeAdminSlice'
 
 const Profile = () => {
    const dispatch = useAppDispatch()
-    const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
-    console.log("User", user);
+  const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
 
 useEffect(() => {
-  dispatch(getCollegeAdminProfileAction())
-
+  if (user?.role == 'COLLEGE_ADMIN') {
+    dispatch(getCollegeAdminProfileAction())
+  }
 }, [dispatch])
     
   return (
