@@ -7,7 +7,7 @@ import { getCollegeAdminProfileAction } from '@/store/auth/collegeAdminSlice'
 const Profile = () => {
    const dispatch = useAppDispatch()
     const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
-
+    console.log("User", user);
 
 useEffect(() => {
   dispatch(getCollegeAdminProfileAction())

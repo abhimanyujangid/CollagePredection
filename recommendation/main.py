@@ -5,6 +5,10 @@ from pydantic import BaseModel
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import os
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
 
 # Load the model
 model_path = os.path.join(os.path.dirname(__file__), 'model.pkl')
@@ -24,6 +28,15 @@ feature_names = data.columns[:-2].tolist()  # Exclude 'Courses' and 'Courses_lab
 
 # Define FastAPI app
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or replace "*" with your frontend URL, like ["http://localhost:3000"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define input schema
 class InputData(BaseModel):

@@ -276,7 +276,7 @@ const stepData =
       "color": "#64b5f6"
     },
     {
-      "id": "psychoogy",
+      "id": "psycology",
       "title": "Psycology",
       "description": "Understanding the human mind and behavior",
       "icon": "🧠",
@@ -459,7 +459,7 @@ const stepData =
     },
     {
       "id": "pharmacist",
-      "title": "Pharmisist",
+      "title": "Pharmacist",
       "description": "Interest in pharmaceutical science",
       "icon": "💊",
       "color": "#4db6ac"
@@ -506,13 +506,6 @@ const stepData =
       "icon": "🎧",
       "color": "#4fc3f7"
     },
-    {
-      "id": "courses",
-      "title": "Courses",
-      "description": "Taking online or offline educational courses",
-      "icon": "🏫",
-      "color": "#ffb74d"
-    }
   ]
 
 

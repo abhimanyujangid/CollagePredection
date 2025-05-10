@@ -37,7 +37,6 @@ router.post(
 router.get(
     "/:id",
     verifyJWT,
-    verifyPermission([UserRolesEnum.COLLEGE_ADMIN]),
     getCollegeById
 );
 router.get(

@@ -56,6 +56,7 @@ export const logoutAction = createAsyncThunk(
     try {
       await logoutService();
       LocalStorage.clear();
+      window.location.reload(); 
       navigate('/auth');  // Move navigation after tokens are cleared
       toast.success('Logout successful');
       return true;

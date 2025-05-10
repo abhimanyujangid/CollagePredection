@@ -6,12 +6,12 @@ def validate_interest_fields(data):
                        'Computer Parts', 'Researching', 'Architecture', 'Historic Collection', 
                        'Botany', 'Zoology', 'Physics', 'Accounting', 'Economics', 
                        'Sociology', 'Geography', 'Psycology', 'History', 'Science', 
-                       'Bussiness Education', 'Chemistry', 'Mathematics', 'Biology', 
-                       'Makeup', 'Designing', 'Content writing', 'Crafting', 'Literature', 
-                       'Reading', 'Cartooning', 'Debating', 'Asrtology', 'Hindi', 
+                       'Business Education', 'Chemistry', 'Mathematics', 'Biology', 
+                       'Makeup', 'Designing', 'Content Writing', 'Crafting', 'Literature', 
+                       'Reading', 'Cartooning', 'Debating', 'Astrology', 'Hindi', 
                        'French', 'English', 'Urdu', 'Other Language', 'Solving Puzzles', 
-                       'Gymnastics', 'Yoga', 'Engeeniering', 'Doctor', 'Pharmisist', 
-                       'Cycling', 'Knitting', 'Director', 'Journalism', 'Bussiness', 
+                       'Gymnastics', 'Yoga', 'Engineering', 'Doctor', 'Pharmacist', 
+                       'Cycling', 'Knitting', 'Director', 'Journalism', 'Business', 
                        'Listening Music']
     
     for field in required_fields:
