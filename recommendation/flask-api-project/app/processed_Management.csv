@@ -1,98 +1,98 @@
-collegeName,instituteId,teacherLearnerRatio,researchScore,graducationOutcome,perceptionScore,city,state,rankingNIRF,website,campusLife,infrastructureScore,alumniScore,placementScore,course
-Aligarh Muslim University,IR-M-U-0496,54.24,40.29,68.52,12.84,Aligarh,Uttar Pradesh,70,https://www.amu.ac.in,82,80,85,78,Both
-Alliance University,IR-M-U-0213,78.59,9.03,67.19,11.64,Bengaluru,Karnataka,71,https://www.alliance.edu.in,80,83,75,80,Both
-Amity University,IR-M-U-0497,70.39,54.11,58.85,13.62,Gautam Budh Nagar,Uttar Pradesh,29,https://www.amity.edu,85,88,82,85,Both
-Amrita Vishwa Vidyapeetham,IR-M-U-0436,64.11,41.4,73.51,34.97,Coimbatore,Tamil Nadu,28,https://www.amrita.edu,78,85,80,82,Both
-Anna University,IR-M-U-0439,53.37,39.59,63.23,38.52,Chennai,Tamil Nadu,69,https://www.annauniv.edu,80,87,83,84,MBA
-Atal Bihari Vajpayee Indian Institute of Information Technology and Management,IR-M-U-0267,62.24,23.46,71.8,11.23,Gwalior,Madhya Pradesh,85,https://www.iiitm.ac.in,75,80,70,78,MBA
-Babasaheb Bhimrao Ambedkar University,IR-M-U-0498,62.44,11.05,78.23,4.57,Lucknow,Uttar Pradesh,86,https://www.bbau.ac.in,76,78,72,74,Both
-Banaras Hindu University,IR-M-U-0500,62.18,29.5,81.82,27.63,Varanasi,Uttar Pradesh,48,https://www.bhu.ac.in,88,90,90,87,Both
-Bharathidasan Institute of Management,IR-M-N-4,63.85,0.69,82.36,34.73,Tiruchirappalli,Tamil Nadu,94,https://www.bim.edu,80,82,78,83,MBA
-Birla Institute of Management Technology,IR-M-S-354,67.23,18.69,80.54,9.55,Greater Noida,Uttar Pradesh,64,https://www.bimtech.ac.in,82,85,80,84,MBA
-Birla Institute of Technology,IR-M-U-0202,61.75,23.08,64.18,12.44,Ranchi,Jharkhand,90,https://www.bitmesra.ac.in,80,86,82,82,Both
-BML Munjal University,IR-M-U-0735,70.47,14.53,66.98,3.1,Gurgaon,Haryana,83,https://www.bmu.edu.in,78,82,70,77,Both
-Chandigarh University,IR-M-U-0747,75.3,30.03,70.22,20.06,Mohali,Punjab,36,https://www.cuchd.in,84,88,76,86,Both
-Chitkara University,IR-M-U-0373,71.22,33.81,57.3,5.52,Rajpura,Punjab,54,https://www.chitkara.edu.in,80,84,73,82,Both
-Christ University,IR-M-U-0217,61.48,22.09,69.9,42.58,Bengaluru,Karnataka,60,https://www.christuniversity.in,86,87,80,84,Both
-Cochin University of Science and Technology,IR-M-U-0253,70.94,19.37,66.27,8.69,Cochin,Kerala,81,https://www.cusat.ac.in,78,80,75,78,MBA
-Fore School of Management,IR-M-I-1066,70.42,17.93,85.12,13.23,New Delhi,Delhi,53,https://www.fsm.ac.in,80,82,78,83,MBA
-Galgotias University,IR-M-U-0643,62.42,14.99,64.51,2.6,Gautam Budh Nagar,Uttar Pradesh,98,https://www.galgotiasuniversity.edu.in,78,82,70,80,Both
-Goa Institute of Management,IR-M-S-87,75.11,25.94,84.41,13.23,Sanquelim,Goa,37,https://www.gim.ac.in,85,86,82,87,MBA
-Graphic Era University,IR-M-U-0555,69.16,27.41,59,26.5,Dehradun,Uttarakhand,59,https://www.geu.ac.in,82,83,74,81,Both
-Great Lakes Institute of Management,IR-M-N-16,78.3,22.05,81.85,23.25,Chennai,Tamil Nadu,34,https://www.greatlakes.edu.in,84,86,80,88,MBA
-Guru Gobind Singh Indraprastha University,IR-M-U-0099,60.92,32.16,73.02,14.76,New Delhi,Delhi,65,https://www.ipu.ac.in,78,80,75,80,Both
-"ICFAI Foundation for Higher Education, Hyderabad",IR-M-U-0012,75.59,26.77,75.96,18.02,Hyderabad,Telangana,39,https://www.ifheindia.org,80,82,74,81,Both
-Indian Institute of Foreign Trade,IR-M-U-0102,80.36,32.8,87.48,42.58,New Delhi,Delhi,15,https://www.iift.ac.in,85,86,88,89,MBA
-Indian Institute of Management Ahmedabad,IR-M-S-8890,91.88,63.89,98.71,96.81,Ahmedabad,Gujarat,1,https://www.iima.ac.in,90,95,95,98,MBA
-Indian Institute of Management Amritsar,IR-M-S-16881,67.83,18.63,87.86,22.63,Amritsar,Punjab,47,https://www.iimamritsar.ac.in,80,83,70,85,MBA
-Indian Institute of Management Bangalore,IR-M-S-8903,90.08,56.71,98.41,100,Bengaluru,Karnataka,2,https://www.iimb.ac.in,92,95,95,97,MBA
-Indian Institute of Management Bodh Gaya,IR-M-U-1006,75.08,25.8,84.73,21.05,Gaya,Bihar,33,https://www.iimbg.ac.in,78,80,68,82,MBA
-Indian Institute of Management Calcutta,IR-M-S-8972,84.12,48.09,99.09,85.29,Kolkata,West Bengal,5,https://www.iimcal.ac.in,91,94,94,97,MBA
-Indian Institute of Management Indore,IR-M-S-8918,84.08,55.28,93.49,57.93,Indore,Madhya Pradesh,8,https://www.iimidr.ac.in,89,92,90,95,MBA
-Indian Institute of Management Jammu (IIMJ),IR-M-U-1004,73.73,16.68,86.87,28.18,Jammu,Jammu and Kashmir,42,https://www.iimj.ac.in,76,80,65,80,MBA
-Indian Institute of Management Kashipur,IR-M-S-8967,67.95,40.39,89.06,30.56,Kashipur,Uttarakhand,23,https://www.iimkashipur.ac.in,78,82,70,83,MBA
-Indian Institute of Management Kozhikode,IR-M-S-8909,86.99,58.96,94.37,75.3,Kozhikode,Kerala,3,https://www.iimk.ac.in,90,93,92,96,MBA
-Indian Institute of Management Lucknow,IR-M-S-8959,84.25,49.09,96.59,79.81,Lucknow,Uttar Pradesh,7,https://www.iiml.ac.in,91,94,93,97,MBA
-Indian Institute of Management Mumbai,IR-M-S-8931,80.81,59.14,99.41,52.82,Mumbai,Maharashtra,6,https://www.iimmumbai.ac.in,80,85,75,86,MBA
-Indian Institute of Management Nagpur,IR-M-S-15962,71.57,27.17,86.55,29.78,Nagpur,Maharashtra,31,https://www.iimnagpur.ac.in,80,82,68,84,MBA
-Indian Institute of Management Raipur,IR-M-S-8868,78.31,41.28,90.68,23.25,Raipur,Chhattisgarh,14,https://www.iimraipur.ac.in,81,84,71,85,MBA
-Indian Institute of Management Ranchi,IR-M-S-8904,70.89,39.65,89.45,30.82,Ranchi,Jharkhand,17,https://www.iimranchi.ac.in,80,83,70,84,MBA
-Indian Institute of Management Rohtak,IR-M-S-8895,79.69,45.01,88.9,37,Rohtak,Haryana,12,https://www.iimrohtak.ac.in,80,83,70,84,MBA
-Indian Institute of Management Sambalpur,IR-M-S-6,64.06,18.02,81.32,30.31,Sambalpur,Odisha,50,https://www.iimsambalpur.ac.in,77,80,65,80,MBA
-Indian Institute of Management Shillong,IR-M-S-8937,74.68,28.33,94.96,31.83,Shillong,Meghalaya,24,https://www.iimshillong.ac.in,85,88,78,90,MBA
-Indian Institute of Management Sirmaur,IR-M-S-15911,66.29,18.15,83.61,15.88,Sirmaur,Himachal Pradesh,57,https://www.iimsirmaur.ac.in,76,80,65,78,MBA
-Indian Institute of Management Tiruchirappalli,IR-M-S-8948,60.97,29.09,87.47,61.89,Tiruchirappalli,Tamil Nadu,27,https://www.iimtrichy.ac.in,83,86,75,88,MBA
-Indian Institute of Management Udaipur,IR-M-S-8942,79.21,33.95,88.69,20.39,Udaipur,Rajasthan,22,https://www.iimu.ac.in,82,85,73,87,MBA
-Indian Institute of Management Visakhapatnam,IR-M-U-1007,80.81,22.51,86.1,39.37,Visakhapatnam,Andhra Pradesh,26,https://www.iimv.ac.in,80,83,70,85,MBA
-Indian Institute of Technology (Indian School of Mines) Dhanbad,IR-M-U-0205,70.67,41.31,55.53,16.96,Dhanbad,Jharkhand,46,https://www.iitism.ac.in,78,85,80,82,MBA
-Indian Institute of Technology Bombay,IR-M-U-0306,78.3,61.64,79.25,34.5,Mumbai,Maharashtra,10,https://www.iitb.ac.in,90,95,94,97,MBA
-Indian Institute of Technology Delhi,IR-M-I-1074,72.21,78.39,89.51,64.25,New Delhi,Delhi,4,https://www.iitd.ac.in,90,95,94,97,MBA
-Indian Institute of Technology Kanpur,IR-M-I-1075,66.9,44.97,77.9,32.08,Kanpur,Uttar Pradesh,29,https://www.iitk.ac.in,89,94,93,96,MBA
-Indian Institute of Technology Kharagpur,IR-M-U-0573,50.1,63.68,87.88,37.88,Kharagpur,West Bengal,19,https://www.iitkgp.ac.in,89,94,93,96,MBA
-Indian Institute of Technology Madras,IR-M-U-0456,70.39,47.93,75.1,51.74,Chennai,Tamil Nadu,16,https://www.iitm.ac.in,90,95,94,97,MBA
-Indian Institute of Technology Roorkee,IR-M-U-0560,68.08,59,71.09,26.5,Roorkee,Uttarakhand,18,https://www.iitr.ac.in,89,94,93,95,MBA
-Institute of Rural Management Anand (IRMA),IR-M-S-92,65.29,22.36,87.73,12.84,Anand,Gujarat,49,https://www.imt.edu,85,87,86,88,MBA
-International Management Institute,IR-M-I-1064,72.25,26.29,87.23,9.12,New Delhi,Delhi,40,https://www.irma.ac.in,84,85,80,87,MBA
-"International Management Institute, Bhubaneswar",IR-M-I-1124,72.06,16.72,78.94,2.6,Bhubaneswar,Odisha,61,https://www.imi.edu,83,85,82,86,MBA
-"International Management Institute, Kolkata",IR-M-I-1408,63.64,30.94,79.3,1.06,Kolkata,West Bengal,56,https://imibh.edu.in,78,80,70,81,MBA
-Jagan Institute of Management Studies Technical Campus,IR-M-S-782,66.04,8.36,78.75,12.44,Delhi,Delhi,87,https://www.imi-k.edu.in,78,80,70,81,MBA
-"Jain University, Bangalore",IR-M-U-0223,72,11.96,70.81,12.84,Bengaluru,Karnataka,77,https://www.jimsindia.org,79,80,72,80,Both
-Jaipuria Institute of Management,IR-M-S-3283,67.35,28.22,76.47,25.35,Noida,Uttar Pradesh,45,https://www.jainuniversity.ac.in,80,82,70,81,MBA
-Jaipuria Institute of Management,IR-M-S-309,71.33,13.88,74.4,14.38,Jaipur,Rajasthan,75,https://www.jaipuria.ac.in,80,81,72,82,MBA
-"Jaipuria Institute of Management, Lucknow",IR-M-S-419,71.51,12.81,72.36,24.76,Lucknow,Uttar Pradesh,72,https://www.jaipuria.ac.in/campuses/lucknow,80,81,72,82,MBA
-Jamia Hamdard,IR-M-U-0107,67.8,17.57,70.05,3.6,New Delhi,Delhi,78,https://www.jamiahamdard.ac.in,78,82,70,80,Both
-Jamia Millia Islamia,IR-M-U-0108,65.45,48.39,81.46,15.14,New Delhi,Delhi,25,https://www.jmi.ac.in,82,85,80,82,Both
-K J Somaiya Institute of Management Studies and Research,IR-M-C-56616,68.84,23.02,72.59,9.12,Mumbai,Maharashtra,63,https://kjsim.somaiya.edu.in,82,84,80,85,MBA
-Kalinga Institute of Industrial Technology,IR-M-U-0356,79.12,22.29,51.75,7.36,Bhubaneswar,Odisha,67,https://kiit.ac.in,84,87,76,86,Both
-Koneru Lakshmaiah Education Foundation University (K L College of Engineering),IR-M-U-0020,70.68,26.18,54.41,3.1,Vaddeswaram,Andhra Pradesh,79,https://www.kluniversity.in,80,83,72,80,Both
-Krea University,IR-M-I-1238,69.73,2.22,64.61,9.98,Sri City,Andhra Pradesh,99,https://krea.edu.in,78,80,65,78,Both
-Lovely Professional University,IR-M-U-0379,73.49,38.97,62.87,16.61,Phagwara,Punjab,38,https://www.lpu.in,85,88,75,86,Both
-Loyola Institute of Business Administration,IR-M-S-331,69.63,15.81,72.6,29.25,Chennai,Tamil Nadu,66,https://liba.edu,82,83,78,84,MBA
-Malaviya National Institute of Technology,IR-M-U-0410,48.9,57.63,55.61,3.1,Jaipur,Rajasthan,68,https://www.mnit.ac.in,82,87,80,85,MBA
-Management Development Institute,IR-M-I-1170,75.87,50.74,95.24,27.07,Gurugram,Haryana,11,https://www.mdi.ac.in,88,90,90,92,MBA
-"Manipal University, Jaipur",IR-M-U-0749,66.15,24.92,68.06,2.6,Jaipur,Rajasthan,73,https://jaipur.manipal.edu,84,88,78,85,Both
-MICA,IR-M-S-14875,70.52,38.08,84.36,3.6,Ahmedabad,Gujarat,32,https://www.mica.ac.in,85,85,82,88,MBA
-National Institute of Agricultural Extension Management,IR-M-S-14553,69.3,7.76,67.84,4.09,Hyderabad,Telangana,96,https://www.manage.gov.in,80,82,75,83,MBA
-National Institute of Bank Management,IR-M-S-14565,64.45,8.17,85.01,2.09,Pune,Maharashtra,91,https://www.nibmindia.org,78,80,72,82,MBA
-National Institute of Technology Calicut,IR-M-U-0263,67.49,24.68,66.03,12.84,Kozhikode,Kerala,76,https://www.nitc.ac.in,82,86,80,84,MBA
-National Institute of Technology Tiruchirappalli,IR-M-U-0467,54.19,39.84,71.84,26.5,Tiruchirappalli,Tamil Nadu,51,https://www.nitt.edu,86,90,85,88,MBA
-National Institute of Technology Warangal,IR-M-U-0025,63.7,28.57,46.53,9.98,Warangal,Telangana,100,https://www.nitw.ac.in,85,89,84,87,MBA
-New Delhi Institute of Management,IR-M-C-32887,70.21,3.47,79.1,11.23,Delhi,Delhi,88,https://www.ndimdelhi.org,78,80,70,80,Both
-Nirma University,IR-M-U-0146,64.09,27.69,80.98,8.69,Ahmedabad,Gujarat,55,https://www.nirmauni.ac.in,82,85,80,86,Both
-Pandit Deendayal Energy University,IR-M-U-0147,60.14,26.68,75.31,2.09,Gandhinagar,Gujarat,89,https://www.pdpu.ac.in,80,84,76,83,Both
-Panjab University,IR-M-U-0078,48.21,29.8,69.61,18.02,Chandigarh,Chandigarh,92,https://www.puchd.ac.in,84,86,85,84,Both
-Prin. L.N. Welingkar Institute of Management Development and Research (PGDM),IR-M-S-19472,67.48,10.7,81.8,6.45,Mumbai,Maharashtra,84,https://www.welingkar.org,82,84,83,86,MBA
-PSG College of Technology,IR-M-C-37013,60.45,11.27,76.6,45.02,Coimbatore,Tamil Nadu,80,https://www.psgtech.edu,82,86,84,85,MBA
-Rajagiri Business School,IR-M-S-164,65.55,20.92,59.14,8.69,Cochin,Kerala,93,https://www.rajagiri.edu,80,83,75,82,MBA
-S. P. Jain Institute of Management and Research,IR-M-I-1044,78.86,26.6,98.65,27.07,Mumbai,Maharashtra,20,https://www.spjimr.org,88,90,90,92,MBA
-Saveetha Institute of Medical and Technical Sciences,IR-M-I-1441,67.57,30.84,51.62,3.1,Chennai,Tamil Nadu,74,https://www.saveetha.com,78,82,70,80,Both
-Siksha `O` Anusandhan,IR-M-U-0363,70.66,19.77,69.03,12.04,Bhubaneswar,Odisha,62,https://www.soa.ac.in,80,84,74,82,Both
-SVKM`s Narsee Monjee Institute of Management Studies,IR-M-N-10,78.42,29.96,92.39,22.95,Mumbai,Maharashtra,21,https://www.nmims.edu,86,88,88,90,Both
-Symbiosis Institute of Business Management,IR-M-C-19343,75.51,42.85,94.27,41.21,Pune,Maharashtra,13,https://www.sibm.edu,86,88,87,90,MBA
-"T. A. Pai Management Institute, Manipal",IR-M-S-156,60.1,25.9,81.91,15.51,Manipal,Karnataka,58,https://www.tapmi.edu.in,85,87,86,89,MBA
-Tezpur University,IR-M-U-0056,63.73,16.91,68.04,3.6,Tezpur,Assam,95,https://www.tezu.ernet.in,80,83,75,80,Both
-Thapar Institute of Engineering and Technology (Deemed-to-be-university),IR-M-I-1480,66.13,42.28,63.22,8.69,Patiala,Punjab,44,https://www.thapar.edu,83,87,80,85,Both
-Thiagarajar School of Management,IR-M-C-36557,66.9,24.31,64.38,20.06,Madurai,Tamil Nadu,82,https://www.tsm.ac.in,80,82,75,82,MBA
-UPES,IR-M-U-0564,73.29,32.94,67.39,28.99,Dehradun,Uttarakhand,41,https://www.upes.ac.in,82,85,77,84,Both
-XIM University,IR-M-U-0715,73.86,21.36,91.24,21.69,Bhubaneswar,Odisha,43,https://www.xim.edu.in,84,86,82,87,Both
-XLRI - Xavier School of Management,IR-M-S-132,85.49,39.79,97.92,45.02,Jamshedpur,Jharkhand,9,https://www.xlri.ac.in,90,92,92,95,MBA
+collegeName,university,type,pacakage,instituteId,teacherLearnerRatio,researchScore,graducationOutcome,perceptionScore,city,state,rankingNIRF,website,campusLife,infrastructureScore,alumniScore,placementScore,course
+Aligarh Muslim University,Aligarh Muslim University,Government,7-8 LPA,IR-M-U-0496,54.24,40.29,68.52,12.84,Aligarh,Uttar Pradesh,70,https://www.amu.ac.in,82,80,85,78,Both
+Alliance University,Alliance University,Private,8-10 LPA,IR-M-U-0213,78.59,9.03,67.19,11.64,Bengaluru,Karnataka,71,https://www.alliance.edu.in,80,83,75,80,Both
+Amity University,Amity University,Private,6-7 LPA,IR-M-U-0497,70.39,54.11,58.85,13.62,Gautam Budh Nagar,Uttar Pradesh,29,https://www.amity.edu,85,88,82,85,Both
+Amrita Vishwa Vidyapeetham,Amrita Vishwa Vidyapeetham,Private (Deemed),6-7 LPA,IR-M-U-0436,64.11,41.4,73.51,34.97,Coimbatore,Tamil Nadu,28,https://www.amrita.edu,78,85,80,82,Both
+Anna University,Anna University,Government,5-6 LPA,IR-M-U-0439,53.37,39.59,63.23,38.52,Chennai,Tamil Nadu,69,https://www.annauniv.edu,80,87,83,84,MBA
+Atal Bihari Vajpayee Indian Institute of Information Technology and Management,ABV-IIITM Gwalior,Government,8-9 LPA,IR-M-U-0267,62.24,23.46,71.8,11.23,Gwalior,Madhya Pradesh,85,https://www.iiitm.ac.in,75,80,70,78,MBA
+Babasaheb Bhimrao Ambedkar University,Babasaheb Bhimrao Ambedkar University,Government,5-6 LPA,IR-M-U-0498,62.44,11.05,78.23,4.57,Lucknow,Uttar Pradesh,86,https://www.bbau.ac.in,76,78,72,74,Both
+Banaras Hindu University,Banaras Hindu University,Government,8-9 LPA,IR-M-U-0500,62.18,29.5,81.82,27.63,Varanasi,Uttar Pradesh,48,https://www.bhu.ac.in,88,90,90,87,Both
+Bharathidasan Institute of Management,Bharathidasan University,Government (Autonomous),11-13 LPA,IR-M-N-4,63.85,0.69,82.36,34.73,Tiruchirappalli,Tamil Nadu,94,https://www.bim.edu,80,82,78,83,MBA
+Birla Institute of Management Technology,Birla Institute of Management Technology,Private,11-12 LPA,IR-M-S-354,67.23,18.69,80.54,9.55,Greater Noida,Uttar Pradesh,64,https://www.bimtech.ac.in,82,85,80,84,MBA
+Birla Institute of Technology,Birla Institute of Technology,Government (Deemed),7-8 LPA,IR-M-U-0202,61.75,23.08,64.18,12.44,Ranchi,Jharkhand,90,https://www.bitmesra.ac.in,80,86,82,82,Both
+BML Munjal University,BML Munjal University,Private,7-8 LPA,IR-M-U-0735,70.47,14.53,66.98,3.1,Gurgaon,Haryana,83,https://www.bmu.edu.in,78,82,70,77,Both
+Chandigarh University,Chandigarh University,Private,7-8 LPA,IR-M-U-0747,75.3,30.03,70.22,20.06,Mohali,Punjab,36,https://www.cuchd.in,84,88,76,86,Both
+Chitkara University,Chitkara University,Private,7-8 LPA,IR-M-U-0373,71.22,33.81,57.3,5.52,Rajpura,Punjab,54,https://www.chitkara.edu.in,80,84,73,82,Both
+Christ University,Christ University,Private (Deemed),7-8 LPA,IR-M-U-0217,61.48,22.09,69.9,42.58,Bengaluru,Karnataka,60,https://www.christuniversity.in,86,87,80,84,Both
+Cochin University of Science and Technology,Cochin University of Science and Technology,Government,5-6 LPA,IR-M-U-0253,70.94,19.37,66.27,8.69,Cochin,Kerala,81,https://www.cusat.ac.in,78,80,75,78,MBA
+Fore School of Management,Fore School of Management,Private,14-15 LPA,IR-M-I-1066,70.42,17.93,85.12,13.23,New Delhi,Delhi,53,https://www.fsm.ac.in,80,82,78,83,MBA
+Galgotias University,Galgotias University,Private,5-6 LPA,IR-M-U-0643,62.42,14.99,64.51,2.6,Gautam Budh Nagar,Uttar Pradesh,98,https://www.galgotiasuniversity.edu.in,78,82,70,80,Both
+Goa Institute of Management,Goa Institute of Management,Private,14-15 LPA,IR-M-S-87,75.11,25.94,84.41,13.23,Sanquelim,Goa,37,https://www.gim.ac.in,85,86,82,87,MBA
+Graphic Era University,Graphic Era University,Private (Deemed),6-7 LPA,IR-M-U-0555,69.16,27.41,59,26.5,Dehradun,Uttarakhand,59,https://www.geu.ac.in,82,83,74,81,Both
+Great Lakes Institute of Management,Great Lakes Institute of Management,Private,14-15 LPA,IR-M-N-16,78.3,22.05,81.85,23.25,Chennai,Tamil Nadu,34,https://www.greatlakes.edu.in,84,86,80,88,MBA
+Guru Gobind Singh Indraprastha University,Guru Gobind Singh Indraprastha University,Government,6-7 LPA,IR-M-U-0099,60.92,32.16,73.02,14.76,New Delhi,Delhi,65,https://www.ipu.ac.in,78,80,75,80,Both
+"ICFAI Foundation for Higher Education, Hyderabad",ICFAI Foundation for Higher Education,Private (Deemed),7-8 LPA,IR-M-U-0012,75.59,26.77,75.96,18.02,Hyderabad,Telangana,39,https://www.ifheindia.org,80,82,74,81,Both
+Indian Institute of Foreign Trade,Indian Institute of Foreign Trade,Government,29-30 LPA,IR-M-U-0102,80.36,32.8,87.48,42.58,New Delhi,Delhi,15,https://www.iift.ac.in,85,86,88,89,MBA
+Indian Institute of Management Ahmedabad,Indian Institute of Management Ahmedabad,Government,35-36 LPA,IR-M-S-8890,91.88,63.89,98.71,96.81,Ahmedabad,Gujarat,1,https://www.iima.ac.in,90,95,95,98,MBA
+Indian Institute of Management Amritsar,Indian Institute of Management Amritsar,Government,16-17 LPA,IR-M-S-16881,67.83,18.63,87.86,22.63,Amritsar,Punjab,47,https://www.iimamritsar.ac.in,80,83,70,85,MBA
+Indian Institute of Management Bangalore,Indian Institute of Management Bangalore,Government,35-36 LPA,IR-M-S-8903,90.08,56.71,98.41,100,Bengaluru,Karnataka,2,https://www.iimb.ac.in,92,95,95,97,MBA
+Indian Institute of Management Bodh Gaya,Indian Institute of Management Bodh Gaya,Government,13-14 LPA,IR-M-U-1006,75.08,25.8,84.73,21.05,Gaya,Bihar,33,https://www.iimbg.ac.in,78,80,68,82,MBA
+Indian Institute of Management Calcutta,Indian Institute of Management Calcutta,Government,35-36 LPA,IR-M-S-8972,84.12,48.09,99.09,85.29,Kolkata,West Bengal,5,https://www.iimcal.ac.in,91,94,94,97,MBA
+Indian Institute of Management Indore,Indian Institute of Management Indore,Government,25-28 LPA,IR-M-S-8918,84.08,55.28,93.49,57.93,Indore,Madhya Pradesh,8,https://www.iimidr.ac.in,89,92,90,95,MBA
+Indian Institute of Management Jammu (IIMJ),Indian Institute of Management Jammu,Government,16-17 LPA,IR-M-U-1004,73.73,16.68,86.87,28.18,Jammu,Jammu and Kashmir,42,https://www.iimj.ac.in,76,80,65,80,MBA
+Indian Institute of Management Kashipur,Indian Institute of Management Kashipur,Government,18-19 LPA,IR-M-S-8967,67.95,40.39,89.06,30.56,Kashipur,Uttarakhand,23,https://www.iimkashipur.ac.in,78,82,70,83,MBA
+Indian Institute of Management Kozhikode,Indian Institute of Management Kozhikode,Government,30-31 LPA,IR-M-S-8909,86.99,58.96,94.37,75.3,Kozhikode,Kerala,3,https://www.iimk.ac.in,90,93,92,96,MBA
+Indian Institute of Management Lucknow,Indian Institute of Management Lucknow,Government,32-34 LPA,IR-M-S-8959,84.25,49.09,96.59,79.81,Lucknow,Uttar Pradesh,7,https://www.iiml.ac.in,91,94,93,97,MBA
+Indian Institute of Management Mumbai,Indian Institute of Management Mumbai,Government,25-27 LPA,IR-M-S-8931,80.81,59.14,99.41,52.82,Mumbai,Maharashtra,6,https://www.iimmumbai.ac.in,80,85,75,86,MBA
+Indian Institute of Management Nagpur,Indian Institute of Management Nagpur,Government,16-17 LPA,IR-M-S-15962,71.57,27.17,86.55,29.78,Nagpur,Maharashtra,31,https://www.iimnagpur.ac.in,80,82,68,84,MBA
+Indian Institute of Management Raipur,Indian Institute of Management Raipur,Government,22-23 LPA,IR-M-S-8868,78.31,41.28,90.68,23.25,Raipur,Chhattisgarh,14,https://www.iimraipur.ac.in,81,84,71,85,MBA
+Indian Institute of Management Ranchi,Indian Institute of Management Ranchi,Government,17-18 LPA,IR-M-S-8904,70.89,39.65,89.45,30.82,Ranchi,Jharkhand,17,https://www.iimranchi.ac.in,80,83,70,84,MBA
+Indian Institute of Management Rohtak,Indian Institute of Management Rohtak,Government,18-19 LPA,IR-M-S-8895,79.69,45.01,88.9,37,Rohtak,Haryana,12,https://www.iimrohtak.ac.in,80,83,70,84,MBA
+Indian Institute of Management Sambalpur,Indian Institute of Management Sambalpur,Government,16-17 LPA,IR-M-S-6,64.06,18.02,81.32,30.31,Sambalpur,Odisha,50,https://www.iimsambalpur.ac.in,77,80,65,80,MBA
+Indian Institute of Management Shillong,Indian Institute of Management Shillong,Government,20-21 LPA,IR-M-S-8937,74.68,28.33,94.96,31.83,Shillong,Meghalaya,24,https://www.iimshillong.ac.in,85,88,78,90,MBA
+Indian Institute of Management Sirmaur,Indian Institute of Management Sirmaur,Government,13-14 LPA,IR-M-S-15911,66.29,18.15,83.61,15.88,Sirmaur,Himachal Pradesh,57,https://www.iimsirmaur.ac.in,76,80,65,78,MBA
+Indian Institute of Management Tiruchirappalli,Indian Institute of Management Tiruchirappalli,Government,20-21 LPA,IR-M-S-8948,60.97,29.09,87.47,61.89,Tiruchirappalli,Tamil Nadu,27,https://www.iimtrichy.ac.in,83,86,75,88,MBA
+Indian Institute of Management Udaipur,Indian Institute of Management Udaipur,Government,21-22 LPA,IR-M-S-8942,79.21,33.95,88.69,20.39,Udaipur,Rajasthan,22,https://www.iimu.ac.in,82,85,73,87,MBA
+Indian Institute of Management Visakhapatnam,Indian Institute of Management Visakhapatnam,Government,15-16 LPA,IR-M-U-1007,80.81,22.51,86.1,39.37,Visakhapatnam,Andhra Pradesh,26,https://www.iimv.ac.in,80,83,70,85,MBA
+Indian Institute of Technology (Indian School of Mines) Dhanbad,Indian Institute of Technology (ISM) Dhanbad,Government,12-13 LPA,IR-M-U-0205,70.67,41.31,55.53,16.96,Dhanbad,Jharkhand,46,https://www.iitism.ac.in,78,85,80,82,MBA
+Indian Institute of Technology Bombay,Indian Institute of Technology Bombay,Government,25-27 LPA,IR-M-U-0306,78.3,61.64,79.25,34.5,Mumbai,Maharashtra,10,https://www.iitb.ac.in,90,95,94,97,MBA
+Indian Institute of Technology Delhi,Indian Institute of Technology Delhi,Government,25-27 LPA,IR-M-I-1074,72.21,78.39,89.51,64.25,New Delhi,Delhi,4,https://www.iitd.ac.in,90,95,94,97,MBA
+Indian Institute of Technology Kanpur,Indian Institute of Technology Kanpur,Government,18-20 LPA,IR-M-I-1075,66.9,44.97,77.9,32.08,Kanpur,Uttar Pradesh,29,https://www.iitk.ac.in,89,94,93,96,MBA
+Indian Institute of Technology Kharagpur,Indian Institute of Technology Kharagpur,Government,22-23 LPA,IR-M-U-0573,50.1,63.68,87.88,37.88,Kharagpur,West Bengal,19,https://www.iitkgp.ac.in,89,94,93,96,MBA
+Indian Institute of Technology Madras,Indian Institute of Technology Madras,Government,20-21 LPA,IR-M-U-0456,70.39,47.93,75.1,51.74,Chennai,Tamil Nadu,16,https://www.iitm.ac.in,90,95,94,97,MBA
+Indian Institute of Technology Roorkee,Indian Institute of Technology Roorkee,Government,16-18 LPA,IR-M-U-0560,68.08,59,71.09,26.5,Roorkee,Uttarakhand,18,https://www.iitr.ac.in,89,94,93,95,MBA
+Institute of Rural Management Anand (IRMA),Institute of Management Technology (Ghaziabad),Private,17-18 LPA,IR-M-S-92,65.29,22.36,87.73,12.84,Anand,Gujarat,49,https://www.imt.edu,85,87,86,88,MBA
+International Management Institute,Institute of Rural Management Anand,Government (Autonomous),15-16 LPA,IR-M-I-1064,72.25,26.29,87.23,9.12,New Delhi,Delhi,40,https://www.irma.ac.in,84,85,80,87,MBA
+"International Management Institute, Bhubaneswar",International Management Institute (Delhi),Private,15-16 LPA,IR-M-I-1124,72.06,16.72,78.94,2.6,Bhubaneswar,Odisha,61,https://www.imi.edu,83,85,82,86,MBA
+"International Management Institute, Kolkata",International Management Institute (Bhubaneswar),Private,10-11 LPA,IR-M-I-1408,63.64,30.94,79.3,1.06,Kolkata,West Bengal,56,https://imibh.edu.in,78,80,70,81,MBA
+Jagan Institute of Management Studies Technical Campus,International Management Institute (Kolkata),Private,10-11 LPA,IR-M-S-782,66.04,8.36,78.75,12.44,Delhi,Delhi,87,https://www.imi-k.edu.in,78,80,70,81,MBA
+"Jain University, Bangalore",Jagan Institute of Management Studies,Private,7-8 LPA,IR-M-U-0223,72,11.96,70.81,12.84,Bengaluru,Karnataka,77,https://www.jimsindia.org,79,80,72,80,Both
+Jaipuria Institute of Management,Jain University,Private,7-8 LPA,IR-M-S-3283,67.35,28.22,76.47,25.35,Noida,Uttar Pradesh,45,https://www.jainuniversity.ac.in,80,82,70,81,MBA
+Jaipuria Institute of Management,Jaipuria Institute of Management,Private,8-9 LPA,IR-M-S-309,71.33,13.88,74.4,14.38,Jaipur,Rajasthan,75,https://www.jaipuria.ac.in,80,81,72,82,MBA
+"Jaipuria Institute of Management, Lucknow",Jaipuria Institute of Management,Private,8-9 LPA,IR-M-S-419,71.51,12.81,72.36,24.76,Lucknow,Uttar Pradesh,72,https://www.jaipuria.ac.in/campuses/lucknow,80,81,72,82,MBA
+Jamia Hamdard,Jamia Hamdard,Government (Deemed),5-6 LPA,IR-M-U-0107,67.8,17.57,70.05,3.6,New Delhi,Delhi,78,https://www.jamiahamdard.ac.in,78,82,70,80,Both
+Jamia Millia Islamia,Jamia Millia Islamia,Government,7-8 LPA,IR-M-U-0108,65.45,48.39,81.46,15.14,New Delhi,Delhi,25,https://www.jmi.ac.in,82,85,80,82,Both
+K J Somaiya Institute of Management Studies and Research,Somaiya Vidyavihar University,Private,12-13 LPA,IR-M-C-56616,68.84,23.02,72.59,9.12,Mumbai,Maharashtra,63,https://kjsim.somaiya.edu.in,82,84,80,85,MBA
+Kalinga Institute of Industrial Technology,Kalinga Institute of Industrial Technology (KIIT),Private (Deemed),7-8 LPA,IR-M-U-0356,79.12,22.29,51.75,7.36,Bhubaneswar,Odisha,67,https://kiit.ac.in,84,87,76,86,Both
+Koneru Lakshmaiah Education Foundation University (K L College of Engineering),Koneru Lakshmaiah Education Foundation,Private (Deemed),5-6 LPA,IR-M-U-0020,70.68,26.18,54.41,3.1,Vaddeswaram,Andhra Pradesh,79,https://www.kluniversity.in,80,83,72,80,Both
+Krea University,Krea University,Private,7-8 LPA,IR-M-I-1238,69.73,2.22,64.61,9.98,Sri City,Andhra Pradesh,99,https://krea.edu.in,78,80,65,78,Both
+Lovely Professional University,Lovely Professional University,Private,6-7 LPA,IR-M-U-0379,73.49,38.97,62.87,16.61,Phagwara,Punjab,38,https://www.lpu.in,85,88,75,86,Both
+Loyola Institute of Business Administration,Loyola Institute of Business Administration,Private,10-11 LPA,IR-M-S-331,69.63,15.81,72.6,29.25,Chennai,Tamil Nadu,66,https://liba.edu,82,83,78,84,MBA
+Malaviya National Institute of Technology,Malaviya National Institute of Technology Jaipur,Government,10-11 LPA,IR-M-U-0410,48.9,57.63,55.61,3.1,Jaipur,Rajasthan,68,https://www.mnit.ac.in,82,87,80,85,MBA
+Management Development Institute,Management Development Institute,Private,27-28 LPA,IR-M-I-1170,75.87,50.74,95.24,27.07,Gurugram,Haryana,11,https://www.mdi.ac.in,88,90,90,92,MBA
+"Manipal University, Jaipur",Manipal University Jaipur,Private,7-8 LPA,IR-M-U-0749,66.15,24.92,68.06,2.6,Jaipur,Rajasthan,73,https://jaipur.manipal.edu,84,88,78,85,Both
+MICA,MICA (formerly Mudra Institute of Communications,Private,20-21 LPA,IR-M-S-14875,70.52,38.08,84.36,3.6,Ahmedabad,Gujarat,32,https://www.mica.ac.in,85,85,82,88,MBA
+National Institute of Agricultural Extension Management,MANAGE Hyderabad (National Institute of Agricultural Extension Management),Government,10-11 LPA,IR-M-S-14553,69.3,7.76,67.84,4.09,Hyderabad,Telangana,96,https://www.manage.gov.in,80,82,75,83,MBA
+National Institute of Bank Management,National Institute of Bank Management,Government (Autonomous),12-13 LPA,IR-M-S-14565,64.45,8.17,85.01,2.09,Pune,Maharashtra,91,https://www.nibmindia.org,78,80,72,82,MBA
+National Institute of Technology Calicut,National Institute of Technology Calicut,Government,10-11 LPA,IR-M-U-0263,67.49,24.68,66.03,12.84,Kozhikode,Kerala,76,https://www.nitc.ac.in,82,86,80,84,MBA
+National Institute of Technology Tiruchirappalli,National Institute of Technology Tiruchirappalli,Government,12-13 LPA,IR-M-U-0467,54.19,39.84,71.84,26.5,Tiruchirappalli,Tamil Nadu,51,https://www.nitt.edu,86,90,85,88,MBA
+National Institute of Technology Warangal,National Institute of Technology Warangal,Government,10-11 LPA,IR-M-U-0025,63.7,28.57,46.53,9.98,Warangal,Telangana,100,https://www.nitw.ac.in,85,89,84,87,MBA
+New Delhi Institute of Management,New Delhi Institute of Management,Private,7-8 LPA,IR-M-C-32887,70.21,3.47,79.1,11.23,Delhi,Delhi,88,https://www.ndimdelhi.org,78,80,70,80,Both
+Nirma University,Nirma University,Private,11-12 LPA,IR-M-U-0146,64.09,27.69,80.98,8.69,Ahmedabad,Gujarat,55,https://www.nirmauni.ac.in,82,85,80,86,Both
+Pandit Deendayal Energy University,Pandit Deendayal Energy University,Private,7-8 LPA,IR-M-U-0147,60.14,26.68,75.31,2.09,Gandhinagar,Gujarat,89,https://www.pdpu.ac.in,80,84,76,83,Both
+Panjab University,Panjab University,Government,9-10 LPA,IR-M-U-0078,48.21,29.8,69.61,18.02,Chandigarh,Chandigarh,92,https://www.puchd.ac.in,84,86,85,84,Both
+Prin. L.N. Welingkar Institute of Management Development and Research (PGDM),Prin. L.N. Welingkar Institute of Management Development and Research,Private,12-13 LPA,IR-M-S-19472,67.48,10.7,81.8,6.45,Mumbai,Maharashtra,84,https://www.welingkar.org,82,84,83,86,MBA
+PSG College of Technology,PSG College of Technology,Government-Aided (Autonomous),6-7 LPA,IR-M-C-37013,60.45,11.27,76.6,45.02,Coimbatore,Tamil Nadu,80,https://www.psgtech.edu,82,86,84,85,MBA
+Rajagiri Business School,Rajagiri Business School,Private,7-8 LPA,IR-M-S-164,65.55,20.92,59.14,8.69,Cochin,Kerala,93,https://www.rajagiri.edu,80,83,75,82,MBA
+S. P. Jain Institute of Management and Research,S. P. Jain Institute of Management and Research,Private,33-34 LPA,IR-M-I-1044,78.86,26.6,98.65,27.07,Mumbai,Maharashtra,20,https://www.spjimr.org,88,90,90,92,MBA
+Saveetha Institute of Medical and Technical Sciences,Saveetha Institute of Medical and Technical Sciences,Private (Deemed),4-5 LPA,IR-M-I-1441,67.57,30.84,51.62,3.1,Chennai,Tamil Nadu,74,https://www.saveetha.com,78,82,70,80,Both
+Siksha `O` Anusandhan,Siksha `O` Anusandhan,Private (Deemed),5-6 LPA,IR-M-U-0363,70.66,19.77,69.03,12.04,Bhubaneswar,Odisha,62,https://www.soa.ac.in,80,84,74,82,Both
+SVKM`s Narsee Monjee Institute of Management Studies,Narsee Monjee Institute of Management Studies (NMIMS),Private (Deemed),14-16 LPA,IR-M-N-10,78.42,29.96,92.39,22.95,Mumbai,Maharashtra,21,https://www.nmims.edu,86,88,88,90,Both
+Symbiosis Institute of Business Management,Symbiosis International (Deemed University),Private (Deemed),23-24 LPA,IR-M-C-19343,75.51,42.85,94.27,41.21,Pune,Maharashtra,13,https://www.sibm.edu,86,88,87,90,MBA
+"T. A. Pai Management Institute, Manipal",T. A. Pai Management Institute (Manipal Academy of Higher Education),Private (Deemed),15-16 LPA,IR-M-S-156,60.1,25.9,81.91,15.51,Manipal,Karnataka,58,https://www.tapmi.edu.in,85,87,86,89,MBA
+Tezpur University,Tezpur University,Government,7-8 LPA,IR-M-U-0056,63.73,16.91,68.04,3.6,Tezpur,Assam,95,https://www.tezu.ernet.in,80,83,75,80,Both
+Thapar Institute of Engineering and Technology (Deemed-to-be-university),Thapar Institute of Engineering and Technology,Private (Deemed),7-8 LPA,IR-M-I-1480,66.13,42.28,63.22,8.69,Patiala,Punjab,44,https://www.thapar.edu,83,87,80,85,Both
+Thiagarajar School of Management,Thiagarajar School of Management,Private,7-8 LPA,IR-M-C-36557,66.9,24.31,64.38,20.06,Madurai,Tamil Nadu,82,https://www.tsm.ac.in,80,82,75,82,MBA
+UPES,University of Petroleum and Energy Studies,Private,7-8 LPA,IR-M-U-0564,73.29,32.94,67.39,28.99,Dehradun,Uttarakhand,41,https://www.upes.ac.in,82,85,77,84,Both
+XIM University,XIM University (Xavier Institute of Management,Private (Deemed),17-18 LPA,IR-M-U-0715,73.86,21.36,91.24,21.69,Bhubaneswar,Odisha,43,https://www.xim.edu.in,84,86,82,87,Both
+XLRI - Xavier School of Management,XLRI - Xavier School of Management,Private,32-34 LPA,IR-M-S-132,85.49,39.79,97.92,45.02,Jamshedpur,Jharkhand,9,https://www.xlri.ac.in,90,92,92,95,MBA
