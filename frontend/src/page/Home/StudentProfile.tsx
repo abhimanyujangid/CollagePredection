@@ -1,16 +1,10 @@
 import AcademicInformationForm from '@/components/AcademicInformationForm'
 import PersonalInformationForm from '@/components/PersonalInformationForm'
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHook'
-import { getStudentDataAction } from '@/store/auth/studentSlice'
-import { useEffect } from 'react'
+import { useAppSelector } from '@/hooks/reduxHook'
 
 const StudentProfile = () => {
-  const dispatch = useAppDispatch()
   const { student, studentEducation, loading } = useAppSelector((state) => state.student)
 
-  useEffect(() => {
-    dispatch(getStudentDataAction());
-  }, [dispatch]);
 
 
   return (

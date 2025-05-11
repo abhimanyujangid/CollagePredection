@@ -6,7 +6,8 @@ import {
     createConstantEntranceExamDataMany,
     getConstantData, 
     getConstantStreamData,
-    getConstantEntranceExamData } from "../controllers/collegeConstant.controller.js";
+    getConstantEntranceExamData,
+    getCitys } from "../controllers/collegeConstant.controller.js";
 import { validate } from "../validators/validate.js";
 
 const router = Router()
@@ -23,6 +24,9 @@ router.route("/entrance-exam").post(validate, createConstantEntranceExamDataMany
 router.route("/").get(validate, getConstantData);
 router.route("/stream").get(validate, getConstantStreamData);
 router.route("/entrance-exam").get( getConstantEntranceExamData);
+
+// For getting constant like city
+router.route("/citys").get(validate, getCitys);
 
 
 export default router

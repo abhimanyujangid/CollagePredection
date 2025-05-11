@@ -73,7 +73,7 @@ const CollegeLIstCard = ({ college }: CollegeLIstCardProps) => {
                                 {capitalize(college?.type)}
                             </span>
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200">
-                                {capitalize(college?.typeOfCollege)}
+                                {capitalize(college?.typeOfCollege?.join(', '))}
                             </span>
 
                         </div>

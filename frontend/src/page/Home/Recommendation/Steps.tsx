@@ -9,10 +9,10 @@ const TOTAL_STEPS = 4;
 const ITEMS_PER_STEP = Math.ceil(stepData.length / TOTAL_STEPS);
 
 type StepData = {
-  setViewresultStep: (step: number) => void;
+  serViewResultStep: (step: number) => void;
   setStreamResult: (result: string) => void;
 }
-const Steps = ({setViewresultStep, setStreamResult}:StepData) => {
+const Steps = ({serViewResultStep, setStreamResult}:StepData) => {
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,7 +48,7 @@ const Steps = ({setViewresultStep, setStreamResult}:StepData) => {
                 },
               }
             );
-            setViewresultStep(2)
+            serViewResultStep(2)
             // console.log(response.data);
             setStreamResult(response.data.prediction);
           

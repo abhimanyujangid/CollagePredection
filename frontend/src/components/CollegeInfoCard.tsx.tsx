@@ -265,6 +265,7 @@ const CourseList: React.FC<CourseListProps> = ({ streams, deleteCourse, isDashbo
 
 const CollegeInfoCard: React.FC = () => {
     const college = useAppSelector((state) => state.collegeInfo) as CollegeInfo | null;
+    console.log('College Info:', college);
     const dispatch = useAppDispatch();
     const isDashboard = (!useLocation().pathname.includes('profile'));
 
@@ -375,7 +376,7 @@ const CollegeInfoCard: React.FC = () => {
                     <div className="space-y-3 text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Building2 className="w-5 h-5 text-primary" />
-                            <span>{capitalize(college?.type || '')} ({capitalize(college?.typeOfCollege || '')})</span>
+                            <span>{capitalize(college?.type || '')} ({capitalize(college?.typeOfCollege.join(',') || '')})</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <MapPin className="w-5 h-5 text-primary" />
@@ -441,7 +442,7 @@ const CollegeInfoCard: React.FC = () => {
                             title="Teacher-Learner Ratio" 
                             value={college.teacherLeanerRatio}
                             color="amber"
-                            formatter={(value) => `1:${value || '0'}`}
+                            formatter={(value) => `${value || '0'}`}
                             indicator={(value) => (
                                 <div className="h-12 w-12 flex items-center justify-center">
                                     <span className="text-2xl font-bold text-amber-500 dark:text-amber-400">

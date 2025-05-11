@@ -230,3 +230,12 @@ export const getAllCollegesService = async ({
   }
   throw new Error("Failed to fetch all colleges");
 };
+
+export const getAllCitiesService = async (setCity:any) => {
+  const res = await apiClient.get("college-constant-data/citys");
+  if (res.status === 200) {
+    setCity(res.data.data);
+    return res.data;
+  }
+  throw new Error("Failed to fetch all cities");
+};

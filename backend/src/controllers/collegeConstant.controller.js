@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import { CollegeCourse, CollegeEntranceExam, CollegesStream } from "../models/collegeConstant.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { College } from "../models/college.model.js";
 
 // Create ConstantData
 export const createConstantDataMany = asyncHandler(async (req, res) => {
@@ -97,3 +98,13 @@ export const getConstantEntranceExamData = asyncHandler(async (req, res) => {
     }
     res.status(200).json(new ApiResponse("ConstantData for Entrance Exam fetched successfully", formattedData));
 });
+
+
+export const getCitys = asyncHandler(async (req, res) => {
+    const city = await College.distinct("address.city");
+    if (!city || city.length === 0) {
+        throw new ApiError(404, "City not found");
+    }
+    res.status(200).json(new ApiResponse("City fetched successfully", city));
+}
+);

@@ -4,10 +4,12 @@ import { RippleButton } from "@/components/magicui/ripple-button";
 
 interface StreamResultProps {
   streamName: string;
+  serViewResultStep: (result: number) => void;
 }
 
 const StreamResult: React.FC<StreamResultProps> = ({
   streamName = "Computer Science",
+  serViewResultStep,
 }) => {
   const words = [
     "Finding the perfect Career path for you ...",
@@ -40,7 +42,7 @@ const StreamResult: React.FC<StreamResultProps> = ({
 
       {showButton && (
         <div className="mt-8">
-     <RippleButton >Find more college</RippleButton>
+     <RippleButton onClick={()=> serViewResultStep(3)}>Find more college</RippleButton>
      </div>
       )}
     </div>
