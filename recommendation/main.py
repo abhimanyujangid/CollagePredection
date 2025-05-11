@@ -6,9 +6,11 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import os
 from fastapi.middleware.cors import CORSMiddleware
+import sys
 
-
-
+# Add flask-api-project/app directory to sys.path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'flask-api-project', 'app'))
+from recommendation_fastapi import router as recommendation_router
 
 # Load the model
 model_path = os.path.join(os.path.dirname(__file__), 'model.pkl')
@@ -37,6 +39,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(recommendation_router)
 
 # Define input schema
 class InputData(BaseModel):

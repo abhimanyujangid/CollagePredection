@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import StudentInterest
+from app.recommendation_controller import get_college_recommendations
 
 api = Blueprint('api', __name__)
 
@@ -20,3 +21,7 @@ def delete_interest(id):
     interest = StudentInterest.query.get_or_404(id)
     interest.delete()
     return jsonify({'message': 'Interest deleted successfully'}), 204
+
+@api.route('/api/recommendations', methods=['POST'])
+def recommendations():
+    return get_college_recommendations()
