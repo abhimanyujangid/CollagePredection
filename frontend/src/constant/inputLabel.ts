@@ -12,7 +12,7 @@ const twelfthLabel = [
   { label: "Year of Passing", name: "twelfth.yearOfPassing", type: "number" },
 ];
 
-const personalInformationLabel = ["fullName", "phoneNumber", "dateOfBirth"];
+const personalInformationLabel = ["fullName", "phoneNumber", "dateOfBirth" ,"city"];
 
 const genderLabel = ["male", "female", "other"];
 const castLabel = ["general", "obc", "sc", "st", "ews"];

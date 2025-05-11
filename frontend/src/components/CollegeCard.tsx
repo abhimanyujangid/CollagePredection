@@ -36,8 +36,6 @@ export function CollegeCard({
     gradientTo = "to-cyan-500",
     onViewClick,
 }: CollegeCardProps) {
-
-    console.log("CollegeCard Props:", topCourses)
     return (
         <Card className="w-32 sm:w-80 md:w-96 flex-shrink-0 pb-12 relative">
 

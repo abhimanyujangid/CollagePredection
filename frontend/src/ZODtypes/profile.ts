@@ -1,5 +1,6 @@
 
 // This file contains the types for the profile of the user.
+import { cast } from "@/constant/Dummydata";
 import { max } from "date-fns";
 import { z } from "zod";
 
@@ -11,7 +12,7 @@ export const AvailableGenders = z.enum(["male", "female", "other"], {
     errorMap: () => ({ message: "Invalid gender selection" })
 });
 
-export const AvailableCasts = z.enum(["general", "obc", "sc", "st", "ews"], {
+export const AvailableCasts = z.enum(cast, {
     errorMap: () => ({ message: "Invalid caste selection" })
 });
 
@@ -66,11 +67,9 @@ export const IStudentSchema = z.object({
     dateOfBirth: z.string().min(1, "Date of birth is required"),
     gender: AvailableGenders,
     cast: AvailableCasts,
-    hobbies: z.array(z.string()).optional(),
-    preferences: z.object({
-        preferredCourses: z.string().min(1, "Preferred courses are required"),
-        preferredLocations: z.array(z.string()).nonempty("At least one preferred location is required")
-    }).optional()
+    state: z.string().min(1, "State is required"),
+    city: z.string().min(1, "City is required"),
+   
 });
 
 export const IStudentStateSchema = z.object({

@@ -36,6 +36,7 @@ export default function LoginPage() {
           },
      });
   const { user, isAuthenticated, loading, error } = useAppSelector((state) => state.auth)
+  console.log("User", user);
 
         const dispatch = useAppDispatch();
         const navigate = useNavigate();

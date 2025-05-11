@@ -8,7 +8,7 @@ import { StudentEducational } from "../models/studentEducational.model.js";
 
 const createStudentProfile = asyncHandler(async (req, res) => {
     const {_id: userId} = req.user;
-    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies, fullName } = req.body;
+    const { phoneNumber, dateOfBirth,  gender, cast,  fullName , city, state } = req.body;
 
     // Check if Student Profile already exists
     const existingProfile = await StudentProfile.findOne({ userId });
@@ -22,8 +22,8 @@ const createStudentProfile = asyncHandler(async (req, res) => {
         dateOfBirth,
         gender,
         cast,
-        hobbies,
-        preferences,
+        city: city.toLowerCase().trim(),
+        state 
     });
 
     if (!studentProfile) throw new ApiError(500, "Failed to create student profile");
@@ -33,14 +33,13 @@ const createStudentProfile = asyncHandler(async (req, res) => {
 
 const createEducationDetails = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
-    const { tenth, twelfth, competitiveExams } = req.body;
+    const {  twelfth, competitiveExams } = req.body;
 
     const existingProfile = await StudentEducational.findOne({ userId });
     if (existingProfile) throw new ApiError(409, "Student educational details already exists");
 
     const studentProfile = await StudentEducational.create({
         userId,
-        tenth,
         twelfth,
         competitiveExams,
     });
@@ -52,7 +51,7 @@ const createEducationDetails = asyncHandler(async (req, res) => {
 
 const updateStudentProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { phoneNumber, dateOfBirth, preferences, gender, cast, hobbies, fullName } = req.body;
+    const { phoneNumber, dateOfBirth, gender, cast, fullName, city , state  } = req.body;
 
     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
 
@@ -71,10 +70,10 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
                 phoneNumber,
                 fullName,
                 dateOfBirth,
-                preferences,
                 gender,
                 cast,
-                hobbies
+                city: city.toLowerCase().trim() ,
+                state
             }
         },
         { new: true }
@@ -87,7 +86,7 @@ const updateStudentProfile = asyncHandler(async (req, res) => {
 
 const updateEducationDetails = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { tenth, twelfth, competitiveExams } = req.body;
+    const {  twelfth, competitiveExams } = req.body;
 
     if (!mongoose.isValidObjectId(id)) throw new ApiError(400, "Invalid Student ID");
 
@@ -103,7 +102,6 @@ const updateEducationDetails = asyncHandler(async (req, res) => {
     const updatedProfile = await StudentEducational.findByIdAndUpdate(id,
         {
             $set: {
-                tenth,
                 twelfth,
                 competitiveExams
             }

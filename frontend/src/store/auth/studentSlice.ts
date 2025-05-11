@@ -44,6 +44,7 @@ export const updateEducationDetailsAction = createAsyncThunk(
     async ({ data }: { data: IStudentEducation }, { rejectWithValue }) => {
         try {
             const response = await updateEducationDetailsService(data);
+            toast.success("Student education details updated successfully");
         } catch (error: any) {
             toast.error(error.message);
             return rejectWithValue(error.message);
@@ -117,9 +118,11 @@ const studentSlice = createSlice({
             }
             )
             .addCase(getStudentDataAction.fulfilled, (state, { payload }) => {
+                console.log("payload");
                 state.loading = false;
                 state.student = payload.student;
-                state.studentEducation = payload.studentEducation;
+                state.studentEducation = payload.studentEducational
+;
             }
             )
             .addCase(getStudentDataAction.rejected, (state, { payload }) => {

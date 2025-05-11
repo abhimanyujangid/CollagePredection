@@ -7,7 +7,7 @@ import { LocalStorage } from '@/utils';
 
 // Define the initial state
 const initialState: AuthState = {
-  user: null,
+  user: {} as User,
   loading: false,
   error: null,
   isAuthenticated: false,
@@ -28,7 +28,8 @@ export const loginAction = createAsyncThunk(
       }
       navigate('/dashboard');  // Move navigation after storing tokens
       toast.success('Login successful');
-      return response?.data?.data?.user;
+      const resData = response?.data?.data?.user;
+      return resData;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
       return rejectWithValue(error.message);
@@ -71,7 +72,7 @@ export const getCurrentUserAction = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getCurrentUserService();
-      return response?.data?.data?.user;
+      return response.data.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -93,9 +94,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginAction.fulfilled, (state, { payload }) => {
+        console.log("payload",payload)
         state.loading = false;
         state.isAuthenticated = true;
-        state.user = payload as User;
+        state.user = payload ;
       })
       .addCase(loginAction.rejected, (state, { payload }) => {
         state.loading = false;
