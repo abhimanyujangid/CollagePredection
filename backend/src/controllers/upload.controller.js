@@ -7,6 +7,8 @@ import { College } from "../models/college.model.js";
 import { Categorie } from "../models/categories.model.js";
 import { IIT_ENG } from "../CollegeDB/IIT_ENG.js";
 import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js";
+import { MANGMENT } from "../CollegeDB/MANAGEMENT.js";
+
 // import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js";
 
 /**
@@ -17,9 +19,8 @@ import { OTHER_INSTITUTE_BETCH } from "../CollegeDB/OTHER_INSTITUTE_BETCH.js";
 export const uploadCollege = asyncHandler(async (req, res) => {
     console.log("Upload API triggered");
 
-    const data = IIT_ENG;
+    const data = MANGMENT;
     console.log("Input college data count:", data.length);
-
     const administratorId = "67e2d550f62f96c6a50f2308";
     if (!administratorId) {
         throw new ApiError(401, "Unauthorized access");
@@ -30,6 +31,19 @@ export const uploadCollege = asyncHandler(async (req, res) => {
     // await Stream.deleteMany({});
     // await Course.deleteMany({});
     // await Categorie.deleteMany({});
+
+// const allManagement = await College.find({ typeOfCollege: "management" });
+// console.log("All management colleges:", allManagement.length);
+// return res.status(200).json(
+//      new ApiResponse(200, allManagement, "Fetched all management colleges successfully")
+// );
+
+// // Optional: clear previous data
+// await College.deleteMany({ typeOfCollege: "management" });
+// console.log("Deleted all management colleges from the database");
+// return res.status(200).json(
+//     new ApiResponse(200, null, "Deleted all management colleges successfully")
+// );
 
     // return
 
@@ -53,13 +67,22 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                 university: collegeData.university,
                 instituteId: collegeData.instituteId,
                 logo_tag: collegeData.logo_tag,
-                type: collegeData.type,
+                website: collegeData.website,
+                averagePackage: {
+                    min: collegeData.averagePackage.min,
+                    max: collegeData.averagePackage.max
+                },
+                type: collegeData.type.trim().toLowerCase(),
                 typeOfCollege: collegeData.typeOfCollege,
                 address: {
                     city: collegeData.city,
                     state: collegeData.state,
                     country: "India"
                 },
+                campusLife: collegeData.campusLife,
+                infrastructureScore:  collegeData.infrastructureScore,
+                alumniScore: collegeData.alumniScore,
+                placementScore: collegeData.placementScore,
                 rankingNIRF: collegeData.rankingNIRF,
                 teacherLeanerRatio: collegeData.teacherLearnerRatio,
                 researchScore: collegeData.researchScore,
@@ -75,43 +98,43 @@ export const uploadCollege = asyncHandler(async (req, res) => {
                     collegeId: college._id,
                     streamName: branchData.streamName,
                     streamType: branchData.streamType,
-                    duration: branchData.streamType === "dual_degree" ? 5 : 4,
+                    duration: branchData.streamType === "undergraduate" ? 3 : 2,
                     fees: 0,
                     eligibilityCriteria: {
-                        minTwelfthPercentage: 75,
-                        requiredExams: exam
+                        minTwelfthPercentage: 60,
+                        requiredExams: ""
                     }
                 });
                 createdStreams++;
 
-                const coursePromises = branchData.courses.map(async (courseData) => {
-                    const course = await Course.create({
-                        streamId: stream._id,
-                        branches: courseData.branches
-                    });
-                    createdCourses++;
+                // const coursePromises = branchData.courses.map(async (courseData) => {
+                //     const course = await Course.create({
+                //         streamId: stream._id,
+                //         branches: courseData.branches
+                //     });
+                //     createdCourses++;
 
-                    const categoryPromises = courseData.Categories.map(async (categoryData) => {
-                        await Categorie.create({
-                            courseId: course._id,
-                            caste: categoryData.caste,
-                            gender: categoryData.gender,
-                            quotas: categoryData.quotas.map(quota => ({
-                                quotaName: quota.quotaName,
-                                data: Object.entries(quota.data[0]).map(([year, rank]) => ({
-                                    year: parseInt(year),
-                                    rank: rank === null ? null : rank
-                                }))
-                            }))
-                        });
-                        createdCategories++;
-                    });
+                //     const categoryPromises = courseData.Categories.map(async (categoryData) => {
+                //         await Categorie.create({
+                //             courseId: course._id,
+                //             caste: categoryData.caste,
+                //             gender: categoryData.gender,
+                //             quotas: categoryData.quotas.map(quota => ({
+                //                 quotaName: quota.quotaName,
+                //                 data: Object.entries(quota.data[0]).map(([year, rank]) => ({
+                //                     year: parseInt(year),
+                //                     rank: rank === null ? null : rank
+                //                 }))
+                //             }))
+                //         });
+                //         createdCategories++;
+                //     });
 
-                    await Promise.all(categoryPromises);
-                    return course;
-                });
+                //     await Promise.all(categoryPromises);
+                //     return course;
+                // });
 
-                await Promise.all(coursePromises);
+                // await Promise.all(coursePromises);
                 return stream;
             });
 

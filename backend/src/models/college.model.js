@@ -49,10 +49,31 @@ const collegeSchema = new Schema({
     type:Number,
     default:0
   },
-  placementStatistics: {
-    averagePackage: { type: Number, default: 0 }, // Avg salary in LPA
-    highestPackage: { type: Number, default: 0 }, // Highest salary in LPA
-    topRecruiters: [{ type: String }], // Companies visiting for placements
+  campusLife: {
+    type: Number,
+    default: 0
+  },
+  infrastructureScore: {
+    type: Number,
+    default: 0
+  },
+  alumniScore: {
+    type: Number,
+    default: 0
+  },
+  placementScore: {
+    type: Number,
+    default: 0
+  },
+  averagePackage: {
+      min: {
+        type: Number,
+        default: 0
+      },
+      max: {
+        type: Number,
+        default: 0
+      }
   },
 }, { timestamps: true });
 

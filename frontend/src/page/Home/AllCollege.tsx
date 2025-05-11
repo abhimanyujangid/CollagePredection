@@ -17,7 +17,12 @@ const AllCollege = () => {
     gradientFrom: string,
     gradientTo: string
   ) => {
-    const colleges = data?.[streamKey] || [];
+    const collegess = data?.[streamKey] || [];
+    const colleges = collegess.sort((a: any, b: any) => {
+      const rankA = a.rankingNIRF || Infinity;
+      const rankB = b.rankingNIRF || Infinity;
+      return rankA - rankB;
+    })
 
     return (
       <HorizontalCarousel title={title} viewAllRoute={`/dashboard/${streamKey}`}>

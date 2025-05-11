@@ -376,7 +376,7 @@ const CollegeInfoCard: React.FC = () => {
                     <div className="space-y-3 text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Building2 className="w-5 h-5 text-primary" />
-                            <span>{capitalize(college?.type || '')} ({capitalize(college?.typeOfCollege.join(',') || '')})</span>
+                            <span>{capitalize(college?.type || '')} ({capitalize(college?.typeOfCollege?.join(',') || '')})</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <MapPin className="w-5 h-5 text-primary" />
