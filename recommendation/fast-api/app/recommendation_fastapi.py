@@ -11,6 +11,9 @@ from bson import ObjectId
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+import joblib
+import numpy as np
+from scipy.stats import norm
 
 router = APIRouter()
 
@@ -24,6 +27,10 @@ db = client['collegePredection']
 colleges_collection = db['colleges']
 student_educational_collection = db['studenteducationals']
 student_profile_collection = db['studentprofiles']
+
+# Load the trained Bayesian Ridge Regression model for rank prediction
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'bayesian_regression_model.pkl')
+rank_predictor = joblib.load(MODEL_PATH)
 
 @router.post("/api/recommendations")
 async def get_college_recommendations(request: Request):
@@ -228,22 +235,51 @@ async def get_college_recommendations(request: Request):
                                     if quota_name not in ['AI', 'OS']:
                                         continue
                             closing_data = sorted(quota_obj.get('data', []), key=lambda d: d.get('year', 0), reverse=True)
-                            if closing_data:
-                                latest = closing_data[0]
-                                closing_rank = latest.get('rank')
-                                closing_year = latest.get('year')
-                                if closing_rank is not None and closing_year == exam_year:
-                                    if user_rank is None or user_rank <= closing_rank:
-                                        eligible = True
-                                        eligible_options.append({
-                                            'category': cat.get('caste'),
-                                            'gender': cat_gender,
-                                            'quota': quota_name,
-                                            'year': closing_year,
-                                            'userRank': user_rank,
-                                            'closingRank': closing_rank,
-                                            'eligible': True
-                                        })
+                            # --- Updated logic for ML prediction (3 years) ---
+                            # Get up to 3 most recent entries (even if some ranks are None)
+                            last_3_entries = closing_data[:3]
+                            ranks = [d.get('rank') for d in last_3_entries]
+                            # Calculate mean of available (non-None) ranks
+                            available_ranks = [r for r in ranks if r is not None]
+                            if available_ranks:
+                                mean_rank = float(np.mean(available_ranks))
+                                # Fill missing ranks with mean
+                                filled_ranks = [float(r) if r is not None else mean_rank for r in ranks]
+                                # If less than 3, pad to 3 with mean
+                                while len(filled_ranks) < 3:
+                                    filled_ranks.append(mean_rank)
+                                # Model expects a 2D array with 3 features
+                                X_input = np.array([filled_ranks])
+                                # Use Bayesian Ridge Regression model to predict rank and std (confidence)
+                                predicted_next_rank, std = rank_predictor.predict(X_input, return_std=True)
+                                predicted_next_rank = float(predicted_next_rank[0])
+                                confidence_score = float(std[0])
+                                # Calculate probability using normal CDF
+                                if user_rank is not None and confidence_score > 0:
+                                    probability = float(norm.cdf(predicted_next_rank - user_rank, loc=0, scale=confidence_score))
+                                else:
+                                    probability = None
+                            else:
+                                predicted_next_rank = None
+                                confidence_score = None
+                                probability = None
+                            # Use predicted rank for eligibility
+                            if predicted_next_rank is not None and exam_year is not None:
+                                if user_rank is not None and user_rank <= predicted_next_rank:
+                                    eligible = True
+                                    eligible_options.append({
+                                        'category': cat.get('caste'),
+                                        'gender': cat_gender,
+                                        'quota': quota_name,
+                                        'year': exam_year,
+                                        'userRank': user_rank,
+                                        'selectionCriteria': {
+                                            'predictedClosingRank': predicted_next_rank,
+                                            'confidenceScore': confidence_score,
+                                            'probability': probability
+                                        },
+                                        'eligible': True
+                                    })
             if eligible:
                 def calculate_score(college, priorities):
                     score = 0
@@ -264,6 +300,7 @@ async def get_college_recommendations(request: Request):
                         del college[key]
                 recommended_colleges.append({
                     'college': college,
+                    'selectionCriteria': eligible_options
                 })
         # Sort by score descending
         recommended_colleges = sorted(recommended_colleges, key=lambda x: x['college']['score'], reverse=True)
