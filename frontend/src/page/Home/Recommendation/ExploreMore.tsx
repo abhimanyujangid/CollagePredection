@@ -36,6 +36,8 @@ import {
 } from "@/services/apis";
 import { useAppSelector } from "@/hooks/reduxHook";
 import axios from "axios";
+import { CollegeCard } from "@/components/CollegeCard";
+import { useNavigate } from "react-router-dom";
 
 const PRIORITIES = [
   {
@@ -118,6 +120,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
   // Redux selectors for streams and courses
   const [streams, setAllStreams] = useState<any[]>([]);
   const [courses, setCourse] = useState<any[]>([]);
+  const navigate  = useNavigate();
 
   useEffect(() => {
     getAllStreamsService(setAllStreams);
@@ -129,7 +132,6 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [priorities, setPriorities] = useState(PRIORITIES);
-  const [resultData, setResultData] = useState<[]>([]);
 
   // New states for the additional step and results
   const [selectedStream, setSelectedStream] = useState<string>("");
@@ -204,7 +206,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
         "http://127.0.0.1:8000/api/recommendations",
         payload
       );
-      setResultData(res.data?.recommendations);
+
       setSelectedCourse("");
       setSelectedStream("");
       setCity("");
@@ -215,11 +217,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
       setResult({
         success: true,
         data: {
-          colleges: [
-            { name: "Top College 1", rating: 4.8 },
-            { name: "Top College 2", rating: 4.7 },
-            { name: "Top College 3", rating: 4.5 },
-          ],
+          colleges: [res.data?.recommendations],
         },
         message: "Successfully fetched recommendations!",
       });
@@ -269,23 +267,30 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
           </CardHeader>
           <CardContent>
             {result.success ? (
-              <div className="space-y-4">
+              <div className="relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                 {result.data.colleges.map((college: any, index: number) => (
-                  <div
-                    key={index}
-                    className="p-4 border rounded-lg hover:bg-muted/30 transition-colors"
-                  >
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{college.name}</span>
-                      <span className="bg-primary/20 text-primary px-2 py-1 rounded-full text-sm">
-                        {college.rating}/5.0
-                      </span>
-                    </div>
-                  </div>
+                  <CollegeCard
+                    name={college.collegeName}
+                    location={college.address}
+                    logo_tag={college.logo_tag}
+                    nirfRank={college.nirfRank}
+                    yearlyFees={college.instituteId}
+                    collegeType={college.type || "Private"}
+                    streamType={college.streamType || []}
+                    topCourses={college.topCourses || []}
+                    gradientFrom="from-blue-600"
+                    gradientTo="to-cyan-500"
+                    onViewClick={() =>
+                      // navigate(`/college/${college._id}`)}
+                      console.log(college._id)
+                    }
+                  />
                 ))}
                 <Button className="w-full mt-4" onClick={() => setResult(null)}>
                   Start Over
                 </Button>
+              </div>
               </div>
             ) : (
               <div className="text-center py-4">
