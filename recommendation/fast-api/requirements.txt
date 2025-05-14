@@ -1,0 +1,12 @@
+# Requirements for FastAPI-based recommendation engine and ML model
+fastapi
+uvicorn
+pydantic
+pandas
+scikit-learn
+joblib
+python-dotenv
+pymongo
+bson
+# If you use CORS middleware
+starlette
