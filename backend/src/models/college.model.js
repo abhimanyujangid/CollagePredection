@@ -19,12 +19,6 @@ const collegeSchema = new Schema({
   logo_tag:{
     type: String
   },
-  // logo: {
-  //   type: {
-  //     public_id: String,
-  //     url: String
-  //   }, default: ""
-  // }, // College logo URL
   address: {
     city: { type: String, required: true },
     state: { type: String, required: true },
