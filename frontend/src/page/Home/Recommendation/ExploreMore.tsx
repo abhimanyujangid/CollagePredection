@@ -77,6 +77,8 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<any>(null);
   const { student } = useAppSelector((state) => state.student)
+  const { user } = useAppSelector((state) => state.auth)
+  console.log("User Data:", user);
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -93,23 +95,47 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
     const payload = {
       selectedCity: preferredLocation === 'anywhere' ? "anywhere" : preferredLocation === 'custom' ? city : student?.city,
       location: {
-        state: preferredLocation === 'anywhere' ? "anywhere" : preferredLocation === 'custom' ? state : student?.state,
+      state: preferredLocation === 'anywhere' ? "anywhere" : preferredLocation === 'custom' ? state : student?.state,
       },
-      priorities: priorities.map(p => p.id),
+      userId: user?._id,
+      priorities: priorities.reduce((acc, priority, index) => {
+      acc[priority.id] = priorities.length - index;
+      return acc;
+      }, {} as Record<string, number>),
       ...(withOutAi && { 
-        branch:"engineering",
-        selectedStream,
-        course:selectedCourse
+      branch:"engineering",
+      selectedStream,
+      course:selectedCourse
       })
     };
+
+    const dummyData = 
+      {
+  "branch": "engineering",
+  "course": "Computer Science and Engineering",
+  "location": 
+    {"state":"anywhere"}
+  ,
+  "priorities": {
+    "teacherLeanerRatio": 5,
+    "researchScore": 4,
+    "graducationOutcome": 3,
+    "perceptionScore": 2,
+    "campusLife": 6,
+    "infrastructureScore": 7,
+    "alumniScore": 3,
+    "placementScore": 1
+  },
+  "userId": "681f8f2c08c67089b6141c17"
+}
 
     console.log("Submitted Data:", payload);
     
     // Simulating API call
     try {
-      // Replace with actual API call
-     const res = await axios.post(
-        "http://127.0.0.1:8000/api/recommendations",payload)
+    // Replace with actual API call
+    await axios.post(
+      "http://127.0.0.1:8000/api/recommendations",dummyData)
 
       setSelectedCourse('');
       setSelectedStream('');
