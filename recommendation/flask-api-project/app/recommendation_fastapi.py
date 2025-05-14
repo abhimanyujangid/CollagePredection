@@ -1,13 +1,24 @@
+"""
+recommendation_fastapi.py - FastAPI router for college recommendations.
+
+This module provides an endpoint for recommending colleges based on user input and database records.
+It securely loads the MongoDB connection string from an environment variable.
+"""
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
 router = APIRouter()
 
-# MongoDB connection setup (update URI as needed)
-client = MongoClient("mongodb+srv://abhimanyujangid79:collegePrediction@cluster0.5us5i.mongodb.net")
+# Load environment variables from .env file
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'backend', '.env'))
+
+# MongoDB connection setup
+client = MongoClient(os.environ['MONGODB_URI'])
 db = client['collegePredection']
 colleges_collection = db['colleges']
 student_educational_collection = db['studenteducationals']
@@ -15,16 +26,20 @@ student_profile_collection = db['studentprofiles']
 
 @router.post("/api/recommendations")
 async def get_college_recommendations(request: Request):
+    """
+    Recommend colleges based on user profile, educational details, and preferences.
+    Args:
+        request (Request): FastAPI request object containing user input as JSON.
+    Returns:
+        JSONResponse: List of recommended colleges with eligibility and scores.
+    """
     try:
-        print("Received request for recommendations")
         data = await request.json()
         branch = data.get('branch')
         course = data.get('course')
         location = data.get('location')
         priorities = data.get('priorities')
         user_id = data.get('userId')
-
-        print(f"Input: branch={branch}, course={course}, location={location}, user_id={user_id}")
 
         if not branch or not course or not location or not priorities or not user_id:
             raise HTTPException(status_code=400, detail='Missing required fields.')
@@ -33,9 +48,8 @@ async def get_college_recommendations(request: Request):
         user_edu = student_educational_collection.find_one({'userId': ObjectId(user_id)})
         if not user_edu:
             raise HTTPException(status_code=404, detail='User educational details not found.')
-        
 
-        # Fetch user profile details (for caste/category)
+        # Fetch user profile details
         user_profile = student_profile_collection.find_one({'userId': ObjectId(user_id)})
         if not user_profile:
             raise HTTPException(status_code=404, detail='User profile not found.')
@@ -46,23 +60,19 @@ async def get_college_recommendations(request: Request):
         student_gender = user_profile.get('gender', 'Any')
         student_exams = {exam.get('examName'): exam for exam in user_edu.get('competitiveExams', [])}
 
-        # Debug prints for typeOfCollege and sample college document
-
-        # 1. Filter colleges by preferred location (state) and branch
+        # Filter colleges by preferred location (state) and branch
         college_query = {
             'typeOfCollege': {'$regex': f'^{branch}$', '$options': 'i'}
         }
         if location != 'anywhere' and isinstance(location, dict) and location.get('state') and location['state'].lower() != 'anywhere':
             college_query['address.state'] = {'$regex': f"^{location['state']}$", '$options': 'i'}
         colleges = list(colleges_collection.find(college_query))
-        print(f"Colleges found after location/branch filter: {len(colleges)}")
         if not colleges:
-            print("No colleges found for the given location/branch filter")
+            return JSONResponse(content={'recommendations': []})
 
         recommended_colleges = []
         for college in colleges:
-            print(f"\nChecking college: {college.get('collegeName')} (ID: {college.get('_id')})")
-            # 3. Fetch full data for the college
+            # Fetch full data for the college
             college_full = list(colleges_collection.aggregate([
                 { '$match': { '_id': ObjectId(college['_id']) } },
                 { '$lookup': {
@@ -136,9 +146,8 @@ async def get_college_recommendations(request: Request):
             eligible = False
             eligible_options = []
 
-            # Branch-based logic: if management, skip eligibility checks and just rank by priority
+            # Management branch: skip eligibility checks, rank by priority
             if branch.strip().lower() == 'management':
-                print("Management branch detected: skipping eligibility checks, ranking by priority only.")
                 def calculate_score(college, priorities):
                     score = 0
                     score += float(college.get('teacherLeanerRatio', 0)) * priorities.get('teacherLeanerRatio', 0)
@@ -162,95 +171,68 @@ async def get_college_recommendations(request: Request):
                 })
                 continue
 
-            # 4. Go into desired course (from input)
+            # For other branches, check eligibility
             for stream in college_full.get('streams', []):
-               # print(f"Full stream object: {stream}")  # Debug: print the entire stream object
-                print(f"Checking stream: {stream.get('streamName')}")
-                # Robustly fetch requiredExams from either top-level or eligibilityCriteria
                 required_exams = stream.get('requiredExams')
                 if required_exams is None:
                     eligibility_criteria = stream.get('eligibilityCriteria', {})
                     required_exams = eligibility_criteria.get('requiredExams', [])
-                print(f"  Required exams for stream: {required_exams}")
                 if isinstance(required_exams, str):
                     required_exams = [required_exams]
-                print(f"  Student exams: {list(student_exams.keys())}")
                 matching_exam = None
                 student_exam_names = [e.strip().lower() for e in student_exams.keys()]
                 for exam_name in required_exams:
-                    print(f"    Checking if student has taken exam: {exam_name}")
                     if exam_name.strip().lower() in student_exam_names:
                         for k in student_exams:
                             if k.strip().lower() == exam_name.strip().lower():
                                 matching_exam = student_exams[k]
-                                print(f"      Match found: {exam_name}, student rank: {matching_exam.get('rank')}, year: {matching_exam.get('yearOfPassing')}")
                                 break
                         break
                 if not required_exams:
-                    # No exam required for this stream, consider all students eligible for exam filter
                     matching_exam = {'rank': None, 'yearOfPassing': None}
-                    print("    No required exams for this stream. Considering all students eligible for exam filter.")
                 if not matching_exam:
-                    print(f"    No matching exam found for this stream. Skipping.")
                     continue
                 user_rank = matching_exam.get('rank')
                 exam_year = matching_exam.get('yearOfPassing')
                 for course_obj in stream.get('courses', []):
-                    print(f"  Course branches: {course_obj.get('branches')} vs input: {course}")
                     if course_obj.get('streamId') != stream.get('_id'):
-                        print(f"    Skipping: streamId mismatch {course_obj.get('streamId')} != {stream.get('_id')}")
                         continue
                     branches = course_obj.get('branches')
                     if branches:
                         if isinstance(branches, list):
                             if not any(course.lower() == b.lower() for b in branches):
-                                print(f"    Skipping: course '{course}' not in branches {branches}")
                                 continue
                         elif isinstance(branches, str):
                             if course.lower() != branches.lower():
-                                print(f"    Skipping: course '{course}' != branch '{branches}'")
                                 continue
                     for cat in course_obj.get('categories', []):
-                        print(f"    Category caste: {cat.get('caste')} vs student caste: {student_caste}")
                         if cat.get('caste') != student_caste:
-                            print(f"      Skipping: caste mismatch")
                             continue
                         cat_gender = cat.get('gender', 'Any')
-                        print(f"      Category gender: {cat_gender} vs student gender: {student_gender}")
-                        # Handle gender as list or string
                         if cat_gender != 'Any':
                             if isinstance(cat_gender, list):
                                 if student_gender not in cat_gender:
-                                    print(f"        Skipping: gender mismatch (student gender not in category gender list)")
                                     continue
                             else:
                                 if cat_gender != student_gender:
-                                    print(f"        Skipping: gender mismatch")
                                     continue
                         for quota_obj in cat.get('quotas', []):
                             quota_name = quota_obj.get('quotaName')
-                            print(f"        Checking quota: {quota_name}")
                             if student_state and 'address' in college_full and 'state' in college_full['address']:
                                 college_state = college_full['address']['state']
-                                print(f"          Student state: {student_state}, College state: {college_state}")
                                 if student_state.lower() == college_state.lower():
                                     if quota_name != 'HS':
-                                        print(f"            Skipping: quota '{quota_name}' not HS for home state")
                                         continue
                                 else:
                                     if quota_name not in ['AI', 'OS']:
-                                        print(f"            Skipping: quota '{quota_name}' not AI/OS for other state")
                                         continue
                             closing_data = sorted(quota_obj.get('data', []), key=lambda d: d.get('year', 0), reverse=True)
-                            print(f"          Closing data: {closing_data}")
                             if closing_data:
                                 latest = closing_data[0]
                                 closing_rank = latest.get('rank')
                                 closing_year = latest.get('year')
-                                print(f"            User rank/year: {user_rank}/{exam_year} vs closing: {closing_rank}/{closing_year}")
                                 if closing_rank is not None and closing_year == exam_year:
                                     if user_rank is None or user_rank <= closing_rank:
-                                        print(f"              Eligible: user rank {user_rank} <= closing rank {closing_rank}")
                                         eligible = True
                                         eligible_options.append({
                                             'category': cat.get('caste'),
@@ -261,12 +243,7 @@ async def get_college_recommendations(request: Request):
                                             'closingRank': closing_rank,
                                             'eligible': True
                                         })
-                                    else:
-                                        print(f"              Not eligible: user rank {user_rank} > closing rank {closing_rank}")
-                                else:
-                                    print(f"              Skipping: closing rank/year not matching or missing")
             if eligible:
-                # Calculate score using priorities
                 def calculate_score(college, priorities):
                     score = 0
                     score += float(college.get('teacherLeanerRatio', 0)) * priorities.get('teacherLeanerRatio', 0)
@@ -286,11 +263,9 @@ async def get_college_recommendations(request: Request):
                         del college[key]
                 recommended_colleges.append({
                     'college': college,
-                    
                 })
         # Sort by score descending
         recommended_colleges = sorted(recommended_colleges, key=lambda x: x['college']['score'], reverse=True)
         return JSONResponse(content={'recommendations': recommended_colleges})
     except Exception as err:
-        print(err)
         raise HTTPException(status_code=500, detail='Server error.')
