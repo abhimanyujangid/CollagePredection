@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import sys
 
 # Add flask-api-project/app directory to sys.path for importing the recommendation router
-sys.path.append(os.path.join(os.path.dirname(__file__), 'flask-api-project', 'app'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'fast-api', 'app'))
 from recommendation_fastapi import router as recommendation_router
 
 # Load the trained ML model for course prediction

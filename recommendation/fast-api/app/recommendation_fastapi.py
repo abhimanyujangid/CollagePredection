@@ -14,8 +14,9 @@ import os
 
 router = APIRouter()
 
-# Load environment variables from .env file
-load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'backend', '.env'))
+from pathlib import Path
+env_path = Path(__file__).resolve().parents[3] / "backend" / ".env"
+load_dotenv(dotenv_path=env_path)
 
 # MongoDB connection setup
 client = MongoClient(os.environ['MONGODB_URI'])

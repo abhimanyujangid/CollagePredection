@@ -1,22 +1,17 @@
-# Flask API Project
+# FastAPI Recommendation Project
 
-This project is a Flask-based API designed to handle requests from a React frontend for student interest fields. It provides endpoints to fetch and submit data related to student interests.
+This project is a FastAPI-based API designed to handle requests from a frontend for student interest fields and college recommendations. It provides endpoints to predict course categories using a machine learning model and to recommend colleges based on user input and database records.
 
 ## Project Structure
 
 ```
-flask-api-project
+fast-api
 ├── app
-│   ├── __init__.py        # Initializes the Flask application
-│   ├── routes.py          # Defines API endpoints
-│   ├── models.py          # Contains data models
-│   └── utils.py           # Utility functions
-├── static                 # Static files (CSS, JS, images)
-├── templates              # HTML templates for server-side rendering
-├── requirements.txt       # Project dependencies
-├── config.py              # Configuration settings
-├── run.py                 # Entry point to run the application
-└── README.md              # Project documentation
+│   ├── __init__.py
+│   ├── recommendation_fastapi.py  # FastAPI router for recommendations
+├── requirements.txt               # Project dependencies
+├── run.py                        # Entry point to run the FastAPI application
+├── README.md                     # Project documentation
 ```
 
 ## Setup Instructions
@@ -24,13 +19,16 @@ flask-api-project
 1. **Clone the repository:**
    ```
    git clone <repository-url>
-   cd flask-api-project
+   cd fast-api
    ```
 
 2. **Create a virtual environment:**
    ```
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
    ```
 
 3. **Install dependencies:**
@@ -39,17 +37,21 @@ flask-api-project
    ```
 
 4. **Configure the application:**
-   Update the `config.py` file with your database connection details and any other necessary configuration.
+   - Add your MongoDB connection string to the `.env` file as `MONGODB_URI=...` in the backend directory.
+   - Ensure your model and dataset files are in the correct locations as referenced in `main.py`.
 
 5. **Run the application:**
    ```
-   python run.py
+   uvicorn run:app --reload
    ```
 
 ## Usage
 
-- The API provides endpoints to interact with student interest data. You can use tools like Postman or your React frontend to make requests to these endpoints.
-- Refer to the `routes.py` file for a list of available endpoints and their usage.
+- The API provides endpoints for:
+  - `/predict` : Predicting course category based on input features.
+  - `/api/recommendations` : Recommending colleges based on user profile and preferences.
+- You can use tools like Postman or your frontend to make requests to these endpoints.
+- Refer to the `recommendation_fastapi.py` file for recommendation logic and endpoint details.
 
 ## Contributing
 
