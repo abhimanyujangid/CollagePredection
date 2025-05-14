@@ -3,6 +3,8 @@ import { CollegeCourse, CollegeEntranceExam, CollegesStream } from "../models/co
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { College } from "../models/college.model.js";
+import { Stream } from "../models/stream.model.js";
+import { Course } from "../models/course.model.js";
 
 // Create ConstantData
 export const createConstantDataMany = asyncHandler(async (req, res) => {
@@ -106,5 +108,24 @@ export const getCitys = asyncHandler(async (req, res) => {
         throw new ApiError(404, "City not found");
     }
     res.status(200).json(new ApiResponse("City fetched successfully", city));
+}
+);
+
+export const getAllStreams = asyncHandler(async (req, res) => {
+    const streams = await Stream.distinct("streamName");
+    if (!streams || streams.length === 0) {
+        throw new ApiError(404, "Streams not found");
+    }
+    res.status(200).json(new ApiResponse("Streams fetched successfully", streams));
+}
+);
+
+export const getCourse = asyncHandler(async (req, res) => {
+    console.log("getCourse");
+   const course = await Course.distinct("branches");
+   if (!course || course.length === 0) {
+       throw new ApiError(404, "Courses not found");
+   }
+    res.status(200).json(new ApiResponse("Courses fetched successfully", course));
 }
 );

@@ -164,4 +164,5 @@ const getAllColleges = asyncHandler(async (req, res) => {
 });
 
 
+
 export { getTopTensCollege, getAllColleges };

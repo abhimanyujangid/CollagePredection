@@ -34,9 +34,9 @@ const StreamResult: React.FC<StreamResultProps> = ({
   rotateWords();
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-white px-4 text-center">
+    <div className="h-screen flex flex-col items-center justify-center px-4 text-center">
       <WordRotate
-       className="text-6xl font-bold text-black dark:text-white"
+       className="text-6xl font-bold "
         words={[words[index]]}
       />
 

@@ -239,3 +239,22 @@ export const getAllCitiesService = async (setCity:any) => {
   }
   throw new Error("Failed to fetch all cities");
 };
+
+export const getAllStreamsService = async (setAllStreams:any) => {
+  const res =  await apiClient.get(`college-constant-data/streams`);
+  if (res.status === 200) {
+    setAllStreams(res?.data?.data);
+    return res.data;
+  }
+  throw new Error("Failed to fetch all streams");
+};
+
+export const getCourse = async (setCourse:any) => {
+  const res = await apiClient.get(`college-constant-data/course`);
+  if (res.status === 200) {
+    setCourse(res?.data?.data);
+    return res.data;
+  }
+  throw new Error("Failed to fetch all course");
+};
+

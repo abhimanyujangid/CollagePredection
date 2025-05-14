@@ -7,7 +7,9 @@ import {
     getConstantData, 
     getConstantStreamData,
     getConstantEntranceExamData,
-    getCitys } from "../controllers/collegeConstant.controller.js";
+    getCitys,
+    getCourse,
+getAllStreams } from "../controllers/collegeConstant.controller.js";
 import { validate } from "../validators/validate.js";
 
 const router = Router()
@@ -27,6 +29,6 @@ router.route("/entrance-exam").get( getConstantEntranceExamData);
 
 // For getting constant like city
 router.route("/citys").get(validate, getCitys);
-
-
+router.route("/streams").get(validate, getAllStreams);
+router.route("/course").get(validate, getCourse);
 export default router
