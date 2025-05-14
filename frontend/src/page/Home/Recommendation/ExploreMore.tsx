@@ -1,45 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DndContext, closestCenter } from '@dnd-kit/core';
-import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import type { UniqueIdentifier } from '@dnd-kit/core';
-import { INDIAN_STATE } from '@/constant/dropDownData';
-import { getAllStreamsService, getCourse, getCourseByStreamName } from '@/services/apis';
-import { useAppSelector } from '@/hooks/reduxHook';
-import axios from 'axios';
+import type { UniqueIdentifier } from "@dnd-kit/core";
+import { INDIAN_STATE } from "@/constant/dropDownData";
+import {
+  getAllStreamsService,
+  getCourse,
+  getCourseByStreamName,
+} from "@/services/apis";
+import { useAppSelector } from "@/hooks/reduxHook";
+import axios from "axios";
 
 const PRIORITIES = [
-  { id: "teacherLeanerRatio", label: "Teacher-Learner Ratio", description: "Number of students per teacher." },
-  { id: "researchScore", label: "Research Score", description: "Quality and quantity of institutional research." },
-  { id: "graducationOutcome", label: "Graduation Outcome", description: "Rate of successful graduate completions." },
-  { id: "perceptionScore", label: "Perception Score", description: "Reputation among peers and employers." },
-  { id: "campusLife", label: "Campus Life", description: "Extracurricular and campus environment." },
-  { id: "infrastructureScore", label: "Infrastructure", description: "Facilities and resources on campus." },
-  { id: "alumniScore", label: "Alumni Network", description: "Strength and reach of alumni community." },
-  { id: "placementScore", label: "Placement Score", description: "Job placement success after graduation." }
+  {
+    id: "teacherLeanerRatio",
+    label: "Teacher-Learner Ratio",
+    description: "Number of students per teacher.",
+  },
+  {
+    id: "researchScore",
+    label: "Research Score",
+    description: "Quality and quantity of institutional research.",
+  },
+  {
+    id: "graducationOutcome",
+    label: "Graduation Outcome",
+    description: "Rate of successful graduate completions.",
+  },
+  {
+    id: "perceptionScore",
+    label: "Perception Score",
+    description: "Reputation among peers and employers.",
+  },
+  {
+    id: "campusLife",
+    label: "Campus Life",
+    description: "Extracurricular and campus environment.",
+  },
+  {
+    id: "infrastructureScore",
+    label: "Infrastructure",
+    description: "Facilities and resources on campus.",
+  },
+  {
+    id: "alumniScore",
+    label: "Alumni Network",
+    description: "Strength and reach of alumni community.",
+  },
+  {
+    id: "placementScore",
+    label: "Placement Score",
+    description: "Job placement success after graduation.",
+  },
 ];
 
-function SortableItem({ id, label, description }: { id: UniqueIdentifier; label: string; description: string }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+function SortableItem({
+  id,
+  label,
+  description,
+}: {
+  id: UniqueIdentifier;
+  label: string;
+  description: string;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition,
   };
   return (
-    <div 
-      ref={setNodeRef} 
-      style={style} 
-      {...attributes} 
-      {...listeners} 
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       className="p-4 rounded-lg mb-3 bg-muted/20 shadow-md cursor-move hover:bg-gray-750 transition-colors"
     >
       <p className="font-medium text-base">{label}</p>
@@ -59,90 +120,97 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
   const [courses, setCourse] = useState<any[]>([]);
 
   useEffect(() => {
-      getAllStreamsService(setAllStreams);
-      getCourse(setCourse)
-  },[]);
-
-
+    getAllStreamsService(setAllStreams);
+    getCourse(setCourse);
+  }, []);
 
   const [step, setStep] = useState(1);
-  const [preferredLocation, setPreferredLocation] = useState<string>('nearby');
-  const [city, setCity] = useState<string>('');
-  const [state, setState] = useState<string>('');
+  const [preferredLocation, setPreferredLocation] = useState<string>("nearby");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
   const [priorities, setPriorities] = useState(PRIORITIES);
-  
+  const [resultData, setResultData] = useState<[]>([]);
+
   // New states for the additional step and results
-  const [selectedStream, setSelectedStream] = useState<string>('');
-  const [selectedCourse, setSelectedCourse] = useState<string>('');
+  const [selectedStream, setSelectedStream] = useState<string>("");
+  const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<any>(null);
-  const { student } = useAppSelector((state) => state.student)
-  const { user } = useAppSelector((state) => state.auth)
-  console.log("User Data:", user);
+  const { student } = useAppSelector((state) => state.student);
+  const { user } = useAppSelector((state) => state.auth);
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      const oldIndex = priorities.findIndex(item => item.id === active.id);
-      const newIndex = priorities.findIndex(item => item.id === over.id);
+      const oldIndex = priorities.findIndex((item) => item.id === active.id);
+      const newIndex = priorities.findIndex((item) => item.id === over.id);
       setPriorities(arrayMove(priorities, oldIndex, newIndex));
     }
   };
 
+  const branchFind = (stream: string) => {
+    if (
+      stream === "b.tech" ||
+      stream === "m.tech" ||
+      stream === "engineering"
+    ) {
+      return "engineering";
+    } else if (stream === "mba" || stream === "bba") {
+      return "management";
+    } else if (stream === "law") {
+      return "law";
+    } else if (stream === "mbbs" || stream === "bds" || stream === "medical") {
+      return "medical";
+    } else if (stream === "b") {
+      return "arts";
+    }
+  };
   const handleSubmit = async () => {
     setLoading(true);
-    
+
     const payload = {
-      selectedCity: preferredLocation === 'anywhere' ? "anywhere" : preferredLocation === 'custom' ? city : student?.city,
+      selectedCity:
+        preferredLocation === "anywhere"
+          ? "anywhere"
+          : preferredLocation === "custom"
+          ? city
+          : student?.city,
       location: {
-      state: preferredLocation === 'anywhere' ? "anywhere" : preferredLocation === 'custom' ? state : student?.state,
+        state:
+          preferredLocation === "anywhere"
+            ? "anywhere"
+            : preferredLocation === "custom"
+            ? state
+            : student?.state,
       },
       userId: user?._id,
       priorities: priorities.reduce((acc, priority, index) => {
-      acc[priority.id] = priorities.length - index;
-      return acc;
+        acc[priority.id] = priorities.length - index;
+        return acc;
       }, {} as Record<string, number>),
-      ...(withOutAi && { 
-      branch:"engineering",
-      selectedStream,
-      course:selectedCourse
-      })
+      ...(withOutAi && {
+        branch: branchFind(selectedStream.toLowerCase()),
+        selectedStream,
+        course: selectedCourse,
+      }),
     };
 
-    const dummyData = 
-      {
-  "branch": "engineering",
-  "course": "Computer Science and Engineering",
-  "location": 
-    {"state":"anywhere"}
-  ,
-  "priorities": {
-    "teacherLeanerRatio": 5,
-    "researchScore": 4,
-    "graducationOutcome": 3,
-    "perceptionScore": 2,
-    "campusLife": 6,
-    "infrastructureScore": 7,
-    "alumniScore": 3,
-    "placementScore": 1
-  },
-  "userId": "681f8f2c08c67089b6141c17"
-}
-
     console.log("Submitted Data:", payload);
-    
+
     // Simulating API call
     try {
-    // Replace with actual API call
-    await axios.post(
-      "http://127.0.0.1:8000/api/recommendations",dummyData)
+      // Replace with actual API call
+      const res = await axios.post(
+        "http://127.0.0.1:8000/api/recommendations",
+        payload
+      );
+      setResultData(res.data?.recommendations);
+      setSelectedCourse("");
+      setSelectedStream("");
+      setCity("");
+      setState("");
+      setPreferredLocation("nearby");
 
-      setSelectedCourse('');
-      setSelectedStream('');
-      setCity('');
-      setState('');
-      setPreferredLocation('nearby');
-      
       // Mock result data
       setResult({
         success: true,
@@ -150,15 +218,15 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
           colleges: [
             { name: "Top College 1", rating: 4.8 },
             { name: "Top College 2", rating: 4.7 },
-            { name: "Top College 3", rating: 4.5 }
-          ]
+            { name: "Top College 3", rating: 4.5 },
+          ],
         },
-        message: "Successfully fetched recommendations!"
+        message: "Successfully fetched recommendations!",
       });
     } catch (error) {
       setResult({
         success: false,
-        message: "Failed to fetch recommendations."
+        message: "Failed to fetch recommendations.",
       });
     } finally {
       setLoading(false);
@@ -181,7 +249,9 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
         <div className="flex flex-col items-center justify-center h-64 space-y-4">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
           <p className="text-lg font-medium">Finding your ideal colleges...</p>
-          <p className="text-sm text-muted-foreground">This may take a moment</p>
+          <p className="text-sm text-muted-foreground">
+            This may take a moment
+          </p>
         </div>
       </div>
     );
@@ -192,14 +262,19 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
       <div className="p-6 max-w-3xl mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">Your College Recommendations</CardTitle>
+            <CardTitle className="text-xl font-semibold">
+              Your College Recommendations
+            </CardTitle>
             <CardDescription>{result.message}</CardDescription>
           </CardHeader>
           <CardContent>
             {result.success ? (
               <div className="space-y-4">
                 {result.data.colleges.map((college: any, index: number) => (
-                  <div key={index} className="p-4 border rounded-lg hover:bg-muted/30 transition-colors">
+                  <div
+                    key={index}
+                    className="p-4 border rounded-lg hover:bg-muted/30 transition-colors"
+                  >
                     <div className="flex justify-between items-center">
                       <span className="font-medium">{college.name}</span>
                       <span className="bg-primary/20 text-primary px-2 py-1 rounded-full text-sm">
@@ -236,15 +311,22 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
           </div>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
-          <div className="bg-primary h-2.5 rounded-full" style={{ width: `${(step/totalSteps)*100}%` }}></div>
+          <div
+            className="bg-primary h-2.5 rounded-full"
+            style={{ width: `${(step / totalSteps) * 100}%` }}
+          ></div>
         </div>
       </div>
 
       {withOutAi && step === 1 && (
         <Card className="mb-6 border-2">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">Select Stream and Course</CardTitle>
-            <CardDescription>Choose your preferred academic field</CardDescription>
+            <CardTitle className="text-xl font-semibold">
+              Select Stream and Course
+            </CardTitle>
+            <CardDescription>
+              Choose your preferred academic field
+            </CardDescription>
           </CardHeader>
           <CardContent className="p-6">
             <div className="mb-4">
@@ -262,23 +344,28 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
                 </SelectContent>
               </Select>
             </div>
-           {!( selectedStream === "MBA" ||  selectedStream === "BBA") && <div>
-              <Label className="text-sm font-medium">Course</Label>
-              <Select onValueChange={setSelectedCourse} value={selectedCourse}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Select a Course" />
-                </SelectTrigger>
-                <SelectContent>
-                  {courses.map((course: string) => (
-                    <SelectItem key={course} value={course}>
-                      {course}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>}
+            {!(selectedStream === "MBA" || selectedStream === "BBA") && (
+              <div>
+                <Label className="text-sm font-medium">Course</Label>
+                <Select
+                  onValueChange={setSelectedCourse}
+                  value={selectedCourse}
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Select a Course" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {courses.map((course: string) => (
+                      <SelectItem key={course} value={course}>
+                        {course}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
             <Button
-              disabled={!selectedStream }
+              disabled={!selectedStream}
               className="mt-6 w-full"
               onClick={() => setStep(2)}
             >
@@ -291,35 +378,47 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
       {((withOutAi && step === 2) || (!withOutAi && step === 1)) && (
         <Card className="mb-6 border-2">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">Preferred Study Location</CardTitle>
+            <CardTitle className="text-xl font-semibold">
+              Preferred Study Location
+            </CardTitle>
             <CardDescription>Choose where you'd like to study</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
-            <RadioGroup value={preferredLocation} onValueChange={setPreferredLocation} className="space-y-3">
+            <RadioGroup
+              value={preferredLocation}
+              onValueChange={setPreferredLocation}
+              className="space-y-3"
+            >
               <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors">
                 <RadioGroupItem value="nearby" id="nearby" />
                 <Label htmlFor="nearby" className="flex-1 cursor-pointer">
                   <span className="font-medium">📍 Nearby</span>
-                  <p className="text-sm text-muted-foreground">Stay within your State/Country</p>
+                  <p className="text-sm text-muted-foreground">
+                    Stay within your State/Country
+                  </p>
                 </Label>
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors">
                 <RadioGroupItem value="anywhere" id="anywhere" />
                 <Label htmlFor="anywhere" className="flex-1 cursor-pointer">
                   <span className="font-medium">✈️ Anywhere</span>
-                  <p className="text-sm text-muted-foreground">Open to all locations</p>
+                  <p className="text-sm text-muted-foreground">
+                    Open to all locations
+                  </p>
                 </Label>
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors">
                 <RadioGroupItem value="custom" id="custom" />
                 <Label htmlFor="custom" className="flex-1 cursor-pointer">
                   <span className="font-medium">🔍 Specific Location</span>
-                  <p className="text-sm text-muted-foreground">Enter your preferred Cities/States</p>
+                  <p className="text-sm text-muted-foreground">
+                    Enter your preferred Cities/States
+                  </p>
                 </Label>
               </div>
             </RadioGroup>
 
-            {preferredLocation === 'custom' && (
+            {preferredLocation === "custom" && (
               <div className="mt-4 space-y-4 p-4 rounded-lg border bg-muted/30">
                 <div>
                   <Label className="text-sm font-medium">City</Label>
@@ -328,11 +427,11 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
                       <SelectValue placeholder="Select a City" />
                     </SelectTrigger>
                     <SelectContent>
-                    {citys?.map((city: string) => (
-                      <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>
-                    ))}
+                      {citys?.map((city: string) => (
+                        <SelectItem key={city} value={city}>
+                          {city}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -343,12 +442,11 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
                       <SelectValue placeholder="Select a State" />
                     </SelectTrigger>
                     <SelectContent>
-                     {INDIAN_STATE?.map((state: string) => (
-                      <SelectItem key={state} value={state}>
-                        {state}
-                      </SelectItem>
-                     ))}
-                    
+                      {INDIAN_STATE?.map((state: string) => (
+                        <SelectItem key={state} value={state}>
+                          {state}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -357,16 +455,12 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
 
             <div className="flex gap-3 mt-6">
               {withOutAi && (
-                <Button 
-                  variant="outline" 
-                  onClick={goBack} 
-                  className="flex-1"
-                >
+                <Button variant="outline" onClick={goBack} className="flex-1">
                   <ChevronLeft className="mr-1 h-4 w-4" /> Back
                 </Button>
               )}
               <Button
-                disabled={preferredLocation === 'custom' && (!city || !state)}
+                disabled={preferredLocation === "custom" && (!city || !state)}
                 className="flex-1"
                 onClick={() => setStep(withOutAi ? 3 : 2)}
               >
@@ -380,42 +474,46 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
       {((withOutAi && step === 3) || (!withOutAi && step === 2)) && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">Rank Your Priorities</CardTitle>
-            <CardDescription>Drag and reorder these factors based on their importance to you</CardDescription>
+            <CardTitle className="text-xl font-semibold">
+              Rank Your Priorities
+            </CardTitle>
+            <CardDescription>
+              Drag and reorder these factors based on their importance to you
+            </CardDescription>
           </CardHeader>
           <CardContent className="p-6">
             <div className="bg-muted/40 p-3 rounded-lg mb-5">
               <p className="text-sm text-muted-foreground">
-                <strong>Tip:</strong> The top-ranked factors will have a higher influence on your college recommendations.
-                Drag the most important criteria to the top of the list.
+                <strong>Tip:</strong> The top-ranked factors will have a higher
+                influence on your college recommendations. Drag the most
+                important criteria to the top of the list.
               </p>
             </div>
 
-            <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-              <SortableContext items={priorities.map(p => p.id)} strategy={verticalListSortingStrategy}>
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={priorities.map((p) => p.id)}
+                strategy={verticalListSortingStrategy}
+              >
                 {priorities.map((priority, index) => (
-                  <SortableItem 
-                    key={priority.id} 
-                    id={priority.id} 
-                    label={`${index + 1}. ${priority.label}`} 
-                    description={priority.description} 
+                  <SortableItem
+                    key={priority.id}
+                    id={priority.id}
+                    label={`${index + 1}. ${priority.label}`}
+                    description={priority.description}
                   />
                 ))}
               </SortableContext>
             </DndContext>
 
             <div className="flex gap-3 mt-6">
-              <Button 
-                variant="outline" 
-                onClick={goBack} 
-                className="flex-1"
-              >
+              <Button variant="outline" onClick={goBack} className="flex-1">
                 <ChevronLeft className="mr-1 h-4 w-4" /> Back
               </Button>
-              <Button 
-                onClick={handleSubmit} 
-                className="flex-1"
-              >
+              <Button onClick={handleSubmit} className="flex-1">
                 Submit & Get Recommendations
               </Button>
             </div>
