@@ -299,8 +299,7 @@ async def get_college_recommendations(request: Request):
                     elif isinstance(value, datetime):
                         del college[key]
                 recommended_colleges.append({
-                    'college': college,
-                    'selectionCriteria': eligible_options
+                    'college': {**college, 'eligibleOptions': eligible_options},
                 })
         # Sort by score descending
         recommended_colleges = sorted(recommended_colleges, key=lambda x: x['college']['score'], reverse=True)

@@ -61,10 +61,10 @@ const AllCollege = () => {
   return (
     <div className="flex flex-col gap-4">
       {renderCarousel("Engineering Colleges", "engineering", "from-blue-600", "to-cyan-500")}
+      {renderCarousel("Management Colleges", "management", "from-yellow-600", "to-amber-400")}
       {renderCarousel("Medical Colleges", "medical", "from-red-600", "to-orange-500")}
       {renderCarousel("Arts Colleges", "arts", "from-purple-600", "to-pink-500")}
       {renderCarousel("Science Colleges", "science", "from-green-600", "to-lime-500")}
-      {renderCarousel("Management Colleges", "management", "from-yellow-600", "to-amber-400")}
     </div>
   );
 };

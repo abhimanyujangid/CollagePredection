@@ -34,11 +34,18 @@ const Colleges = () => {
       if (response?.data.colleges) {
         // If it's the first page, set the colleges array directly
         // Otherwise, append to the existing colleges array
-        setColleges(prev => 
-          pageNum === 1 
+        setColleges(prev => {
+          const newColleges = pageNum === 1
             ? response?.data.colleges
-            : [...prev, ...response?.data.colleges]
-        );
+            : [...prev, ...response?.data.colleges];
+          // Sort by rankingNIRF in ascending order (lowest rank first)
+          return newColleges.slice().sort((a, b) => {
+            // Handle missing or non-numeric rankingNIRF values
+            const rankA = Number(a.rankingNIRF) || Infinity;
+            const rankB = Number(b.rankingNIRF) || Infinity;
+            return rankA - rankB;
+          });
+        });
         
         // If we received fewer colleges than the limit, we've reached the end
         setHasMore(response?.data.colleges.length === payload.limit);

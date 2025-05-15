@@ -56,9 +56,9 @@ const Home = () => {
     },
     {
       id: 4,
-      name: "Arts Colleges",
+      name: "Management Colleges",
       icon: <Palette className="w-5 h-5" />,
-      path: "/dashboard/arts",
+      path: "/dashboard/management",
     },
     {
       id: 5,

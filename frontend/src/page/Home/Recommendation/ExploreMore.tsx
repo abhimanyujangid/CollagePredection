@@ -120,7 +120,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
   // Redux selectors for streams and courses
   const [streams, setAllStreams] = useState<any[]>([]);
   const [courses, setCourse] = useState<any[]>([]);
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllStreamsService(setAllStreams);
@@ -187,7 +187,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
       },
       userId: user?._id,
       priorities: priorities.reduce((acc, priority, index) => {
-        acc[priority.id] = priorities.length - index;
+        acc[priority.id] =  index+1;
         return acc;
       }, {} as Record<string, number>),
       ...(withOutAi && {
@@ -257,7 +257,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
 
   if (result) {
     return (
-      <div className="p-6 max-w-3xl mx-auto">
+      <div className="p-6  mx-auto">
         <Card>
           <CardHeader>
             <CardTitle className="text-xl font-semibold">
@@ -268,29 +268,48 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
           <CardContent>
             {result.success ? (
               <div className="relative">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-                {result.data.colleges.map((college: any, index: number) => (
-                  <CollegeCard
-                    name={college.collegeName}
-                    location={college.address}
-                    logo_tag={college.logo_tag}
-                    nirfRank={college.nirfRank}
-                    yearlyFees={college.instituteId}
-                    collegeType={college.type || "Private"}
-                    streamType={college.streamType || []}
-                    topCourses={college.topCourses || []}
-                    gradientFrom="from-blue-600"
-                    gradientTo="to-cyan-500"
-                    onViewClick={() =>
-                      // navigate(`/college/${college._id}`)}
-                      console.log(college._id)
-                    }
-                  />
-                ))}
-                <Button className="w-full mt-4" onClick={() => setResult(null)}>
-                  Start Over
-                </Button>
-              </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+                  {result.data.colleges[0].length === 0 && (
+                    <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center">
+                      <p className="text-red-500">
+                        No colleges found for your preferences. Please try
+                        again.
+                      </p>
+                    </div>
+                  )}
+                  {result.data.colleges[0].map(
+                    (college: any, index: number) => (
+                      console.log("college", college),
+                      <CollegeCard
+                      key={index}
+                        name={college?.college.collegeName}
+                        location={college.college.address}
+                        logo_tag={college.college.logo_tag}
+                        nirfRank={college.college.rankingNIRF}
+                        yearlyFees={college.college.instituteId}
+                        collegeType={college.college.type || "Private"}
+                        streamType={college.college.streamType || []}
+                        topCourses={college.college.topCourses || []}
+                        gradientFrom="from-blue-600"
+                        gradientTo="to-cyan-500"
+                        probability={college.college.eligibleOptions[0].selectionCriteria.probability}
+                        onViewClick={() =>
+                          navigate(`/dashboard/engineering/${college.college._id}`)
+                          // console.log(college._id)
+                        }
+                      />
+                    )
+                  )}
+                  
+                </div>
+                <div className="w-full flex justify-center">
+                {/* <Button
+                    className=" mt-4"
+                    onClick={() => setResult(null)}
+                  >
+                    Start Over
+                  </Button> */}
+                  </div>
               </div>
             ) : (
               <div className="text-center py-4">
@@ -514,7 +533,7 @@ const ExploreMore: React.FC<ExploreMoreProps> = ({ citys, withOutAi }) => {
               </SortableContext>
             </DndContext>
 
-            <div className="flex gap-3 mt-6">
+            <div className="flex f">
               <Button variant="outline" onClick={goBack} className="flex-1">
                 <ChevronLeft className="mr-1 h-4 w-4" /> Back
               </Button>

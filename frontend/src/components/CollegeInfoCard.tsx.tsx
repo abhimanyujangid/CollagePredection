@@ -265,7 +265,7 @@ const CourseList: React.FC<CourseListProps> = ({ streams, deleteCourse, isDashbo
 
 const CollegeInfoCard: React.FC = () => {
     const college = useAppSelector((state) => state.collegeInfo) as CollegeInfo | null;
-    console.log('College Info:', college);
+     
     const dispatch = useAppDispatch();
     const isDashboard = (!useLocation().pathname.includes('profile'));
 

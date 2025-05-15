@@ -20,6 +20,7 @@ interface CollegeCardProps {
     topCourses?: string[];
     gradientFrom?: string;
     gradientTo?: string;
+    probability?: string;
     onViewClick?: () => void;
 }
 
@@ -27,6 +28,7 @@ export function CollegeCard({
     name,
     location,
     logo_tag,
+    probability,
     nirfRank,
     yearlyFees,
     collegeType = "Private",
@@ -58,6 +60,14 @@ export function CollegeCard({
             <CardContent className="p-4">
                 <div className="space-y-3">
                     <div className="flex gap-3">
+                         {probability && (
+                            <div className="flex-1 bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
+                                <p className="text-xs text-green-800 dark:text-green-300">Probability</p>
+                                <p className="text-base font-semibold text-green-900 dark:text-green-200">
+                                    {(Number(probability) * 100).toFixed(0)}%
+                                </p>
+                            </div>
+                        )}
                         {nirfRank && (
                             <div className="flex-1 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2">
                                 <p className="text-xs text-orange-800 dark:text-orange-300">NIRF Rank</p>
@@ -68,7 +78,7 @@ export function CollegeCard({
                         )}
 
                         {yearlyFees && (
-                            <div className="flex-1 bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
+                            <div className=" bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
                                 <p className="text-xs text-green-800 dark:text-green-300">Institute Id</p>
                                 <p className="text-base font-semibold text-green-900 dark:text-green-200">
                                     {yearlyFees}
